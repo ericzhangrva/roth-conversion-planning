@@ -1,0 +1,2658 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Executive Lifetime Financial & Tax Optimization Dashboard</title>
+  <!-- Chart.js CDN with fail-safe initialization -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
+  <style>
+    * { box-sizing: border-box; }
+    :root {
+      --bg: #090d16;
+      --panel-bg: #131b2e;
+      --panel-hover: #1e293b;
+      --panel-border: #1f2d47;
+      --text-main: #f8fafc;
+      --text-sub: #94a3b8;
+      --text-muted: #64748b;
+      
+      --color-cash: #10b981;
+      --color-inv: #f59e0b;
+      --color-pretax: #8b5cf6;
+      --color-roth: #ec4899;
+      --color-tax-line: #ef4444;
+      --color-blue: #3b82f6;
+      --color-cyan: #06b6d4;
+      
+      --font-stack: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text-main);
+      font-family: var(--font-stack);
+      line-height: 1.5;
+      padding: 20px;
+    }
+
+    .app-header {
+      background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+      border: 1px solid var(--panel-border);
+      border-radius: 12px;
+      padding: 20px 28px;
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .app-header h1 {
+      font-size: 24px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      color: #fff;
+    }
+
+    .app-header p {
+      font-size: 13px;
+      color: var(--text-sub);
+      margin-top: 4px;
+    }
+
+    .header-badges {
+      display: flex;
+      gap: 10px;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 5px 12px;
+      border-radius: 9999px;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.3px;
+    }
+
+    .badge-primary {
+      background: rgba(59, 130, 246, 0.15);
+      color: #60a5fa;
+      border: 1px solid rgba(59, 130, 246, 0.3);
+    }
+
+    .badge-success {
+      background: rgba(16, 185, 129, 0.15);
+      color: #34d399;
+      border: 1px solid rgba(16, 185, 129, 0.3);
+    }
+
+    /* Top Dashboard Section */
+    .top-dashboard-section {
+      display: grid;
+      grid-template-columns: max-content 1fr;
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+
+    /* KPI Grid */
+    .kpi-grid {
+      display: grid;
+      width: max-content;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+    }
+
+    .kpi-card {
+      background: var(--panel-bg);
+      border: 1px solid var(--panel-border);
+      border-radius: 10px;
+      padding: 14px 16px;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .kpi-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+    }
+
+    .kpi-cash::before { background: var(--color-cash); }
+    .kpi-inv::before { background: var(--color-inv); }
+    .kpi-pretax::before { background: var(--color-pretax); }
+    .kpi-roth::before { background: var(--color-roth); }
+    .kpi-tax-raw::before { background: var(--color-tax-line); }
+    .kpi-tax-pv::before { background: var(--color-blue); }
+    .kpi-tax-fv::before { background: #d97706; }
+    .kpi-death-tax::before { background: #f43f5e; }
+
+    .kpi-label {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-sub);
+      margin-bottom: 6px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .kpi-value {
+      font-size: 20px;
+      font-weight: 700;
+      color: #fff;
+      white-space: nowrap;
+    }
+
+    .kpi-sub {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    /* Main Layout */
+    .main-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) max-content;
+      gap: 20px;
+      align-items: start;
+    }
+
+    .sidebar {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .panel {
+      background: var(--panel-bg);
+      border: 1px solid var(--panel-border);
+      border-radius: 10px;
+      padding: 16px;
+    }
+
+    .panel-title {
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--color-blue);
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .form-group {
+      margin-bottom: 12px;
+    }
+
+    .form-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .form-label {
+      font-size: 12px;
+      color: var(--text-sub);
+      flex: 1;
+      min-width: 0;
+      line-height: 1.3;
+    }
+
+    .form-input {
+      background: #0f172a;
+      border: 1px solid #334155;
+      color: #fff;
+      padding: 5px 8px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      text-align: right;
+      width: 110px;
+      flex: none;
+      transition: border-color 0.2s;
+    }
+
+    .form-input:focus {
+      outline: none;
+      border-color: var(--color-blue);
+    }
+
+    /* Optimizer Panel */
+    .opt-panel {
+      background: linear-gradient(135deg, rgba(30, 41, 59, 0.7) 0%, rgba(15, 23, 42, 0.9) 100%);
+      border: 1px solid rgba(59, 130, 246, 0.4);
+    }
+
+    .opt-radio-group {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 14px;
+      background: #0a0f1d;
+      padding: 6px;
+      border-radius: 8px;
+      border: 1px solid #1e293b;
+    }
+
+    .opt-radio-label {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-sub);
+      cursor: pointer;
+      padding: 4px 6px;
+      border-radius: 6px;
+      transition: all 0.2s;
+    }
+
+    .opt-radio-label:hover {
+      color: #fff;
+    }
+
+    .opt-radio-label input[type="radio"] {
+      accent-color: var(--color-blue);
+    }
+
+    .btn-action {
+      display: block;
+      width: 100%;
+      background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+      color: #fff;
+      border: none;
+      padding: 10px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.3px;
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.2s;
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+    }
+
+    .btn-action:hover {
+      background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+      transform: translateY(-1px);
+    }
+    .btn-export {
+      padding: 8px 16px;
+      background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 13px;
+      cursor: pointer;
+      box-shadow: 0 4px 14px rgba(37, 99, 235, 0.2);
+      transition: all 0.2s;
+    }
+    .btn-export:hover {
+      transform: translateY(-1px);
+      filter: brightness(1.1);
+    }
+
+
+    .slider-box {
+      margin-top: 14px;
+    }
+
+    .slider-header {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      margin-bottom: 6px;
+    }
+
+    .slider-title {
+      color: var(--text-sub);
+    }
+
+    .slider-value {
+      font-weight: 700;
+      color: var(--color-cyan);
+    }
+
+    .slider-input {
+      width: 100%;
+      accent-color: var(--color-cyan);
+      cursor: pointer;
+    }
+
+    .slider-subtext {
+      font-size: 10px;
+      color: var(--text-muted);
+      margin-top: 2px;
+      margin-bottom: 6px;
+    }
+
+    .opt-phase-controls {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .phase-card {
+      background: rgba(15, 23, 42, 0.45);
+      border: 1px solid #1e293b;
+      border-radius: 8px;
+      padding: 10px;
+      transition: all 0.2s ease;
+    }
+
+    .phase-card:hover {
+      border-color: #334155;
+      background: rgba(15, 23, 42, 0.65);
+    }
+
+    .phase-input-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 4px;
+    }
+
+    .phase-num-input {
+      width: 65px;
+      background: #0f172a;
+      border: 1px solid #334155;
+      border-radius: 4px;
+      color: #fff;
+      padding: 4px 6px;
+      font-size: 11px;
+      text-align: right;
+      font-family: inherit;
+    }
+
+    .phase-num-input:focus {
+      outline: none;
+      border-color: var(--color-cyan);
+    }
+
+    .opt-status-box {
+      margin-top: 10px;
+      font-size: 11px;
+      color: var(--text-sub);
+      background: rgba(15, 23, 42, 0.6);
+      padding: 6px 10px;
+      border-radius: 6px;
+      border: 1px solid #1e293b;
+      min-height: 28px;
+      display: flex;
+      align-items: center;
+    }
+
+    /* Content Area */
+    .content-area {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      min-width: 0;
+      width: 100%;
+    }
+
+    /* Chart Container */
+    .chart-panel {
+      background: var(--panel-bg);
+      border: 1px solid var(--panel-border);
+      border-radius: 10px;
+      padding: 16px;
+      position: relative;
+    }
+
+    .chart-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .chart-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .chart-legend-custom {
+      display: flex;
+      gap: 16px;
+      font-size: 12px;
+      flex-wrap: wrap;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--text-sub);
+    }
+
+    .legend-color {
+      width: 12px;
+      height: 12px;
+      border-radius: 3px;
+    }
+
+    .chart-canvas-container {
+      position: relative;
+      height: 380px;
+      width: 100%;
+    }
+
+    /* Table Container */
+    .table-panel {
+      background: var(--panel-bg);
+      border: 1px solid var(--panel-border);
+      border-radius: 10px;
+      padding: 16px;
+      overflow: hidden;
+    }
+
+    .table-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .table-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .table-scroll {
+      width: 100%;
+      max-width: 100%;
+      overflow-x: auto;
+      border: 1px solid var(--panel-border);
+      border-radius: 6px;
+    }
+
+    .table-scroll::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+
+    .table-scroll::-webkit-scrollbar-thumb {
+      background: #334155;
+      border-radius: 4px;
+    }
+
+    .table-scroll::-webkit-scrollbar-track {
+      background: #0f172a;
+    }
+
+    .sim-table {
+      width: 100%;
+      min-width: 1000px;
+      border-collapse: collapse;
+      font-size: 12px;
+      white-space: normal;
+    }
+
+    .sim-table th {
+      background: #0f172a;
+      color: var(--text-sub);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      font-size: 11px;
+      padding: 4px 4px;
+      border-bottom: 1px solid var(--panel-border);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      text-align: center;
+      vertical-align: bottom;
+    }
+
+    .sim-table th:first-child,
+    .sim-table th:nth-child(2) {
+      text-align: center;
+    }
+
+    .sim-table td {
+      padding: 4px 4px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      text-align: right;
+      color: #cbd5e1;
+    }
+
+    .sim-table td:first-child,
+    .sim-table td:nth-child(2) {
+      text-align: center;
+      font-weight: 600;
+    }
+
+    .sim-table tr:hover {
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .row-retired {
+      background: rgba(59, 130, 246, 0.04);
+    }
+
+    .row-medicare {
+      background: rgba(16, 185, 129, 0.04);
+    }
+
+    .offline-notice {
+      display: none;
+      padding: 12px;
+      background: rgba(239, 68, 68, 0.15);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      border-radius: 6px;
+      color: #fca5a5;
+      font-size: 12px;
+      margin-bottom: 12px;
+    }
+  
+    /* Tooltips */
+    [data-tooltip] {
+      position: relative;
+      cursor: help;
+    }
+    
+    [data-tooltip]::after {
+      content: attr(data-tooltip);
+      position: absolute;
+      bottom: calc(100% + 5px);
+      right: 0;
+      background: rgba(15, 23, 42, 0.95);
+      color: #fff;
+      padding: 6px 10px;
+      border-radius: 6px;
+      font-size: 11px;
+      white-space: normal;
+      width: max-content;
+      max-width: 220px;
+      pointer-events: none;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.2s, visibility 0.2s;
+      border: 1px solid var(--panel-border);
+      z-index: 9999;
+      font-weight: 500;
+      line-height: 1.4;
+    }
+    
+    [data-tooltip]:hover::after {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 1024px) {
+      .main-layout {
+        grid-template-columns: 1fr;
+      }
+      .opt-radio-group {
+        flex-direction: column;
+      }
+      .top-dashboard-section {
+        grid-template-columns: 1fr;
+      }
+      .kpi-grid {
+        grid-template-columns: repeat(2, 1fr);
+        width: 100%;
+      }
+      .app-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+      }
+      .sidebar {
+        order: -1;
+      }
+      .form-input {
+        width: auto;
+        min-width: 120px;
+      }
+    }
+    
+    @media (max-width: 600px) {
+      .kpi-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- Application Header -->
+  <div style="display: flex; justify-content: flex-end; gap: 12px; margin-bottom: 10px;">
+    <button class="btn-export" style="background: linear-gradient(135deg, #475569 0%, #334155 100%); box-shadow: 0 4px 14px rgba(71, 85, 105, 0.2);" onclick="window.print()">Export to PDF</button>
+    <button class="btn-export" onclick="exportToJPG()">Export to JPG</button>
+  </div>
+  <header class="app-header">
+    <div>
+      <h1>Lifetime Financial & Tax Optimization Dashboard</h1>
+      <p>Decumulation Modeling, Dynamic Inflation Brackets, Roth Conversion Optimizer, and SECURE Act Wealth Transfer</p>
+    </div>
+  </header>
+
+  <!-- Summary KPI Cards -->
+  <section class="top-dashboard-section">
+    <div class="kpi-grid">
+      <div class="kpi-card kpi-cash">
+        <div class="kpi-label" style="font-size: 11px;">End of Life Cash</div>
+        <div class="kpi-value" id="kpi-eol-cash">$0</div>
+        <div class="kpi-sub" id="kpi-sub-cash">Liquid Reserves</div>
+      </div>
+      <div class="kpi-card kpi-inv">
+        <div class="kpi-label" style="font-size: 11px;">End of Life Investments</div>
+        <div class="kpi-value" id="kpi-eol-inv">$0</div>
+        <div class="kpi-sub" id="kpi-sub-inv">Taxable Brokerage</div>
+      </div>
+      <div class="kpi-card kpi-pretax">
+        <div class="kpi-label" style="font-size: 11px;">End of Life Pre-Tax</div>
+        <div class="kpi-value" id="kpi-eol-pretax">$0</div>
+        <div class="kpi-sub">Subject to Death Tax</div>
+      </div>
+      <div class="kpi-card kpi-roth">
+        <div class="kpi-label" style="font-size: 11px;">End of Life Roth</div>
+        <div class="kpi-value" id="kpi-eol-roth">$0</div>
+        <div class="kpi-sub">100% Tax-Free Transfer</div>
+      </div>
+      <div class="kpi-card kpi-tax-raw">
+        <div class="kpi-label">Lifetime Tax (Raw)</div>
+        <div class="kpi-value" id="kpi-total-tax-raw">$0</div>
+        <div class="kpi-sub">Nominal Tax + Death Tax</div>
+      </div>
+      <div class="kpi-card kpi-tax-pv">
+        <div class="kpi-label">Lifetime Tax (PV)</div>
+        <div class="kpi-value" id="kpi-total-tax-pv">$0</div>
+        <div class="kpi-sub" id="kpi-sub-tax-pv">Discounted</div>
+      </div>
+      <div class="kpi-card kpi-tax-fv">
+        <div class="kpi-label">Lifetime Tax (FV)</div>
+        <div class="kpi-value" id="kpi-total-tax-fv">$0</div>
+        <div class="kpi-sub" id="kpi-sub-tax-fv">Compounded</div>
+      </div>
+      <div class="kpi-card kpi-death-tax">
+        <div class="kpi-label">Inherited Death Tax</div>
+        <div class="kpi-value" id="kpi-death-tax">$0</div>
+        <div class="kpi-sub" id="kpi-sub-death-tax">2 Heirs / 10-Yr SECURE</div>
+      </div>
+    </div>
+    <!-- Assumptions -->
+    <div class="panel" style="font-size: 12.5px; color: var(--text-muted); line-height: 1.5; margin: 0;">
+      <div class="panel-title" style="margin-bottom: 8px;">Assumptions</div>
+      <ul style="padding-left: 16px; margin: 0;">
+        <li>All tax calculations explicitly assume a <strong>Married Filing Jointly (MFJ)</strong> filing status.</li>
+        <li>Roth conversions become accessible 5 years after conversion (or immediately upon reaching age 59&frac12;).</li>
+        <li>Optimization limits conversions to keep YE Cash + YE Inv + Accessible Roth &ge; Min Liquidity Buffer.</li>
+        <li>Simulation strictly accounts for SECURE 2.0 RMDs (Age 75+), NIIT, and Medicare IRMAA surcharges.</li>
+        <li>Capital gains taxes on taxable brokerage drawdowns are ignored (assumed 0% for simplicity).</li>
+        <li>Social Security benefits are dynamically scaled based on the standard IRS actuarial curve (relative to the base input).</li>
+        <li>Pre-retirement healthcare is assumed to equal the subsidized cost (due to employer coverage). In Retirement (pre-Medicare), costs remain subsidized unless MAGI exceeds the cliff.</li>
+        <li>Federal tax brackets and standard deductions are inflated annually by the Inflation Rate.</li>
+        <li>College expenses follow a 5-year distribution of the annual input: 50% / 100% / 100% / 100% / 50%.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Main Layout -->
+  <main class="main-layout">
+    <!-- Sidebar Inputs -->
+    <section class="content-area">
+      
+      <!-- Chart Panel (R3) -->
+      <div class="chart-panel">
+        <div class="chart-header">
+          <div class="chart-title">Asset Balances (Stacked) & Cumulative Lifetime Tax (Line)</div>
+          <div class="chart-legend-custom">
+            <div class="legend-item"><span class="legend-color" style="background: var(--color-cash);"></span> Cash</div>
+            <div class="legend-item"><span class="legend-color" style="background: var(--color-inv);"></span> Taxable Brokerage</div>
+            <div class="legend-item"><span class="legend-color" style="background: var(--color-pretax);"></span> Pre-Tax</div>
+            <div class="legend-item"><span class="legend-color" style="background: var(--color-roth);"></span> Roth</div>
+            <div class="legend-item"><span class="legend-color" style="background: var(--color-tax-line); height: 3px; border-radius: 1px;"></span> Cumulative Tax</div>
+          </div>
+        </div>
+        <div id="chart-offline-warning" class="offline-notice">
+          Chart.js CDN could not be loaded in offline mode. The numerical simulation engine and data table remain 100% active.
+        </div>
+        <div class="chart-canvas-container">
+          <canvas id="chart-canvas"></canvas>
+        </div>
+      </div>
+
+      <!-- Simulation Data Table (R3) -->
+      <div class="table-panel">
+        <div class="table-header">
+          <div class="table-title">Year-by-Year Simulation Trajectory (2027 – 2060)</div>
+          <div style="font-size: 11px; color: var(--text-muted);">
+            Liquidity Deficit Drawdown Priority: Cash → Taxable Investments → Accessible Roth Principal (FIFO 5-Yr)
+          </div>
+        </div>
+        <div class="table-scroll">
+          <table class="sim-table">
+            <thead>
+              <tr>
+                <th rowspan="2" style="border-bottom: 2px solid var(--panel-border);">Year</th>
+                <th rowspan="2" style="border-bottom: 2px solid var(--panel-border);">Age</th>
+                <th colspan="6" style="background: rgba(16, 185, 129, 0.1); text-align: center; border-bottom: 1px solid var(--panel-border);">Income</th>
+                <th colspan="5" style="background: rgba(239, 68, 68, 0.1); text-align: center; border-bottom: 1px solid var(--panel-border);">Expenses</th>
+                <th colspan="5" style="background: rgba(59, 130, 246, 0.1); text-align: center; border-bottom: 1px solid var(--panel-border);">YE Snapshot</th>
+              </tr>
+              <tr>
+                <th style="background: rgba(16, 185, 129, 0.05); top: 31px; border-bottom: 1px solid var(--panel-border);">Taxable<br>Earned<br>Income<br>($K)</th>
+                <th style="background: rgba(16, 185, 129, 0.05); top: 31px; border-bottom: 1px solid var(--panel-border);">Social<br>Sec.<br>($K)</th>
+                <th style="background: rgba(16, 185, 129, 0.05); top: 31px; border-bottom: 1px solid var(--panel-border);">Interest<br>($K)</th>
+                <th style="background: rgba(16, 185, 129, 0.05); top: 31px; border-bottom: 1px solid var(--panel-border);">Invest<br>Return<br>($K)</th>
+                <th style="background: rgba(16, 185, 129, 0.05); top: 31px; border-bottom: 1px solid var(--panel-border);">Roth<br>Conv.<br>($K)</th>
+                <th style="background: rgba(16, 185, 129, 0.05); top: 31px; border-bottom: 1px solid var(--panel-border);">Total<br>Income<br>($K)</th>
+                <th style="background: rgba(239, 68, 68, 0.05); top: 31px; border-bottom: 1px solid var(--panel-border);">Taxes<br>Paid<br>($K)</th>
+                <th style="background: rgba(239, 68, 68, 0.05); top: 31px; border-bottom: 1px solid var(--panel-border);">Living<br>Exp.<br>($K)</th>
+                <th style="background: rgba(239, 68, 68, 0.05); top: 31px; border-bottom: 1px solid var(--panel-border);">Health<br>Ins.<br>($K)</th>
+                <th style="background: rgba(239, 68, 68, 0.05); top: 31px; border-bottom: 1px solid var(--panel-border);">College<br>Exp.<br>($K)</th>
+                <th style="background: rgba(239, 68, 68, 0.05); top: 31px; border-bottom: 1px solid var(--panel-border);">Total<br>Exp.<br>($K)</th>
+                <th style="background: rgba(59, 130, 246, 0.05); top: 31px; border-bottom: 1px solid var(--panel-border);">YE<br>Cash<br>($K)</th>
+                <th style="background: rgba(59, 130, 246, 0.05); top: 31px; border-bottom: 1px solid var(--panel-border);">YE<br>Invest<br>($K)</th>
+                <th style="background: rgba(59, 130, 246, 0.05); top: 31px; border-bottom: 1px solid var(--panel-border);">Access.<br>Roth<br>(Next Yr)<br>($K)</th>
+                <th style="background: rgba(59, 130, 246, 0.05); top: 31px; border-bottom: 1px solid var(--panel-border);">YE<br>Pre-Tax<br>($K)</th>
+                <th style="background: rgba(59, 130, 246, 0.05); top: 31px; border-bottom: 1px solid var(--panel-border);">YE<br>Roth<br>($K)</th>
+              </tr>
+            </thead>
+            <tbody id="table-simulation-body">
+              <!-- Rendered via JavaScript -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </section>
+
+    <aside class="sidebar">
+      
+      <!-- Optimizer Panel (R4) -->
+      <div class="panel opt-panel">
+        <div class="panel-title" style="flex-direction: column; align-items: flex-start; gap: 6px;">
+          <span>Roth Conversion Optimization</span>
+        </div>
+        
+        <div class="opt-radio-group">
+          <label class="opt-radio-label" data-tooltip="Minimize raw total lifetime tax">
+            <input type="radio" name="optObjective" id="opt-obj-raw" value="raw">
+            <span>Min Raw Tax</span>
+          </label>
+          <label class="opt-radio-label" data-tooltip="Minimize time-value-of-money discounted lifetime tax">
+            <input type="radio" name="optObjective" id="opt-obj-tvm" value="tvm" checked>
+            <span>Min TVM-Adjusted</span>
+          </label>
+        </div>
+
+        <button type="button" class="btn-action" id="btn-optimize" style="margin-bottom: 8px;">Find Optimal Conversion</button>
+        <button type="button" class="btn-action" id="btn-reset" style="background: linear-gradient(135deg, #475569 0%, #334155 100%);">Reset to Default</button>
+
+        <div class="opt-status-box" id="opt-status" style="display: block; padding: 10px;">
+          Multi-phase optimizer ready.
+        </div>
+
+        <!-- 3 Interactive Phase Conversion Cards (R1) -->
+        <div class="opt-phase-controls" id="opt-phase-controls">
+          <!-- Phase 1 Card -->
+          <div class="phase-card" id="box-phase-1">
+            <div class="slider-header">
+              <span class="slider-title" id="title-phase-1">Phase 1: Yr 1–5 (2027–2031)</span>
+              <span class="slider-value" id="val-phase-1">$0K / yr</span>
+            </div>
+            <div class="slider-subtext" id="subtext-phase-1">5-Year Lockup Period (Pre-59½)</div>
+            <div class="phase-input-row">
+              <input type="range" class="slider-input" id="slider-phase-1" min="0" max="500" step="5" value="0">
+              <input type="number" class="phase-num-input" id="num-phase-1" min="0" max="500" step="5" value="0">
+            </div>
+          </div>
+
+          <!-- Phase 2 Card -->
+          <div class="phase-card" id="box-phase-2">
+            <div class="slider-header">
+              <span class="slider-title" id="title-phase-2">Phase 2: Yr 6–Age 59½ (2032–2035)</span>
+              <span class="slider-value" id="val-phase-2">$0K / yr</span>
+            </div>
+            <div class="slider-subtext" id="subtext-phase-2">Rolling Unlocked Principal (Pre-59½)</div>
+            <div class="phase-input-row">
+              <input type="range" class="slider-input" id="slider-phase-2" min="0" max="800" step="5" value="0">
+              <input type="number" class="phase-num-input" id="num-phase-2" min="0" max="800" step="5" value="0">
+            </div>
+          </div>
+
+          <!-- Phase 3 Card -->
+          <div class="phase-card" id="box-phase-3">
+            <div class="slider-header">
+              <span class="slider-title" id="title-phase-3">Phase 3: Age 59½–75 (2036–2051)</span>
+              <span class="slider-value" id="val-phase-3">$0K / yr</span>
+            </div>
+            <div class="slider-subtext" id="subtext-phase-3">100% Liquid & Penalty-Free</div>
+            <div class="phase-input-row">
+              <input type="range" class="slider-input" id="slider-phase-3" min="0" max="1000" step="5" value="0">
+              <input type="number" class="phase-num-input" id="num-phase-3" min="0" max="1000" step="5" value="0">
+            </div>
+          </div>
+        </div>
+
+        <!-- Hidden Legacy Sync Elements (Maintains backwards compatibility for tests/scripts) -->
+        <div id="slider-container" style="display: none;">
+          <span id="slider-conversion-val">$0K / yr</span>
+          <input type="range" id="slider-conversion" min="0" max="500" step="5" value="0">
+        </div>
+      </div>
+
+      <!-- Timeline & Rates (R1) -->
+      <div class="panel">
+        <div class="panel-title">Timeline & Rates</div>
+        <div class="form-group form-row">
+          <label class="form-label" for="input-birthYear" data-tooltip="Year of birth for the primary individual">Birth Year</label>
+          <input type="number" class="form-input" id="input-birthYear" value="1977">
+        </div>
+        <div class="form-group form-row">
+          <label class="form-label" for="input-retireYear" data-tooltip="Planned year of retirement">Retirement Year</label>
+          <input type="number" class="form-input" id="input-retireYear" value="2027">
+        </div>
+        <div class="form-group form-row">
+          <label class="form-label" for="input-eolYear" data-tooltip="Expected end of life year for planning purposes">End of Life (EOL) Year</label>
+          <input type="number" class="form-input" id="input-eolYear" value="2060">
+        </div>
+        <div class="form-group form-row">
+          <label class="form-label" for="input-heirs" data-tooltip="Number of heirs inheriting the remaining pre-tax balance"># of Heirs</label>
+          <input type="number" class="form-input" id="input-heirs" value="2" min="1">
+        </div>
+        <div class="form-group form-row">
+          <label class="form-label" for="input-inflationRate" data-tooltip="Assumed annual inflation rate for expenses and tax brackets">Inflation Rate (%)</label>
+          <input type="number" class="form-input" id="input-inflationRate" step="0.1" value="3.5">
+        </div>
+        <div class="form-group form-row">
+          <label class="form-label" for="input-cashInterestRate" data-tooltip="Annual interest yield on cash reserves">Cash Yield (%)</label>
+          <input type="number" class="form-input" id="input-cashInterestRate" step="0.1" value="4.0">
+        </div>
+        <div class="form-group form-row">
+          <label class="form-label" for="input-invReturnRate" data-tooltip="Expected annual return on taxable investments">Investment Return (%)</label>
+          <input type="number" class="form-input" id="input-invReturnRate" step="0.1" value="9.0">
+        </div>
+        <div class="form-group form-row">
+          <label class="form-label" for="input-safetyNet" data-tooltip="Minimum required liquidity buffer (Cash + Inv + Accessible Roth) to remain feasible">Min Liquidity Buffer (K$)</label>
+          <input type="number" class="form-input" id="input-safetyNet" step="10" value="50">
+        </div>
+      </div>
+
+      <!-- Assets (R1) -->
+      <div class="panel">
+        <div class="panel-title">Starting Asset Balances</div>
+        <div class="form-group form-row">
+          <label class="form-label" for="input-cashStart" data-tooltip="Starting balance of liquid cash reserves">Cash Reserves (K$)</label>
+          <input type="number" class="form-input" id="input-cashStart" step="10">
+        </div>
+        <div class="form-group form-row">
+          <label class="form-label" for="input-invStart" data-tooltip="Starting balance of taxable brokerage investments">Taxable Brokerage (K$)</label>
+          <input type="number" class="form-input" id="input-invStart" step="10">
+        </div>
+        <div class="form-group form-row">
+          <label class="form-label" for="input-pretaxStart" data-tooltip="Starting balance of traditional, pre-tax retirement accounts">Retirement Pre-Tax (K$)</label>
+          <input type="number" class="form-input" id="input-pretaxStart" step="50">
+        </div>
+        <div class="form-group form-row">
+          <label class="form-label" for="input-rothStart" data-tooltip="Starting balance of Roth retirement accounts">Retirement Roth (K$)</label>
+          <input type="number" class="form-input" id="input-rothStart" step="5">
+        </div>
+        <div class="form-group form-row">
+          <label class="form-label" for="input-rothPrincipalStart" data-tooltip="Accessible principal within the starting Roth balance">Roth Principal (K$)</label>
+          <input type="number" class="form-input" id="input-rothPrincipalStart" step="1">
+        </div>
+      </div>
+
+      <!-- Incomes (R1) -->
+      <div class="panel">
+        <div class="panel-title">Incomes</div>
+        <div class="form-group form-row">
+          <label class="form-label" for="input-earnedIncome" data-tooltip="Annual earned taxable income before retirement">Taxable Earned Income (K$)</label>
+          <input type="number" class="form-input" id="input-earnedIncome" step="5">
+        </div>
+        <div class="form-group form-row">
+          <label class="form-label" for="input-ssStartAge" data-tooltip="Age at which Social Security benefits begin">SS Start Age</label>
+          <input type="number" class="form-input" id="input-ssStartAge" min="62" max="70">
+        </div>
+        <div class="form-group form-row">
+          <label class="form-label" for="input-ssAmount" data-tooltip="Annual Social Security benefit estimate at Full Retirement Age (67) in today's dollars">SS Annual Benefit (K$)</label>
+          <input type="number" class="form-input" id="input-ssAmount" step="1">
+        </div>
+
+      </div>
+
+      <!-- Living & Major Expenses (R1) -->
+      <div class="panel">
+        <div class="panel-title">Living & Major Expenses</div>
+        <div class="form-group form-row">
+          <label class="form-label" for="input-livingExpensesStart" data-tooltip="Base annual living expenses (excluding healthcare and college) in today's dollars">Living Expenses (Yr 1) (K$)</label>
+          <input type="number" class="form-input" id="input-livingExpensesStart" step="5" value="100">
+        </div>
+        <div class="form-group form-row">
+          <label class="form-label" for="input-collegeTotal" data-tooltip="Total 5-year college expense (disbursed 12.5% / 25% / 25% / 25% / 12.5%)">College Annual Exp (K$)</label>
+          <input type="number" class="form-input" id="input-collegeTotal" step="5" value="100">
+        </div>
+        <div class="form-group form-row">
+          <label class="form-label" for="input-collegeStartYear" data-tooltip="Year college expenses begin">College Start Year</label>
+          <input type="number" class="form-input" id="input-collegeStartYear" value="2029">
+        </div>
+        <div class="form-group form-row">
+          <label class="form-label" for="input-healthSubsidized" data-tooltip="Annual healthcare cost with ACA subsidies (pre-Medicare)">Health Ins (w/ Subsidy) (K$)</label>
+          <input type="number" class="form-input" id="input-healthSubsidized" step="0.5" value="5">
+        </div>
+        <div class="form-group form-row">
+          <label class="form-label" for="input-healthUnsubsidized" data-tooltip="Annual healthcare cost without ACA subsidies (pre-Medicare)">Health Ins (w/o Subsidy) (K$)</label>
+          <input type="number" class="form-input" id="input-healthUnsubsidized" step="1" value="25">
+        </div>
+        <div class="form-group form-row">
+          <label class="form-label" for="input-state" data-tooltip="State of residence for tax purposes">State</label>
+          <select class="form-input" id="input-state">
+            <option value="AL">Alabama (AL)</option>
+            <option value="AK">Alaska (AK)</option>
+            <option value="AZ">Arizona (AZ)</option>
+            <option value="AR">Arkansas (AR)</option>
+            <option value="CA">California (CA)</option>
+            <option value="CO">Colorado (CO)</option>
+            <option value="CT">Connecticut (CT)</option>
+            <option value="DE">Delaware (DE)</option>
+            <option value="FL">Florida (FL)</option>
+            <option value="GA">Georgia (GA)</option>
+            <option value="HI">Hawaii (HI)</option>
+            <option value="ID">Idaho (ID)</option>
+            <option value="IL">Illinois (IL)</option>
+            <option value="IN">Indiana (IN)</option>
+            <option value="IA">Iowa (IA)</option>
+            <option value="KS">Kansas (KS)</option>
+            <option value="KY">Kentucky (KY)</option>
+            <option value="LA">Louisiana (LA)</option>
+            <option value="ME">Maine (ME)</option>
+            <option value="MD">Maryland (MD)</option>
+            <option value="MA">Massachusetts (MA)</option>
+            <option value="MI">Michigan (MI)</option>
+            <option value="MN">Minnesota (MN)</option>
+            <option value="MS">Mississippi (MS)</option>
+            <option value="MO">Missouri (MO)</option>
+            <option value="MT">Montana (MT)</option>
+            <option value="NE">Nebraska (NE)</option>
+            <option value="NV">Nevada (NV)</option>
+            <option value="NH">New Hampshire (NH)</option>
+            <option value="NJ">New Jersey (NJ)</option>
+            <option value="NM">New Mexico (NM)</option>
+            <option value="NY">New York (NY)</option>
+            <option value="NC">North Carolina (NC)</option>
+            <option value="ND">North Dakota (ND)</option>
+            <option value="OH">Ohio (OH)</option>
+            <option value="OK">Oklahoma (OK)</option>
+            <option value="OR">Oregon (OR)</option>
+            <option value="PA">Pennsylvania (PA)</option>
+            <option value="RI">Rhode Island (RI)</option>
+            <option value="SC">South Carolina (SC)</option>
+            <option value="SD">South Dakota (SD)</option>
+            <option value="TN">Tennessee (TN)</option>
+            <option value="TX">Texas (TX)</option>
+            <option value="UT">Utah (UT)</option>
+            <option value="VT">Vermont (VT)</option>
+            <option value="VA" selected>Virginia (VA)</option>
+            <option value="WA">Washington (WA)</option>
+            <option value="WV">West Virginia (WV)</option>
+            <option value="WI">Wisconsin (WI)</option>
+            <option value="WY">Wyoming (WY)</option>
+          </select>
+        </div>
+      </div>
+
+    </aside>
+  </main>
+
+  <!-- Embedded Single-File Logic -->
+  <script>
+    /**
+     * Financial Planning & Lifetime Tax Optimization Engine
+     * Architecture: Single-file vanilla HTML5 / CSS3 / ES6+
+     * UMD export support for headless Node.js & JavaScriptCore testing
+     */
+
+    // SafeStorage Wrapper (Guards against file:/// localStorage SecurityError)
+    const SafeStorage = {
+      _mem: {},
+      getItem(key) {
+        try {
+          if (typeof window !== 'undefined' && window.localStorage) {
+            return window.localStorage.getItem(key);
+          }
+        } catch (e) {}
+        return this._mem[key] || null;
+      },
+      setItem(key, val) {
+        try {
+          if (typeof window !== 'undefined' && window.localStorage) {
+            window.localStorage.setItem(key, String(val));
+            return;
+          }
+        } catch (e) {}
+        this._mem[key] = String(val);
+      },
+      removeItem(key) {
+        try {
+          if (typeof window !== 'undefined' && window.localStorage) {
+            window.localStorage.removeItem(key);
+            return;
+          }
+        } catch (e) {}
+        delete this._mem[key];
+      }
+    };
+
+    // Default Configuration Registry (R1)
+    const DEFAULT_INPUTS = {
+      birthYear: 1976,
+      currentYear: 2026,
+      retireYear: 2027,
+      eolYear: 2060,
+      inflationRate: 0.035,
+      cashStart: 500000,
+      cashInterestRate: 0.05,
+      invStart: 300000,
+      invReturnRate: 0.09,
+      pretaxStart: 5000000,
+      rothStart: 120000,
+      rothPrincipalStart: 25000,
+      collegeTotal: 100000,
+      collegeStartYear: 2029,
+      healthSubsidized: 5000,
+      healthUnsubsidized: 25000,
+      magiCliff: 90000,
+      safetyNet: 50000,
+      ssStartAge: 62,
+      ssAmount: 60000,
+      earnedIncome: 275000,
+      livingExpensesStart: 60000,
+      state: 'VA',
+      tvmDiscountRate: 0.09
+    };
+
+    // Baseline Tax Constants (Year 1: 2027)
+    const BASE_STD_DEDUCTION_MFJ = 30000;
+    const BASE_STD_DEDUCTION_SINGLE = 15000;
+    const BASE_STATE_STD_DEDUCTION_MFJ = 6000;
+    const BASE_STATE_STD_DEDUCTION_SINGLE = 3000;
+
+    const BASE_FED_BRACKETS_MFJ = [
+      { max: 23850, rate: 0.10 },
+      { max: 96950, rate: 0.12 },
+      { max: 206700, rate: 0.22 },
+      { max: 394600, rate: 0.24 },
+      { max: 501050, rate: 0.32 },
+      { max: 751600, rate: 0.35 },
+      { max: Infinity, rate: 0.37 }
+    ];
+
+    const BASE_FED_BRACKETS_SINGLE = [
+      { max: 11925, rate: 0.10 },
+      { max: 48475, rate: 0.12 },
+      { max: 103350, rate: 0.22 },
+      { max: 197300, rate: 0.24 },
+      { max: 250525, rate: 0.32 },
+      { max: 626350, rate: 0.35 },
+      { max: Infinity, rate: 0.37 }
+    ];
+
+    const COLLEGE_DISTRIBUTION = [0.5, 1.0, 1.0, 1.0, 0.5];
+
+    // Progressive Federal Tax Calculator (with Annual Inflation Compounding)
+    function computeFederalTax(taxableIncome, inflationFactor = 1.0, filingStatus = 'MFJ') {
+      if (taxableIncome <= 0) return 0;
+      const brackets = filingStatus === 'Single' ? BASE_FED_BRACKETS_SINGLE : BASE_FED_BRACKETS_MFJ;
+      let tax = 0;
+      let prevThreshold = 0;
+      for (let i = 0; i < brackets.length; i++) {
+        const b = brackets[i];
+        const threshold = b.max === Infinity ? Infinity : b.max * inflationFactor;
+        if (taxableIncome > threshold) {
+          tax += (threshold - prevThreshold) * b.rate;
+          prevThreshold = threshold;
+        } else {
+          tax += (taxableIncome - prevThreshold) * b.rate;
+          break;
+        }
+      }
+      return tax;
+    }
+
+    const STATE_TAX_RATES = {
+      'AL': 0.05, 'AK': 0.00, 'AZ': 0.025, 'AR': 0.044, 'CA': 0.133,
+      'CO': 0.044, 'CT': 0.0699, 'DE': 0.066, 'FL': 0.00, 'GA': 0.0549,
+      'HI': 0.11, 'ID': 0.058, 'IL': 0.0495, 'IN': 0.0305, 'IA': 0.057,
+      'KS': 0.057, 'KY': 0.04, 'LA': 0.0425, 'ME': 0.0715, 'MD': 0.0575,
+      'MA': 0.05, 'MI': 0.0425, 'MN': 0.0985, 'MS': 0.047, 'MO': 0.048,
+      'MT': 0.059, 'NE': 0.0584, 'NV': 0.00, 'NH': 0.04, 'NJ': 0.1075,
+      'NM': 0.059, 'NY': 0.109, 'NC': 0.045, 'ND': 0.029, 'OH': 0.035,
+      'OK': 0.0475, 'OR': 0.099, 'PA': 0.0307, 'RI': 0.0599, 'SC': 0.064,
+      'SD': 0.00, 'TN': 0.00, 'TX': 0.00, 'UT': 0.0465, 'VT': 0.0875,
+      'VA': 0.0575, 'WA': 0.07, 'WV': 0.0512, 'WI': 0.0765, 'WY': 0.00
+    };
+
+    function computeStateTax(agi, taxableSS, inflationFactor = 1.0, filingStatus = 'MFJ', state = 'VA') {
+      const stateTaxRate = STATE_TAX_RATES[state] || 0;
+      if (agi <= 0 || stateTaxRate <= 0) return 0;
+      
+      const stateStd = (filingStatus === 'Single' ? BASE_STATE_STD_DEDUCTION_SINGLE : BASE_STATE_STD_DEDUCTION_MFJ) * inflationFactor;
+      const stateAdjustedGross = Math.max(0, agi - taxableSS);
+      const stateTaxableIncome = Math.max(0, stateAdjustedGross - stateStd);
+
+      if (state === 'VA') {
+        const vaStdDeduction = (filingStatus === 'Single' ? 4000 : 8000);
+        const vaTaxableIncome = Math.max(0, stateAdjustedGross - vaStdDeduction);
+        if (vaTaxableIncome <= 3000) return vaTaxableIncome * 0.02;
+        if (vaTaxableIncome <= 5000) return 60 + (vaTaxableIncome - 3000) * 0.03;
+        if (vaTaxableIncome <= 17000) return 120 + (vaTaxableIncome - 5000) * 0.05;
+        return 720 + (vaTaxableIncome - 17000) * stateTaxRate;
+      }
+
+      return stateTaxableIncome * stateTaxRate;
+    }
+
+    // IRC § 86 Social Security Provisional Income & Taxable Amount Calculator
+    function computeTaxableSS(ssAmount, otherIncome) {
+      if (ssAmount <= 0) return 0;
+      const pi = otherIncome + 0.5 * ssAmount;
+      if (pi <= 32000) return 0;
+      let taxable = 0;
+      if (pi <= 44000) {
+        taxable = 0.5 * (pi - 32000);
+      } else {
+        taxable = 0.5 * (44000 - 32000) + 0.85 * (pi - 44000);
+      }
+      return Math.min(taxable, 0.85 * ssAmount);
+    }
+
+    // College Expense Schedule Calculator (5-Year Fixed Distribution, Zero Inflation)
+    function computeCollegeExpense(year, collegeStartYear, collegeTotal) {
+      const index = year - collegeStartYear;
+      if (index >= 0 && index < COLLEGE_DISTRIBUTION.length) {
+        return collegeTotal * COLLEGE_DISTRIBUTION[index];
+      }
+      return 0;
+    }
+
+    // Healthcare Expense & ACA Subsidy Cliff Step Function Calculator
+    function computeHealthcareExpense(age, magi, yearIndex, inflationRate, healthSubsidized, healthUnsubsidized, isRetired, magiCliff = 90000) {
+      const inflationFactor = Math.pow(1 + inflationRate, yearIndex);
+      if (!isRetired) return healthSubsidized * inflationFactor;
+      if (age >= 65) return healthSubsidized * inflationFactor;
+      const inflatedCliff = magiCliff * inflationFactor;
+      const baseCost = (magi <= inflatedCliff) ? healthSubsidized : healthUnsubsidized;
+      return baseCost * inflationFactor;
+    }
+
+    // SECURE Act 10-Year Inherited IRA Liquidation Death Tax Calculator
+    function computeDeathTax(pretaxBalanceEOL, eolYear, birthYear, inflationRate, state) {
+      if (pretaxBalanceEOL <= 0) return 0;
+      const numHeirs = parseFloat(document.getElementById('input-heirs').value) || 1;
+      const yearIndex = eolYear - 2027;
+      const inflationFactor = Math.pow(1 + inflationRate, yearIndex);
+      const stateTaxRate = STATE_TAX_RATES[state] || 0;
+
+      // Liquidated by numHeirs over 10 years => (numHeirs * 10) equal annual portions
+      const portions = numHeirs * 10;
+      const heirAnnualShare = pretaxBalanceEOL / portions;
+      const heirBaseIncome = 150000 * inflationFactor;
+
+      const stdSingle = BASE_STD_DEDUCTION_SINGLE * inflationFactor;
+      const stateStdSingle = BASE_STATE_STD_DEDUCTION_SINGLE * inflationFactor;
+
+      // Base tax on heir's $150K income
+      const baseFedTaxable = Math.max(0, heirBaseIncome - stdSingle);
+      const baseFedTax = computeFederalTax(baseFedTaxable, inflationFactor, 'Single');
+      const baseStateTaxable = Math.max(0, heirBaseIncome - stateStdSingle);
+      const baseStateTax = baseStateTaxable * stateTaxRate;
+      const baseTotalTax = baseFedTax + baseStateTax;
+
+      // Combined tax on ($150K + heirAnnualShare)
+      const combinedIncome = heirBaseIncome + heirAnnualShare;
+      const combFedTaxable = Math.max(0, combinedIncome - stdSingle);
+      const combFedTax = computeFederalTax(combFedTaxable, inflationFactor, 'Single');
+      const combStateTaxable = Math.max(0, combinedIncome - stateStdSingle);
+      const combStateTax = combStateTaxable * stateTaxRate;
+      const combTotalTax = combFedTax + combStateTax;
+
+      const marginalTaxPerHeirAnnual = Math.max(0, combTotalTax - baseTotalTax);
+      return portions * marginalTaxPerHeirAnnual;
+    }
+
+    // IRS Uniform Lifetime Table III Divisors (Ages 72 to 100)
+    const IRS_UNIFORM_LIFETIME_TABLE = {
+      72: 27.4, 73: 26.5, 74: 25.5, 75: 24.6, 76: 23.7, 77: 22.9, 78: 22.0, 79: 21.1,
+      80: 20.2, 81: 19.4, 82: 18.5, 83: 17.7, 84: 16.8, 85: 16.0, 86: 15.2, 87: 14.4,
+      88: 13.7, 89: 12.9, 90: 12.2, 91: 11.5, 92: 10.8, 93: 10.1, 94: 9.5,  95: 8.9
+    };
+
+    const BASE_IRMAA_TIERS_MFJ = [
+      { max: 206000, annualSurchargeCouple: 0 },
+      { max: 258000, annualSurchargeCouple: 1987.20 },
+      { max: 322000, annualSurchargeCouple: 4992.00 },
+      { max: 386000, annualSurchargeCouple: 7999.20 },
+      { max: 750000, annualSurchargeCouple: 11004.00 },
+      { max: Infinity, annualSurchargeCouple: 12007.20 }
+    ];
+
+    function computeIRMAA(magiLookback, inflationFactor = 1.0) {
+      if (magiLookback <= 0) return 0;
+      for (let i = 0; i < BASE_IRMAA_TIERS_MFJ.length; i++) {
+        const tier = BASE_IRMAA_TIERS_MFJ[i];
+        const threshold = tier.max === Infinity ? Infinity : tier.max * inflationFactor;
+        if (magiLookback <= threshold) {
+          return tier.annualSurchargeCouple * inflationFactor;
+        }
+      }
+      return 12007.20 * inflationFactor;
+    }
+
+    function computeNIIT(magi, netInvestmentIncome, filingStatus = 'MFJ') {
+      if (netInvestmentIncome <= 0) return 0;
+      const threshold = filingStatus === 'Single' ? 200000 : 250000;
+      const excessMAGI = Math.max(0, magi - threshold);
+      if (excessMAGI <= 0) return 0;
+      const taxableBase = Math.min(netInvestmentIncome, excessMAGI);
+      return taxableBase * 0.038;
+    }
+
+    // Helper: Determine Roth conversion phase dynamically (R1)
+    function getConversionPhase(year, retireYear, birthYear) {
+      const age = year - birthYear;
+      if (year < retireYear || age > 75) return 0; // Ineligible
+      if (age >= 59.5) return 3;                   // Phase 3: Age 59.5 to 75
+      const kYear = year - retireYear;
+      if (kYear < 5) return 1;                     // Phase 1: First 5 years of retirement
+      return 2;                                    // Phase 2: Year 6 to Age 59.5
+    }
+
+    // Core Multi-Decade Simulation Engine
+    function runSimulation(inputs, rothConvPhase1 = 0, rothConvPhase2, rothConvPhase3) {
+      const p = Object.assign({}, DEFAULT_INPUTS, inputs);
+
+      const startYear = (p.currentYear || 2026) + 1;
+      const eolYear = Math.max(startYear, p.eolYear || 2060);
+      const numYears = Math.max(1, eolYear - startYear + 1);
+
+      // Support 3 distinct conversion phases, with single-value fallback for legacy callers
+      const k1 = Number(rothConvPhase1) || 0;
+      const k2 = rothConvPhase2 !== undefined ? Number(rothConvPhase2) : k1;
+      const k3 = rothConvPhase3 !== undefined ? Number(rothConvPhase3) : k2;
+
+      let cash = Number(p.cashStart);
+      let inv = Number(p.invStart);
+      let pretax = Number(p.pretaxStart);
+      let roth = Number(p.rothStart);
+
+      // Vintage queue for Roth conversions: [{ year, principal, remaining }]
+      const rothVintages = [];
+      let accessibleOriginalPrincipal = Math.min(Number(p.rothPrincipalStart), roth);
+
+      const records = [];
+      const magiHistory = [];
+      let rawTaxSum = 0;
+      let pvTaxSum = 0;
+      let fvTaxSum = 0;
+      let isFeasible = true;
+      let minLiquidity = Infinity;
+
+      for (let i = 0; i < numYears; i++) {
+        const year = startYear + i;
+        const age = year - p.birthYear;
+        const inflationFactor = Math.pow(1 + p.inflationRate, i);
+
+        // R3: retireYear is unambiguously the first full year retired
+        const isRetired = year >= p.retireYear;
+
+        // 1. Gross Inflows
+        const earned = isRetired ? 0 : Number(p.earnedIncome);
+        const cashInterest = cash > 0 ? cash * Number(p.cashInterestRate) : 0;
+
+        // Dynamic Social Security
+        const isSS = age >= p.ssStartAge;
+        const baseSSAge = 67; // Assume input is always relative to base age 67
+        const ssMultipliers = {
+          62: 0.70, 63: 0.75, 64: 0.80, 65: 0.867, 66: 0.933,
+          67: 1.00, 68: 1.08, 69: 1.16, 70: 1.24
+        };
+        const getMult = a => {
+          if (a < 62) return 0.70;
+          if (a > 70) return 1.24;
+          return ssMultipliers[a];
+        };
+        const adjSSAmount = Number(p.ssAmount) * (getMult(p.ssStartAge) / getMult(baseSSAge));
+        const ssBenefit = isSS ? adjSSAmount * inflationFactor : 0;
+
+        // SECURE 2.0 Mandatory RMD (Post-Age 75)
+        let annualRMD = 0;
+        if (age >= 75 && pretax > 0) {
+          const divisor = IRS_UNIFORM_LIFETIME_TABLE[age] || Math.max(5.0, 16.8 - (age - 84) * 0.7);
+          annualRMD = pretax / divisor;
+          pretax -= annualRMD;
+        }
+
+        // R1: Dynamic 3-Phase Roth Conversion Selection
+        let targetConv = 0;
+        const phase = getConversionPhase(year, p.retireYear, p.birthYear);
+        if (phase === 1) targetConv = k1;
+        else if (phase === 2) targetConv = k2;
+        else if (phase === 3) targetConv = k3;
+
+        const rothConversion = Math.max(0, Math.min(targetConv, pretax));
+
+        // Add conversion to vintage queue (locked for 5 years)
+        if (rothConversion > 0) {
+          rothVintages.push({ year: year, principal: rothConversion, remaining: rothConversion });
+        }
+
+        // Taxes
+        const otherIncome = earned + cashInterest + rothConversion + annualRMD;
+        const taxableSS = computeTaxableSS(ssBenefit, otherIncome);
+        const agi = otherIncome + taxableSS;
+        magiHistory.push(agi);
+
+        const fedStd = (BASE_STD_DEDUCTION_MFJ + (age >= 65 ? 3100 : 0)) * inflationFactor;
+        const taxableFed = Math.max(0, agi - fedStd);
+        const fedTax = computeFederalTax(taxableFed, inflationFactor, 'MFJ');
+        const stateTax = computeStateTax(agi, taxableSS, inflationFactor, 'MFJ', p.state);
+        const niitTax = computeNIIT(agi, cashInterest, 'MFJ');
+        const totalTaxYear = fedTax + stateTax + niitTax;
+
+        // Outflows
+        const livingExp = Number(p.livingExpensesStart) * inflationFactor;
+        
+        let healthExp = 0;
+        if (age < 65) {
+          healthExp = computeHealthcareExpense(age, agi, i, Number(p.inflationRate), Number(p.healthSubsidized), Number(p.healthUnsubsidized), isRetired, Number(p.magiCliff || 90000));
+        } else {
+          // Post-65 Medicare $0 base + IRMAA
+          const lookbackIdx = i - 2;
+          const magiLookback = lookbackIdx >= 0 ? magiHistory[lookbackIdx] : 200000;
+          healthExp = computeIRMAA(magiLookback, inflationFactor);
+        }
+
+        const collegeExp = computeCollegeExpense(year, Number(p.collegeStartYear), Number(p.collegeTotal));
+        const totalExpenses = livingExp + healthExp + collegeExp;
+        const totalOutflows = totalExpenses + totalTaxYear;
+
+        // Cash flow balance
+        const cashInflows = earned + ssBenefit + cashInterest + annualRMD;
+        const netCashDeficit = totalOutflows - cashInflows;
+
+        // Calculate accessible Roth principal prior to liquidation
+        let accessibleVintages = 0;
+        for (let v = 0; v < rothVintages.length; v++) {
+          if ((year - rothVintages[v].year) >= 5) {
+            accessibleVintages += rothVintages[v].remaining;
+          }
+        }
+        
+        const rothWithGrowth = (roth + rothConversion) * (1 + Number(p.invReturnRate));
+        const currentAccessibleRoth = (age >= 59.5) ? rothWithGrowth : (accessibleOriginalPrincipal + accessibleVintages);
+
+        let isLiquidDeficit = false;
+
+        // Liquidity Waterfall: Cash -> Taxable Investments -> Accessible Roth
+        if (netCashDeficit <= 0) {
+          // Surplus cash accumulation
+          cash = cash + (-netCashDeficit);
+          inv = inv * (1 + Number(p.invReturnRate));
+          pretax = (pretax - rothConversion) * (1 + Number(p.invReturnRate));
+          roth = rothWithGrowth;
+        } else {
+          let remDeficit = netCashDeficit;
+
+          // 1. Drawdown Cash
+          const drawCash = Math.min(cash, remDeficit);
+          cash -= drawCash;
+          remDeficit -= drawCash;
+
+          // 2. Drawdown Taxable Investment
+          const invWithGrowth = inv * (1 + Number(p.invReturnRate));
+          const drawInv = Math.min(invWithGrowth, remDeficit);
+          inv = invWithGrowth - drawInv;
+          remDeficit -= drawInv;
+
+          // 3. Drawdown Accessible Roth
+          let drawRoth = 0;
+          if (remDeficit > 0) {
+            drawRoth = Math.min(currentAccessibleRoth, remDeficit);
+            remDeficit -= drawRoth;
+
+            if (age < 59.5) {
+              // Deplete accessible vintages (FIFO)
+              let toDeduct = drawRoth;
+              if (accessibleOriginalPrincipal > 0) {
+                const deductOrig = Math.min(accessibleOriginalPrincipal, toDeduct);
+                accessibleOriginalPrincipal -= deductOrig;
+                toDeduct -= deductOrig;
+              }
+              for (let v = 0; v < rothVintages.length && toDeduct > 0; v++) {
+                if ((year - rothVintages[v].year) >= 5 && rothVintages[v].remaining > 0) {
+                  const deductV = Math.min(rothVintages[v].remaining, toDeduct);
+                  rothVintages[v].remaining -= deductV;
+                  toDeduct -= deductV;
+                }
+              }
+            } else {
+              // Post 59.5, we just clear everything. It's fully accessible.
+              accessibleOriginalPrincipal = 0;
+              rothVintages.forEach(v => v.remaining = 0);
+            }
+          }
+
+          // Update Pre-Tax Balance
+          pretax = (pretax - rothConversion) * (1 + Number(p.invReturnRate));
+
+          // Update Roth Balance
+          roth = Math.max(0, rothWithGrowth - drawRoth);
+
+          if (remDeficit > 0.01) {
+            isLiquidDeficit = true;
+            isFeasible = false;
+          }
+        }
+
+        // Year-end accessible Roth principal
+        let endAccRoth = 0;
+        let accessibleRothNextYear = 0;
+        if (age >= 59.5) {
+           endAccRoth = roth;
+           accessibleRothNextYear = roth * (1 + Number(p.invReturnRate)); // approximation for next year
+        } else {
+           let accessibleVintagesYE = 0;
+           for (let v = 0; v < rothVintages.length; v++) {
+             if ((year - rothVintages[v].year) >= 5) {
+               accessibleVintagesYE += rothVintages[v].remaining;
+             }
+           }
+           let accessibleVintagesNextYear = 0;
+           for (let v = 0; v < rothVintages.length; v++) {
+             if ((year + 1 - rothVintages[v].year) >= 5) {
+               accessibleVintagesNextYear += rothVintages[v].remaining;
+             }
+           }
+           endAccRoth = accessibleOriginalPrincipal + accessibleVintagesYE;
+           accessibleRothNextYear = accessibleOriginalPrincipal + accessibleVintagesNextYear;
+           // If they turn 59.5 next year:
+           if ((age + 1) >= 59.5) {
+             accessibleRothNextYear = roth * (1 + Number(p.invReturnRate));
+           }
+        }
+
+        const yearLiquidity = cash + inv + endAccRoth;
+        if (yearLiquidity < minLiquidity) {
+          minLiquidity = yearLiquidity;
+        }
+        if (yearLiquidity < (p.safetyNet !== undefined ? p.safetyNet : 0) - 0.01) {
+          isFeasible = false;
+        }
+
+        // Time Value of Money (TVM) Accumulators
+        rawTaxSum += totalTaxYear;
+        const discountRate = Number(p.tvmDiscountRate !== undefined ? p.tvmDiscountRate : p.invReturnRate);
+        pvTaxSum += totalTaxYear / Math.pow(1 + discountRate, i);
+        fvTaxSum += totalTaxYear * Math.pow(1 + discountRate, (numYears - 1) - i);
+
+        records.push({
+          year,
+          age,
+          isRetired,
+          earnedIncome: earned,
+          livingExpenses: livingExp,
+          livingExp,
+          healthExpenses: healthExp,
+          healthExp,
+          collegeExpenses: collegeExp,
+          collegeExp,
+          cashInterest,
+          invReturn: inv * Number(p.invReturnRate),
+          ssBenefit,
+          rothConversion,
+          conversion: rothConversion,
+          taxableIncome: taxableFed,
+          taxableInc: taxableFed,
+          fedTax,
+          stateTax,
+          totalTaxYear,
+          totalTax: totalTaxYear,
+          cashYE: cash,
+          endCash: cash,
+          invYE: inv,
+          endInv: inv,
+          pretaxYE: pretax,
+          endPretax: pretax,
+          rothYE: roth,
+          endRoth: roth,
+          accessibleRothYE: endAccRoth,
+          accessibleRothNextYear: accessibleRothNextYear,
+          endAccRoth,
+          isLiquidDeficit
+        });
+      }
+
+      // Terminal Inherited IRA Death Tax
+      const deathTax = computeDeathTax(pretax, eolYear, p.birthYear, p.inflationRate, p.state);
+      const discountRate = Number(p.tvmDiscountRate !== undefined ? p.tvmDiscountRate : p.invReturnRate);
+      const deathTaxPV = deathTax / Math.pow(1 + discountRate, numYears - 1);
+      const deathTaxFV = deathTax;
+
+      const rawTotalTax = rawTaxSum + deathTax;
+      const pvTotalTax = pvTaxSum + deathTaxPV;
+      const fvTotalTax = fvTaxSum + deathTaxFV;
+
+      return {
+        records,
+        eolYear: p.eolYear,
+        startYear: p.currentYear + 1,
+        inflationRate: p.inflationRate,
+        eolCash: cash,
+        eolInv: inv,
+        eolPretax: pretax,
+        eolRoth: roth,
+        eolAccessibleRoth: records.length > 0 ? records[records.length - 1].accessibleRothYE : 0,
+        deathTax,
+        rawTotalTax,
+        pvTotalTax,
+        fvTotalTax,
+        totalTaxRaw: rawTotalTax,
+        totalTaxPV: pvTotalTax,
+        totalTaxFV: fvTotalTax,
+        isFeasible,
+        minLiquidityBalance: minLiquidity
+      };
+    }
+
+    // Optimization Solver (R1: Multi-Start Coordinate Descent with Hierarchical Step Refinement)
+    function findOptimalConversion(inputs, objective = 'raw') {
+      const tStart = (typeof performance !== 'undefined' && performance.now) ? performance.now() : Date.now();
+      let totalEvaluated = 0;
+      let feasibleCount = 0;
+
+      const getMetric = (res) => {
+        if (!res.isFeasible) return Infinity;
+        return (objective === 'tvm') ? res.pvTotalTax : res.rawTotalTax;
+      };
+
+      // Determine active phases based on timeline
+      const startYear = (inputs.currentYear || 2026) + 1;
+      const retireYear = inputs.retireYear !== undefined ? inputs.retireYear : 2027;
+      const birthYear = inputs.birthYear !== undefined ? inputs.birthYear : 1976;
+      const eolYear = inputs.eolYear !== undefined ? inputs.eolYear : 2060;
+
+      let hasP1 = false, hasP2 = false, hasP3 = false;
+      for (let y = retireYear; y <= Math.min(eolYear, birthYear + 75); y++) {
+        const ph = getConversionPhase(y, retireYear, birthYear);
+        if (ph === 1) hasP1 = true;
+        if (ph === 2) hasP2 = true;
+        if (ph === 3) hasP3 = true;
+      }
+
+      if (!hasP1 && !hasP2 && !hasP3) {
+        const res = runSimulation(inputs, 0, 0, 0);
+        const m = (objective === 'tvm') ? res.pvTotalTax : res.rawTotalTax;
+        const tEnd = (typeof performance !== 'undefined' && performance.now) ? performance.now() : Date.now();
+        return {
+          bestK1: 0,
+          bestK2: 0,
+          bestK3: 0,
+          bestAnnualConversion: 0,
+          optimalK: 0,
+          bestConversion: 0,
+          bestMetricValue: m,
+          minTax: m,
+          bestResult: res,
+          trajectory: res,
+          objective,
+          candidatesEvaluated: 1,
+          totalEvaluated: 1,
+          feasibleCount: res.isFeasible ? 1 : 0,
+          durationMs: Math.round(tEnd - tStart),
+          hasPhase1: false,
+          hasPhase2: false,
+          hasPhase3: false
+        };
+      }
+
+      // Multi-Start Seeds: [P1, P2, P3]
+      const seeds = [
+        [50000, 100000, 150000],
+        [150000, 300000, 400000],
+        [250000, 500000, 600000]
+      ];
+
+      let bestOverall = { k1: 0, k2: 0, k3: 0, metric: Infinity, res: null };
+      let fallbackCandidate = { k1: 0, k2: 0, k3: 0, maxMinLiq: -Infinity, res: null };
+
+      for (let s = 0; s < seeds.length; s++) {
+        let k1 = hasP1 ? seeds[s][0] : 0;
+        let k2 = hasP2 ? seeds[s][1] : 0;
+        let k3 = hasP3 ? seeds[s][2] : 0;
+        let currentMetric = Infinity;
+        let currentRes = null;
+
+        for (let cycle = 0; cycle < 2; cycle++) {
+          // Sweep Phase 1 (0 to 500K, step 25K)
+          if (hasP1) {
+            for (let tk1 = 0; tk1 <= 500000; tk1 += 25000) {
+              totalEvaluated++;
+              const res = runSimulation(inputs, tk1, k2, k3);
+              if (res.isFeasible) feasibleCount++;
+              if (res.minLiquidityBalance > fallbackCandidate.maxMinLiq) {
+                fallbackCandidate = { k1: tk1, k2, k3, maxMinLiq: res.minLiquidityBalance, res };
+              }
+              const m = getMetric(res);
+              if (m < currentMetric) { currentMetric = m; k1 = tk1; currentRes = res; }
+            }
+          }
+
+          // Sweep Phase 2 (0 to 800K, step 25K)
+          if (hasP2) {
+            for (let tk2 = 0; tk2 <= 800000; tk2 += 25000) {
+              totalEvaluated++;
+              const res = runSimulation(inputs, k1, tk2, k3);
+              if (res.isFeasible) feasibleCount++;
+              if (res.minLiquidityBalance > fallbackCandidate.maxMinLiq) {
+                fallbackCandidate = { k1, k2: tk2, k3, maxMinLiq: res.minLiquidityBalance, res };
+              }
+              const m = getMetric(res);
+              if (m < currentMetric) { currentMetric = m; k2 = tk2; currentRes = res; }
+            }
+          }
+
+          // Sweep Phase 3 (0 to 1000K, step 25K)
+          if (hasP3) {
+            for (let tk3 = 0; tk3 <= 1000000; tk3 += 25000) {
+              totalEvaluated++;
+              const res = runSimulation(inputs, k1, k2, tk3);
+              if (res.isFeasible) feasibleCount++;
+              if (res.minLiquidityBalance > fallbackCandidate.maxMinLiq) {
+                fallbackCandidate = { k1, k2, k3: tk3, maxMinLiq: res.minLiquidityBalance, res };
+              }
+              const m = getMetric(res);
+              if (m < currentMetric) { currentMetric = m; k3 = tk3; currentRes = res; }
+            }
+          }
+        }
+
+        if (currentMetric < bestOverall.metric) {
+          bestOverall = { k1, k2, k3, metric: currentMetric, res: currentRes };
+        }
+      }
+
+      // Refine Winning Seed
+      let k1 = bestOverall.k1;
+      let k2 = bestOverall.k2;
+      let k3 = bestOverall.k3;
+      let minMetric = bestOverall.metric;
+      let bestResult = bestOverall.res;
+
+      if (bestResult) {
+        // Medium Refinement (±30K @ 5K step)
+        for (let iter = 0; iter < 2; iter++) {
+          if (hasP1) {
+            for (let tk1 = Math.max(0, k1 - 30000); tk1 <= Math.min(500000, k1 + 30000); tk1 += 5000) {
+              totalEvaluated++;
+              const res = runSimulation(inputs, tk1, k2, k3);
+              const m = getMetric(res);
+              if (m < minMetric) { minMetric = m; k1 = tk1; bestResult = res; }
+            }
+          }
+          if (hasP2) {
+            for (let tk2 = Math.max(0, k2 - 30000); tk2 <= Math.min(800000, k2 + 30000); tk2 += 5000) {
+              totalEvaluated++;
+              const res = runSimulation(inputs, k1, tk2, k3);
+              const m = getMetric(res);
+              if (m < minMetric) { minMetric = m; k2 = tk2; bestResult = res; }
+            }
+          }
+          if (hasP3) {
+            for (let tk3 = Math.max(0, k3 - 30000); tk3 <= Math.min(1000000, k3 + 30000); tk3 += 5000) {
+              totalEvaluated++;
+              const res = runSimulation(inputs, k1, k2, tk3);
+              const m = getMetric(res);
+              if (m < minMetric) { minMetric = m; k3 = tk3; bestResult = res; }
+            }
+          }
+        }
+
+        // Fine Refinement (±5K @ 1K step)
+        if (hasP1) {
+          for (let tk1 = Math.max(0, k1 - 5000); tk1 <= Math.min(500000, k1 + 5000); tk1 += 1000) {
+            totalEvaluated++;
+            const res = runSimulation(inputs, tk1, k2, k3);
+            const m = getMetric(res);
+            if (m < minMetric) { minMetric = m; k1 = tk1; bestResult = res; }
+          }
+        }
+        if (hasP2) {
+          for (let tk2 = Math.max(0, k2 - 5000); tk2 <= Math.min(800000, k2 + 5000); tk2 += 1000) {
+            totalEvaluated++;
+            const res = runSimulation(inputs, k1, tk2, k3);
+            const m = getMetric(res);
+            if (m < minMetric) { minMetric = m; k2 = tk2; bestResult = res; }
+          }
+        }
+        if (hasP3) {
+          for (let tk3 = Math.max(0, k3 - 5000); tk3 <= Math.min(1000000, k3 + 5000); tk3 += 1000) {
+            totalEvaluated++;
+            const res = runSimulation(inputs, k1, k2, tk3);
+            const m = getMetric(res);
+            if (m < minMetric) { minMetric = m; k3 = tk3; bestResult = res; }
+          }
+        }
+      } else {
+        // Solvency Fallback: Use candidate that maximized liquidity
+        k1 = fallbackCandidate.k1;
+        k2 = fallbackCandidate.k2;
+        k3 = fallbackCandidate.k3;
+        bestResult = fallbackCandidate.res || runSimulation(inputs, 0, 0, 0);
+        minMetric = (objective === 'tvm') ? bestResult.pvTotalTax : bestResult.rawTotalTax;
+      }
+
+      const tEnd = (typeof performance !== 'undefined' && performance.now) ? performance.now() : Date.now();
+
+      return {
+        bestK1: k1,
+        bestK2: k2,
+        bestK3: k3,
+        bestAnnualConversion: k1,
+        optimalK: k1,
+        bestConversion: k1,
+        bestMetricValue: minMetric,
+        minTax: minMetric,
+        bestResult,
+        trajectory: bestResult,
+        objective,
+        candidatesEvaluated: totalEvaluated,
+        totalEvaluated,
+        feasibleCount,
+        durationMs: Math.round(tEnd - tStart),
+        hasPhase1: hasP1,
+        hasPhase2: hasP2,
+        hasPhase3: hasP3,
+        candidates: [{
+          conversion: k1,
+          phase1: k1,
+          phase2: k2,
+          phase3: k3,
+          rawTax: bestResult.rawTotalTax,
+          pvTax: bestResult.pvTotalTax,
+          fvTax: bestResult.fvTotalTax,
+          isFeasible: bestResult.isFeasible,
+          minLiquidity: bestResult.minLiquidityBalance
+        }]
+      };
+    }
+
+    // DOM Element ID Alias Resolver (Supports camelCase & kebab-case queries)
+    const DOM_ID_ALIASES = {
+      'input-birth-year': 'input-birthYear',
+      'input-retire-year': 'input-retireYear',
+      'input-eol-year': 'input-eolYear',
+      'input-inflation-rate': 'input-inflationRate',
+      'input-cash': 'input-cashStart',
+      'input-cash-start': 'input-cashStart',
+      'input-interest-rate': 'input-cashInterestRate',
+      'input-cash-interest-rate': 'input-cashInterestRate',
+      'input-inv': 'input-invStart',
+      'input-inv-start': 'input-invStart',
+      'input-inv-return': 'input-invReturnRate',
+      'input-inv-return-rate': 'input-invReturnRate',
+      'input-pretax': 'input-pretaxStart',
+      'input-pretax-start': 'input-pretaxStart',
+      'input-roth': 'input-rothStart',
+      'input-roth-start': 'input-rothStart',
+      'input-roth-principal': 'input-rothPrincipalStart',
+      'input-roth-principal-start': 'input-rothPrincipalStart',
+      'input-college-total': 'input-collegeTotal',
+      'input-college-start': 'input-collegeStartYear',
+      'input-college-start-year': 'input-collegeStartYear',
+      'input-health-sub': 'input-healthSubsidized',
+      'input-health-subsidized': 'input-healthSubsidized',
+      'input-health-nosub': 'input-healthUnsubsidized',
+      'input-health-unsubsidized': 'input-healthUnsubsidized',
+      'input-ss-age': 'input-ssStartAge',
+      'input-ss-start-age': 'input-ssStartAge',
+      'input-ss-amount': 'input-ssAmount',
+      'input-earned-income': 'input-earnedIncome',
+      'input-living-expenses': 'input-livingExpensesStart',
+      'input-living-expenses-start': 'input-livingExpensesStart',
+      'input-state-tax': 'input-state',
+      'input-state-tax-rate': 'input-state',
+      'radio-opt-raw': 'opt-obj-raw',
+      'radio-opt-tvm': 'opt-obj-tvm',
+      'slider-roth-conv': 'slider-conversion',
+      'slider-phase-1': 'slider-phase-1',
+      'slider-phase-2': 'slider-phase-2',
+      'slider-phase-3': 'slider-phase-3',
+      'slider-phase1': 'slider-phase-1',
+      'slider-phase2': 'slider-phase-2',
+      'slider-phase3': 'slider-phase-3',
+      'slider-p1': 'slider-phase-1',
+      'slider-p2': 'slider-phase-2',
+      'slider-p3': 'slider-phase-3',
+      'num-phase-1': 'num-phase-1',
+      'num-phase-2': 'num-phase-2',
+      'num-phase-3': 'num-phase-3',
+      'kpi-tax-raw': 'kpi-total-tax-raw',
+      'kpi-tax-pv': 'kpi-total-tax-pv',
+      'kpi-tax-fv': 'kpi-total-tax-fv',
+      'sim-table-body': 'table-simulation-body',
+      'simTable': 'table-simulation-body',
+      'mainChart': 'chart-canvas'
+    };
+
+    if (typeof document !== 'undefined' && document.getElementById) {
+      const originalGetElementById = document.getElementById.bind(document);
+      document.getElementById = function(id) {
+        const el = originalGetElementById(id);
+        if (el) return el;
+        if (DOM_ID_ALIASES[id]) return originalGetElementById(DOM_ID_ALIASES[id]);
+        return null;
+      };
+    }
+
+    // Number Formatting Helpers
+    const fmtCurrency = (n) => {
+      const rounded = Math.round(n / 1000);
+      if (rounded === 0) return '-';
+      return (rounded < 0 ? '-' : '') + Math.abs(rounded).toLocaleString();
+    };
+
+    const fmtCompact = (n) => {
+      const abs = Math.abs(n);
+      const sign = n < 0 ? '-' : '';
+      if (abs >= 1e6) return sign + '$' + (abs / 1e6).toFixed(2) + 'M';
+      if (abs >= 1e3) return sign + '$' + Math.round(abs / 1e3).toLocaleString() + 'K';
+      return sign + '$' + Math.round(abs).toLocaleString();
+    };
+
+    // UI Controller & Presenter State
+    let appChart = null;
+
+    function readInputsFromDOM() {
+      if (typeof document === 'undefined') return Object.assign({}, DEFAULT_INPUTS);
+      const getVal = (id, def) => {
+        const el = document.getElementById(id);
+        if (!el || el.value.trim() === '') return def;
+        const val = parseFloat(el.value);
+        return isNaN(val) ? def : val;
+      };
+
+      const currentYear = 2026;
+      const minStartYear = currentYear + 1;
+      const rawRetireYear = getVal('input-retireYear', 2027);
+      const rawEolYear = getVal('input-eolYear', 2060);
+
+      // Defensive timeline bounds enforcement (R2)
+      const retireYear = Math.max(minStartYear, rawRetireYear);
+      const eolYear = Math.max(retireYear, minStartYear, rawEolYear);
+
+      return {
+        birthYear: getVal('input-birthYear', 1976),
+        currentYear: currentYear,
+        retireYear: retireYear,
+        eolYear: eolYear,
+        inflationRate: getVal('input-inflationRate', 3.5) / 100,
+        cashStart: getVal('input-cashStart', 0) * 1000,
+        cashInterestRate: getVal('input-cashInterestRate', 4.0) / 100,
+        invStart: getVal('input-invStart', 0) * 1000,
+        invReturnRate: getVal('input-invReturnRate', 9.0) / 100,
+        pretaxStart: getVal('input-pretaxStart', 0) * 1000,
+        rothStart: getVal('input-rothStart', 0) * 1000,
+        rothPrincipalStart: getVal('input-rothPrincipalStart', 0) * 1000,
+        collegeTotal: getVal('input-collegeTotal', 100) * 1000,
+        collegeStartYear: getVal('input-collegeStartYear', 2029),
+        healthSubsidized: getVal('input-healthSubsidized', 5) * 1000,
+        healthUnsubsidized: getVal('input-healthUnsubsidized', 25) * 1000,
+        magiCliff: 90000,
+        ssStartAge: Math.max(62, Math.min(70, getVal('input-ssStartAge', 0))),
+        ssAmount: getVal('input-ssAmount', 0) * 1000,
+        earnedIncome: getVal('input-earnedIncome', 0) * 1000,
+        livingExpensesStart: getVal('input-livingExpensesStart', 100) * 1000,
+        state: document.getElementById('input-state') ? document.getElementById('input-state').value : 'VA',
+        tvmDiscountRate: getVal('input-invReturnRate', 9.0) / 100,
+        safetyNet: getVal('input-safetyNet', 50) * 1000
+      };
+    }
+
+    function renderSimulationToDOM(result, currentConversion) {
+      if (typeof document === 'undefined') return;
+
+      // 1. Update KPI Summary Cards
+      const setKPI = (id, text) => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = text;
+      };
+
+      setKPI('kpi-eol-cash', fmtCompact(result.eolCash));
+      setKPI('kpi-eol-inv', fmtCompact(result.eolInv));
+      setKPI('kpi-eol-pretax', fmtCompact(result.eolPretax));
+      setKPI('kpi-eol-roth', fmtCompact(result.eolRoth));
+      setKPI('kpi-total-tax-raw', fmtCompact(result.rawTotalTax));
+      setKPI('kpi-total-tax-pv', fmtCompact(result.pvTotalTax));
+      setKPI('kpi-total-tax-fv', fmtCompact(result.fvTotalTax));
+      setKPI('kpi-death-tax', fmtCompact(result.deathTax));
+
+      // Dynamic Sub-Labels
+      const inflationRateStr = (result.inflationRate * 100).toFixed(1);
+      
+      const elCashSub = document.getElementById('kpi-sub-cash');
+      if (elCashSub) elCashSub.textContent = `Liquid Reserves (${result.eolYear})`;
+      
+      const elInvSub = document.getElementById('kpi-sub-inv');
+      if (elInvSub) elInvSub.textContent = `Taxable Brokerage (${result.eolYear})`;
+      
+      const elTaxPvSub = document.getElementById('kpi-sub-tax-pv');
+      if (elTaxPvSub) elTaxPvSub.textContent = `Discounted to ${result.startYear} (${inflationRateStr}%)`;
+      
+      const numHeirs = parseFloat(document.getElementById('input-heirs').value) || 1;
+      const elDeathTaxSub = document.getElementById('kpi-sub-death-tax');
+      if (elDeathTaxSub) elDeathTaxSub.textContent = `${numHeirs} Heirs / 10-Yr SECURE`;
+      
+      const elTaxFvSub = document.getElementById('kpi-sub-tax-fv');
+      if (elTaxFvSub) elTaxFvSub.textContent = `Compounded to ${result.eolYear}`;
+
+
+      // 2. Render Data Table Rows
+      const titleEl = document.querySelector('.table-title');
+      if (titleEl) {
+        titleEl.textContent = `Year-by-Year Simulation Trajectory (${result.startYear} – ${result.eolYear})`;
+      }
+
+      const tbody = document.getElementById('table-simulation-body');
+      if (tbody) {
+        let html = '';
+        let hasMarkedRetirement = false;
+        for (let r of result.records) {
+          let rowStyle = '';
+          let tdStyle = '';
+          if (r.isRetired && !hasMarkedRetirement) {
+            tdStyle = 'border-top: 2px dashed #3b82f6;';
+            hasMarkedRetirement = true;
+          }
+          const rowClass = r.age >= 65 ? 'row-medicare' : (r.isRetired ? 'row-retired' : '');
+          const totalIncome = r.earnedIncome + r.ssBenefit + r.cashInterest + r.invReturn + r.rothConversion;
+          const totalExpenses = r.totalTaxYear + r.livingExpenses + r.healthExpenses + r.collegeExpenses;
+          html += `<tr class="${rowClass}">
+            <td style="${tdStyle}">${r.year}</td>
+            <td style="${tdStyle}">${r.age}</td>
+            <td style="background: rgba(16, 185, 129, 0.05); ${tdStyle}">${fmtCurrency(r.earnedIncome)}</td>
+            <td style="background: rgba(16, 185, 129, 0.05); ${tdStyle}">${fmtCurrency(r.ssBenefit)}</td>
+            <td style="background: rgba(16, 185, 129, 0.05); ${tdStyle}">${fmtCurrency(r.cashInterest)}</td>
+            <td style="background: rgba(16, 185, 129, 0.05); ${tdStyle}">${fmtCurrency(r.invReturn)}</td>
+            <td style="background: rgba(16, 185, 129, 0.05); ${tdStyle}">${fmtCurrency(r.rothConversion)}</td>
+            <td style="background: rgba(16, 185, 129, 0.05); font-weight: 600; ${tdStyle}">${fmtCurrency(totalIncome)}</td>
+            <td style="background: rgba(239, 68, 68, 0.05); ${tdStyle}">${fmtCurrency(r.totalTaxYear)}</td>
+            <td style="background: rgba(239, 68, 68, 0.05); ${tdStyle}">${fmtCurrency(r.livingExpenses)}</td>
+            <td style="background: rgba(239, 68, 68, 0.05); ${tdStyle}">${fmtCurrency(r.healthExpenses)}</td>
+            <td style="background: rgba(239, 68, 68, 0.05); ${tdStyle}">${fmtCurrency(r.collegeExpenses)}</td>
+            <td style="background: rgba(239, 68, 68, 0.05); font-weight: 600; ${tdStyle}">${fmtCurrency(totalExpenses)}</td>
+            <td style="background: rgba(59, 130, 246, 0.05); ${tdStyle}">${fmtCurrency(r.cashYE)}</td>
+            <td style="background: rgba(59, 130, 246, 0.05); ${tdStyle}">${fmtCurrency(r.invYE)}</td>
+            <td style="background: rgba(59, 130, 246, 0.05); ${tdStyle}">${fmtCurrency(r.accessibleRothNextYear)}</td>
+            <td style="background: rgba(59, 130, 246, 0.05); ${tdStyle}">${fmtCurrency(r.pretaxYE)}</td>
+            <td style="background: rgba(59, 130, 246, 0.05); ${tdStyle}">${fmtCurrency(r.rothYE)}</td>
+          </tr>`;
+        }
+        tbody.innerHTML = html;
+      }
+
+      // 3. Render Chart.js Visualization
+      renderChart(result);
+    }
+
+    function renderChart(result) {
+      if (typeof document === 'undefined') return;
+      const canvas = document.getElementById('chart-canvas');
+      if (!canvas) return;
+
+      if (typeof Chart === 'undefined') {
+        const warn = document.getElementById('chart-offline-warning');
+        if (warn) warn.style.display = 'block';
+        return;
+      }
+
+      const labels = result.records.map(r => String(r.year));
+      const cashData = result.records.map(r => Math.max(0, Math.round(r.cashYE)));
+      const invData = result.records.map(r => Math.max(0, Math.round(r.invYE)));
+      const pretaxData = result.records.map(r => Math.max(0, Math.round(r.pretaxYE)));
+      const rothData = result.records.map(r => Math.max(0, Math.round(r.rothYE)));
+
+      let cumulativeTax = 0;
+      const taxData = result.records.map(r => {
+        cumulativeTax += r.totalTaxYear;
+        return Math.round(cumulativeTax);
+      });
+
+      const retireYearStr = String(result.records.find(r => r.isRetired)?.year || '');
+
+      const retirementLinePlugin = {
+        id: 'retirementLine',
+        afterDraw: (chart, args, options) => {
+          const rYear = options.retireYear || chart.options.plugins?.retirementLine?.retireYear;
+          if (!rYear) return;
+          const index = chart.data.labels.indexOf(rYear);
+          if (index === -1) return;
+          const meta = chart.getDatasetMeta(0);
+          if (!meta.data[index]) return;
+          const x = meta.data[index].x;
+          const ctx = chart.ctx;
+          ctx.save();
+          ctx.beginPath();
+          ctx.strokeStyle = '#ef4444';
+          ctx.lineWidth = 2;
+          ctx.setLineDash([5, 5]);
+          ctx.moveTo(x, chart.chartArea.top);
+          ctx.lineTo(x, chart.chartArea.bottom);
+          ctx.stroke();
+          ctx.fillStyle = '#ef4444';
+          ctx.textAlign = 'center';
+          ctx.font = 'bold 11px sans-serif';
+          ctx.fillText('Retirement', x, chart.chartArea.top + 15);
+          ctx.restore();
+        }
+      };
+
+      if (appChart) {
+        appChart.data.labels = labels;
+        appChart.data.datasets[0].data = cashData;
+        appChart.data.datasets[1].data = invData;
+        appChart.data.datasets[2].data = pretaxData;
+        appChart.data.datasets[3].data = rothData;
+        appChart.data.datasets[4].data = taxData;
+        if (!appChart.options.plugins.retirementLine) appChart.options.plugins.retirementLine = {};
+        appChart.options.plugins.retirementLine.retireYear = retireYearStr;
+        appChart.update('none');
+      } else {
+        const ctx = canvas.getContext('2d');
+        appChart = new Chart(ctx, {
+          type: 'bar',
+          plugins: [retirementLinePlugin],
+          data: {
+            labels: labels,
+            datasets: [
+              {
+                label: 'Cash',
+                data: cashData,
+                backgroundColor: '#64748b',
+                stack: 'assets',
+                order: 2,
+                yAxisID: 'y'
+              },
+              {
+                label: 'Taxable Investment',
+                data: invData,
+                backgroundColor: '#3b82f6',
+                stack: 'assets',
+                order: 2,
+                yAxisID: 'y'
+              },
+              {
+                label: 'Pre-Tax Retirement',
+                data: pretaxData,
+                backgroundColor: '#6366f1',
+                stack: 'assets',
+                order: 2,
+                yAxisID: 'y'
+              },
+              {
+                label: 'Roth Balance',
+                data: rothData,
+                backgroundColor: '#14b8a6',
+                stack: 'assets',
+                order: 2,
+                yAxisID: 'y'
+              },
+              {
+                type: 'line',
+                label: 'Cumulative Tax Paid',
+                data: taxData,
+                borderColor: '#f43f5e',
+                backgroundColor: 'rgba(244, 63, 94, 0.1)',
+                borderWidth: 3,
+                tension: 0.25,
+                pointRadius: 2,
+                pointHoverRadius: 5,
+                yAxisID: 'y1',
+                order: 1
+              }
+            ]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            interaction: {
+              mode: 'index',
+              intersect: false
+            },
+            plugins: {
+              retirementLine: {
+                retireYear: retireYearStr
+              },
+              legend: {
+                display: false
+              },
+              tooltip: {
+                backgroundColor: '#0f172a',
+                titleColor: '#fff',
+                bodyColor: '#cbd5e1',
+                borderColor: '#334155',
+                borderWidth: 1,
+                callbacks: {
+                  label: function(ctx) {
+                    return `${ctx.dataset.label}: $${Math.round(ctx.parsed.y).toLocaleString()}`;
+                  }
+                }
+              }
+            },
+            scales: {
+              x: {
+                stacked: true,
+                grid: { color: 'rgba(255, 255, 255, 0.05)' },
+                ticks: { color: '#94a3b8', font: { size: 11 } }
+              },
+              y: {
+                stacked: true,
+                position: 'left',
+                title: { display: true, text: 'Portfolio Assets ($)', color: '#94a3b8' },
+                grid: { color: 'rgba(255, 255, 255, 0.05)' },
+                ticks: {
+                  color: '#94a3b8',
+                  callback: (v) => v >= 1e6 ? `$${(v / 1e6).toFixed(1)}M` : `$${Math.round(v / 1e3)}K`
+                }
+              },
+              y1: {
+                position: 'right',
+                title: { display: true, text: 'Cumulative Tax Paid ($)', color: '#ef4444' },
+                grid: { drawOnChartArea: false },
+                ticks: {
+                  color: '#ef4444',
+                  callback: (v) => `$${Math.round(v / 1e3)}K`
+                }
+              }
+            }
+          }
+        });
+      }
+    }
+
+    // Main App Orchestration Loop
+    function exportToJPG() {
+      if (typeof html2canvas === 'undefined') {
+        const script = document.createElement('script');
+        script.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js';
+        script.onload = () => {
+          html2canvas(document.body).then(canvas => {
+            const link = document.createElement('a');
+            link.download = 'planning.jpg';
+            link.href = canvas.toDataURL('image/jpeg', 0.9);
+            link.click();
+          });
+        };
+        document.head.appendChild(script);
+      } else {
+        html2canvas(document.body).then(canvas => {
+          const link = document.createElement('a');
+          link.download = 'planning.jpg';
+          link.href = canvas.toDataURL('image/jpeg', 0.9);
+          link.click();
+        });
+      }
+    }
+
+    function updatePhaseSliderLabels(retireYear, birthYear, eolYear) {
+      if (typeof document === 'undefined') return;
+
+      const y59 = birthYear + 59;
+      const y60 = birthYear + 60;
+      const y75 = birthYear + 75;
+
+      const t1 = document.getElementById('title-phase-1');
+      const t2 = document.getElementById('title-phase-2');
+      const t3 = document.getElementById('title-phase-3');
+      const s1 = document.getElementById('slider-phase-1');
+      const s2 = document.getElementById('slider-phase-2');
+      const s3 = document.getElementById('slider-phase-3');
+      const n1 = document.getElementById('num-phase-1');
+      const n2 = document.getElementById('num-phase-2');
+      const n3 = document.getElementById('num-phase-3');
+      const b1 = document.getElementById('box-phase-1');
+      const b2 = document.getElementById('box-phase-2');
+      const b3 = document.getElementById('box-phase-3');
+      const sub1 = document.getElementById('subtext-phase-1');
+      const sub2 = document.getElementById('subtext-phase-2');
+      const sub3 = document.getElementById('subtext-phase-3');
+
+      // Check active phases
+      let hasP1 = false, hasP2 = false, hasP3 = false;
+      for (let y = retireYear; y <= Math.min(eolYear, y75); y++) {
+        const ph = getConversionPhase(y, retireYear, birthYear);
+        if (ph === 1) hasP1 = true;
+        if (ph === 2) hasP2 = true;
+        if (ph === 3) hasP3 = true;
+      }
+
+      // Phase 1
+      if (t1) {
+        if (hasP1) {
+          const p1End = Math.min(eolYear, retireYear + 4, y59);
+          t1.textContent = `Phase 1: Yr 1–${p1End - retireYear + 1} (${retireYear}–${p1End})`;
+          if (sub1) sub1.textContent = '5-Year Lockup Period (Pre-59½)';
+          if (b1) b1.style.opacity = '1';
+          if (s1) s1.disabled = false;
+          if (n1) n1.disabled = false;
+        } else {
+          t1.textContent = 'Phase 1: N/A';
+          if (sub1) sub1.textContent = `Bypassed (Retiring at age ${retireYear - birthYear} ≥ 59½)`;
+          if (b1) b1.style.opacity = '0.5';
+          if (s1) s1.disabled = true;
+          if (n1) n1.disabled = true;
+        }
+      }
+
+      // Phase 2
+      if (t2) {
+        if (hasP2) {
+          const p2Start = retireYear + 5;
+          const p2End = Math.min(eolYear, y59);
+          t2.textContent = `Phase 2: Yr 6–Age 59½ (${p2Start}–${p2End})`;
+          if (sub2) sub2.textContent = 'Rolling Unlocked Principal (Pre-59½)';
+          if (b2) b2.style.opacity = '1';
+          if (s2) s2.disabled = false;
+          if (n2) n2.disabled = false;
+        } else {
+          t2.textContent = 'Phase 2: N/A';
+          if (sub2) sub2.textContent = 'Bypassed';
+          if (b2) b2.style.opacity = '0.5';
+          if (s2) s2.disabled = true;
+          if (n2) n2.disabled = true;
+        }
+      }
+
+      // Phase 3
+      if (t3) {
+        if (hasP3) {
+          const p3Start = Math.max(retireYear, y60);
+          const p3End = Math.min(eolYear, y75);
+          t3.textContent = `Phase 3: Age 59½–75 (${p3Start}–${p3End})`;
+          if (sub3) sub3.textContent = '100% Liquid & Penalty-Free';
+          if (b3) b3.style.opacity = '1';
+          if (s3) s3.disabled = false;
+          if (n3) n3.disabled = false;
+        } else {
+          t3.textContent = 'Phase 3: N/A';
+          if (sub3) sub3.textContent = 'Bypassed';
+          if (b3) b3.style.opacity = '0.5';
+          if (s3) s3.disabled = true;
+          if (n3) n3.disabled = true;
+        }
+      }
+    }
+
+    function setupTimelineValidation() {
+      if (typeof document === 'undefined') return;
+
+      const currentYear = DEFAULT_INPUTS.currentYear || 2026;
+      const minStartYear = currentYear + 1;
+
+      const elBirth = document.getElementById('input-birthYear');
+      const elRetire = document.getElementById('input-retireYear');
+      const elEol = document.getElementById('input-eolYear');
+
+      if (!elRetire || !elEol) return;
+
+      elRetire.min = minStartYear;
+      elEol.min = minStartYear;
+
+      function flashValidationAlert(el, message) {
+        el.style.borderColor = '#ef4444';
+        el.style.boxShadow = '0 0 8px rgba(239, 68, 68, 0.4)';
+        const statusBox = document.getElementById('opt-status');
+        if (statusBox) {
+          statusBox.innerHTML = `<span style="color:#f87171; font-weight:600;">Notice: ${message}</span>`;
+        }
+        setTimeout(() => {
+          el.style.borderColor = '#334155';
+          el.style.boxShadow = 'none';
+        }, 1800);
+      }
+
+      function validateTimelineInputs(e) {
+        let rYear = parseInt(elRetire.value, 10);
+        let eYear = parseInt(elEol.value, 10);
+        const bYear = parseInt(elBirth?.value || 1976, 10);
+
+        if (isNaN(rYear) || isNaN(eYear)) return;
+
+        let adjusted = false;
+
+        // 1. retireYear >= currentYear + 1
+        if (rYear < minStartYear) {
+          rYear = minStartYear;
+          elRetire.value = String(rYear);
+          flashValidationAlert(elRetire, `Retirement Year auto-adjusted to minimum valid year (${minStartYear})`);
+          adjusted = true;
+        }
+
+        // 2. eolYear >= retireYear AND eolYear >= currentYear + 1
+        const minEol = Math.max(minStartYear, rYear);
+        elEol.min = String(minEol);
+
+        if (eYear < minEol) {
+          eYear = minEol;
+          elEol.value = String(eYear);
+          flashValidationAlert(elEol, `EOL Year auto-adjusted to minimum valid year (${minEol})`);
+          adjusted = true;
+        }
+
+        updatePhaseSliderLabels(rYear, bYear, eYear);
+        return adjusted;
+      }
+
+      elRetire.addEventListener('blur', validateTimelineInputs);
+      elEol.addEventListener('blur', validateTimelineInputs);
+      elRetire.addEventListener('change', validateTimelineInputs);
+      elEol.addEventListener('change', validateTimelineInputs);
+
+      elRetire.addEventListener('input', () => {
+        if (elRetire.value.length >= 4) {
+          validateTimelineInputs();
+        }
+      });
+      elEol.addEventListener('input', () => {
+        if (elEol.value.length >= 4) {
+          validateTimelineInputs();
+        }
+      });
+
+      if (elBirth) {
+        elBirth.addEventListener('input', () => {
+          if (elBirth.value.length >= 4) {
+            const rYear = parseInt(elRetire.value, 10) || minStartYear;
+            const eYear = parseInt(elEol.value, 10) || 2060;
+            const bYear = parseInt(elBirth.value, 10) || 1976;
+            updatePhaseSliderLabels(rYear, bYear, eYear);
+          }
+        });
+        elBirth.addEventListener('change', () => {
+          const rYear = parseInt(elRetire.value, 10) || minStartYear;
+          const eYear = parseInt(elEol.value, 10) || 2060;
+          const bYear = parseInt(elBirth.value, 10) || 1976;
+          updatePhaseSliderLabels(rYear, bYear, eYear);
+        });
+      }
+
+      // Initial label update
+      const initR = parseInt(elRetire.value, 10) || minStartYear;
+      const initE = parseInt(elEol.value, 10) || 2060;
+      const initB = parseInt(elBirth?.value || 1976, 10);
+      updatePhaseSliderLabels(initR, initB, initE);
+    }
+
+    function triggerSimulation() {
+      const inputs = readInputsFromDOM();
+
+      const s1 = document.getElementById('slider-phase-1');
+      const s2 = document.getElementById('slider-phase-2');
+      const s3 = document.getElementById('slider-phase-3');
+      const n1 = document.getElementById('num-phase-1');
+      const n2 = document.getElementById('num-phase-2');
+      const n3 = document.getElementById('num-phase-3');
+
+      // Sync slider and number input based on which triggered
+      if (document.activeElement === n1 && s1) s1.value = n1.value;
+      else if (n1 && s1) n1.value = s1.value;
+
+      if (document.activeElement === n2 && s2) s2.value = n2.value;
+      else if (n2 && s2) n2.value = s2.value;
+
+      if (document.activeElement === n3 && s3) s3.value = n3.value;
+      else if (n3 && s3) n3.value = s3.value;
+
+      const k1 = s1 ? Number(s1.value) * 1000 : 0;
+      const k2 = s2 ? Number(s2.value) * 1000 : 0;
+      const k3 = s3 ? Number(s3.value) * 1000 : 0;
+
+      const v1 = document.getElementById('val-phase-1');
+      const v2 = document.getElementById('val-phase-2');
+      const v3 = document.getElementById('val-phase-3');
+      if (v1 && !s1?.disabled) v1.textContent = `$${s1.value}K / yr`;
+      if (v2 && !s2?.disabled) v2.textContent = `$${s2.value}K / yr`;
+      if (v3 && !s3?.disabled) v3.textContent = `$${s3.value}K / yr`;
+
+      // Legacy single slider sync if element exists
+      const sliderLegacy = document.getElementById('slider-conversion');
+      if (sliderLegacy) sliderLegacy.value = s1 ? s1.value : 0;
+      const sliderLegacyVal = document.getElementById('slider-conversion-val');
+      if (sliderLegacyVal) sliderLegacyVal.textContent = `$${s1 ? s1.value : 0}K / yr`;
+
+      const res = runSimulation(inputs, k1, k2, k3);
+      renderSimulationToDOM(res, k1);
+    }
+
+    function triggerOptimization() {
+      const inputs = readInputsFromDOM();
+      const rawRadio = document.getElementById('opt-obj-raw');
+      const objective = (rawRadio && rawRadio.checked) ? 'raw' : 'tvm';
+
+      const statusEl = document.getElementById('opt-status');
+      if (statusEl) {
+        statusEl.textContent = 'Optimizing multi-phase conversions...';
+      }
+
+      const opt = findOptimalConversion(inputs, objective);
+
+      const k1K = Math.round(opt.bestK1 / 1000);
+      const k2K = Math.round(opt.bestK2 / 1000);
+      const k3K = Math.round(opt.bestK3 / 1000);
+
+      // Update Sliders, Number inputs, and Value displays
+      const s1 = document.getElementById('slider-phase-1');
+      const s2 = document.getElementById('slider-phase-2');
+      const s3 = document.getElementById('slider-phase-3');
+      const n1 = document.getElementById('num-phase-1');
+      const n2 = document.getElementById('num-phase-2');
+      const n3 = document.getElementById('num-phase-3');
+      const v1 = document.getElementById('val-phase-1');
+      const v2 = document.getElementById('val-phase-2');
+      const v3 = document.getElementById('val-phase-3');
+
+      if (s1) { s1.value = k1K; s1.disabled = !opt.hasPhase1; }
+      if (s2) { s2.value = k2K; s2.disabled = !opt.hasPhase2; }
+      if (s3) { s3.value = k3K; s3.disabled = !opt.hasPhase3; }
+
+      if (n1) { n1.value = k1K; n1.disabled = !opt.hasPhase1; }
+      if (n2) { n2.value = k2K; n2.disabled = !opt.hasPhase2; }
+      if (n3) { n3.value = k3K; n3.disabled = !opt.hasPhase3; }
+
+      if (v1) v1.textContent = opt.hasPhase1 ? `$${k1K}K / yr` : 'N/A';
+      if (v2) v2.textContent = opt.hasPhase2 ? `$${k2K}K / yr` : 'N/A';
+      if (v3) v3.textContent = opt.hasPhase3 ? `$${k3K}K / yr` : 'N/A';
+
+      // Legacy single slider sync if element exists
+      const sliderLegacy = document.getElementById('slider-conversion');
+      if (sliderLegacy) sliderLegacy.value = k1K;
+      const sliderLegacyVal = document.getElementById('slider-conversion-val');
+      if (sliderLegacyVal) sliderLegacyVal.textContent = `$${k1K}K / yr`;
+
+      if (statusEl) {
+        statusEl.innerHTML = `
+          <div style="font-weight:700; color:#38bdf8; margin-bottom:4px;">
+            Multi-Phase Optimum (${opt.durationMs}ms):
+          </div>
+          <div style="display:flex; justify-content:space-between; font-size:11px; margin-bottom:4px;">
+            <span>P1: <strong>${opt.hasPhase1 ? '$' + k1K + 'K' : 'N/A'}</strong></span>
+            <span>P2: <strong>${opt.hasPhase2 ? '$' + k2K + 'K' : 'N/A'}</strong></span>
+            <span>P3: <strong>${opt.hasPhase3 ? '$' + k3K + 'K' : 'N/A'}</strong></span>
+          </div>
+          <div style="font-size:10px; color:#94a3b8;">
+            Min ${objective.toUpperCase()} Tax: <strong>${fmtCompact(opt.bestMetricValue)}</strong>
+            ${opt.bestResult.isFeasible ? ' <span style="color:#10b981;">(Feasible)</span>' : ' <span style="color:#f87171;">(Deficit Warning)</span>'}
+          </div>
+        `;
+      }
+
+      renderSimulationToDOM(opt.bestResult, opt.bestK1);
+    }
+
+    // Attach Event Listeners on DOM Ready
+    if (typeof window !== 'undefined' && typeof window.addEventListener === 'function' && typeof document !== 'undefined') {
+      function debounce(func, waitMs = 200) {
+        let timeout;
+        return function(...args) {
+          clearTimeout(timeout);
+          timeout = setTimeout(() => func.apply(this, args), waitMs);
+        };
+      }
+      window.addEventListener('DOMContentLoaded', () => {
+        // Form input listeners
+        const debouncedOptimization = debounce(triggerOptimization, 200);
+        const inputIds = [
+          'input-birthYear', 'input-retireYear', 'input-eolYear', 'input-heirs', 'input-inflationRate',
+          'input-cashStart', 'input-cashInterestRate', 'input-invStart', 'input-invReturnRate',
+          'input-pretaxStart', 'input-rothStart', 'input-rothPrincipalStart',
+          'input-collegeTotal', 'input-collegeStartYear', 'input-healthSubsidized',
+          'input-healthUnsubsidized', 'input-ssStartAge', 'input-ssAmount',
+          'input-earnedIncome', 'input-livingExpensesStart', 'input-state', 'input-safetyNet'
+        ];
+
+        inputIds.forEach(id => {
+          const el = document.getElementById(id);
+          if (el && typeof el.addEventListener === 'function') {
+            el.addEventListener('input', debouncedOptimization);
+          }
+        });
+
+        // 3-Phase Conversion Sliders & Inputs
+        ['slider-phase-1', 'slider-phase-2', 'slider-phase-3'].forEach(id => {
+          const el = document.getElementById(id);
+          if (el && typeof el.addEventListener === 'function') {
+            el.addEventListener('input', triggerSimulation);
+          }
+        });
+
+        ['num-phase-1', 'num-phase-2', 'num-phase-3'].forEach(id => {
+          const el = document.getElementById(id);
+          if (el && typeof el.addEventListener === 'function') {
+            el.addEventListener('input', triggerSimulation);
+            el.addEventListener('change', triggerSimulation);
+          }
+        });
+
+        const sliderLegacy = document.getElementById('slider-conversion');
+        if (sliderLegacy && typeof sliderLegacy.addEventListener === 'function') {
+          sliderLegacy.addEventListener('input', triggerSimulation);
+        }
+
+        // Optimization button & slider listeners
+        const btnOpt = document.getElementById('btn-optimize');
+        if (btnOpt && typeof btnOpt.addEventListener === 'function') btnOpt.addEventListener('click', triggerOptimization);
+
+        const btnReset = document.getElementById('btn-reset');
+        if (btnReset && typeof btnReset.addEventListener === 'function') {
+          btnReset.addEventListener('click', () => {
+            const defaults = {
+              'input-birthYear': 1977, 'input-retireYear': 2027, 'input-eolYear': 2060, 'input-heirs': 2,
+              'input-inflationRate': 3.5, 'input-cashStart': '', 'input-cashInterestRate': 4.0,
+              'input-invStart': '', 'input-invReturnRate': 9.0, 'input-pretaxStart': '',
+              'input-rothStart': '', 'input-rothPrincipalStart': '', 'input-collegeTotal': 100,
+              'input-collegeStartYear': 2029, 'input-healthSubsidized': 5,
+              'input-healthUnsubsidized': 25, 'input-ssStartAge': '', 'input-ssAmount': '',
+              'input-earnedIncome': '', 'input-livingExpensesStart': 100,
+              'input-state': 'VA', 'input-safetyNet': 50
+            };
+            for (let id in defaults) {
+              let el = document.getElementById(id);
+              if (el) el.value = defaults[id];
+            }
+            ['slider-phase-1', 'slider-phase-2', 'slider-phase-3',
+             'num-phase-1', 'num-phase-2', 'num-phase-3'].forEach(id => {
+              let el = document.getElementById(id);
+              if (el) el.value = 0;
+            });
+            let tvmObj = document.getElementById('opt-obj-tvm');
+            if (tvmObj) tvmObj.checked = true;
+            setupTimelineValidation();
+            triggerOptimization();
+          });
+        }
+
+        const radioRaw = document.getElementById('opt-obj-raw');
+        const radioTvm = document.getElementById('opt-obj-tvm');
+        if (radioRaw && typeof radioRaw.addEventListener === 'function') radioRaw.addEventListener('change', triggerOptimization);
+        if (radioTvm && typeof radioTvm.addEventListener === 'function') radioTvm.addEventListener('change', triggerOptimization);
+
+        // Initialize Timeline Bounds & Validation
+        setupTimelineValidation();
+
+        // Initial launch: run optimization to display optimal path immediately
+        triggerOptimization();
+      });
+    }
+
+    // Dual-Environment Headless UMD Export
+    const FinancialEngine = {
+      // Configuration & Models
+      DEFAULT_INPUTS,
+      BASE_STD_DEDUCTION_MFJ,
+      BASE_STD_DEDUCTION_SINGLE,
+      BASE_STATE_STD_DEDUCTION_MFJ,
+      BASE_STATE_STD_DEDUCTION_SINGLE,
+      BASE_FED_BRACKETS_MFJ,
+      BASE_FED_BRACKETS_SINGLE,
+      COLLEGE_DISTRIBUTION,
+
+      // Core Mathematical Functions
+      computeFederalTax,
+      computeStateTax,
+      computeTaxableSS,
+      computeCollegeExpense,
+      computeHealthcareExpense,
+      computeDeathTax,
+      getConversionPhase,
+
+      // Simulation & Solver API
+      runSimulation,
+      runTrajectory: runSimulation,
+      findOptimalConversion,
+      findOptimalRothConversion: findOptimalConversion,
+
+      // Utility & Storage
+      SafeStorage,
+      fmtCurrency,
+      fmtCompact
+    };
+
+    if (typeof module !== 'undefined' && module.exports) {
+      module.exports = FinancialEngine;
+      module.exports.FinancialEngine = FinancialEngine;
+    }
+    if (typeof window !== 'undefined') {
+      window.FinancialEngine = FinancialEngine;
+    }
+  </script>
+</body>
+</html>

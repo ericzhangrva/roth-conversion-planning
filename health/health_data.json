@@ -1,0 +1,3459 @@
+{
+  "metadata": {
+    "patient": "Zhe Zhang",
+    "generated_at": "2026-09-09 17:08:25",
+    "total_records": 264,
+    "dates": [
+      "2022-01-26",
+      "2023-09-26",
+      "2023-12-21",
+      "2024-10-28",
+      "2025-12-02",
+      "2026-08-12"
+    ],
+    "categories": [
+      "Complete Blood Count (CBC)",
+      "Comprehensive Metabolic Panel (CMP)",
+      "Lipid Panel (Cardiovascular)",
+      "Hormones, Endocrine & Men's Health",
+      "Vitamins, Inflammation & Specialty",
+      "Other / Miscellaneous"
+    ]
+  },
+  "tests": {
+    "ALT (SGPT)": {
+      "name": "ALT (SGPT)",
+      "category": "Comprehensive Metabolic Panel (CMP)",
+      "units": "IU/L",
+      "ref_range": "0-41",
+      "ref_min": 0.0,
+      "ref_max": 41.0,
+      "history": [
+        {
+          "date": "2022-01-26",
+          "date_display": "01/26/2022",
+          "value": "29",
+          "numeric_value": 29.0,
+          "flag": "",
+          "ref_range": "0-41",
+          "ref_min": 0.0,
+          "ref_max": 41.0,
+          "units": "IU/L"
+        },
+        {
+          "date": "2023-09-26",
+          "date_display": "09/26/2023",
+          "value": "29",
+          "numeric_value": 29.0,
+          "flag": "",
+          "ref_range": "0-41",
+          "ref_min": 0.0,
+          "ref_max": 41.0,
+          "units": "IU/L"
+        },
+        {
+          "date": "2023-12-21",
+          "date_display": "12/21/2023",
+          "value": "32",
+          "numeric_value": 32.0,
+          "flag": "",
+          "ref_range": "0-41",
+          "ref_min": 0.0,
+          "ref_max": 41.0,
+          "units": "IU/L"
+        },
+        {
+          "date": "2024-10-28",
+          "date_display": "10/28/2024",
+          "value": "39",
+          "numeric_value": 39.0,
+          "flag": "",
+          "ref_range": "0-41",
+          "ref_min": 0.0,
+          "ref_max": 41.0,
+          "units": "IU/L"
+        },
+        {
+          "date": "2025-12-02",
+          "date_display": "12/02/2025",
+          "value": "39",
+          "numeric_value": 39.0,
+          "flag": "",
+          "ref_range": "0-41",
+          "ref_min": 0.0,
+          "ref_max": 41.0,
+          "units": "IU/L"
+        },
+        {
+          "date": "2026-08-12",
+          "date_display": "08/12/2026",
+          "value": "34",
+          "numeric_value": 34.0,
+          "flag": "",
+          "ref_range": "0-41",
+          "ref_min": 0.0,
+          "ref_max": 41.0,
+          "units": "IU/L"
+        }
+      ]
+    },
+    "AST (SGOT)": {
+      "name": "AST (SGOT)",
+      "category": "Comprehensive Metabolic Panel (CMP)",
+      "units": "IU/L",
+      "ref_range": "0-36",
+      "ref_min": 0.0,
+      "ref_max": 36.0,
+      "history": [
+        {
+          "date": "2022-01-26",
+          "date_display": "01/26/2022",
+          "value": "24",
+          "numeric_value": 24.0,
+          "flag": "",
+          "ref_range": "0-36",
+          "ref_min": 0.0,
+          "ref_max": 36.0,
+          "units": "IU/L"
+        },
+        {
+          "date": "2023-09-26",
+          "date_display": "09/26/2023",
+          "value": "27",
+          "numeric_value": 27.0,
+          "flag": "",
+          "ref_range": "0-36",
+          "ref_min": 0.0,
+          "ref_max": 36.0,
+          "units": "IU/L"
+        },
+        {
+          "date": "2023-12-21",
+          "date_display": "12/21/2023",
+          "value": "27",
+          "numeric_value": 27.0,
+          "flag": "",
+          "ref_range": "0-36",
+          "ref_min": 0.0,
+          "ref_max": 36.0,
+          "units": "IU/L"
+        },
+        {
+          "date": "2024-10-28",
+          "date_display": "10/28/2024",
+          "value": "21",
+          "numeric_value": 21.0,
+          "flag": "",
+          "ref_range": "0-36",
+          "ref_min": 0.0,
+          "ref_max": 36.0,
+          "units": "IU/L"
+        },
+        {
+          "date": "2025-12-02",
+          "date_display": "12/02/2025",
+          "value": "21",
+          "numeric_value": 21.0,
+          "flag": "",
+          "ref_range": "0-36",
+          "ref_min": 0.0,
+          "ref_max": 36.0,
+          "units": "IU/L"
+        },
+        {
+          "date": "2026-08-12",
+          "date_display": "08/12/2026",
+          "value": "20",
+          "numeric_value": 20.0,
+          "flag": "",
+          "ref_range": "0-36",
+          "ref_min": 0.0,
+          "ref_max": 36.0,
+          "units": "IU/L"
+        }
+      ]
+    },
+    "Albumin": {
+      "name": "Albumin",
+      "category": "Comprehensive Metabolic Panel (CMP)",
+      "units": "g/dL",
+      "ref_range": "3.5-5.5",
+      "ref_min": 3.5,
+      "ref_max": 5.5,
+      "history": [
+        {
+          "date": "2022-01-26",
+          "date_display": "01/26/2022",
+          "value": "4.6",
+          "numeric_value": 4.6,
+          "flag": "",
+          "ref_range": "3.5-5.5",
+          "ref_min": 3.5,
+          "ref_max": 5.5,
+          "units": "g/dL"
+        },
+        {
+          "date": "2023-09-26",
+          "date_display": "09/26/2023",
+          "value": "4.9",
+          "numeric_value": 4.9,
+          "flag": "",
+          "ref_range": "3.5-5.5",
+          "ref_min": 3.5,
+          "ref_max": 5.5,
+          "units": "g/dL"
+        },
+        {
+          "date": "2023-12-21",
+          "date_display": "12/21/2023",
+          "value": "4.6",
+          "numeric_value": 4.6,
+          "flag": "",
+          "ref_range": "3.5-5.5",
+          "ref_min": 3.5,
+          "ref_max": 5.5,
+          "units": "g/dL"
+        },
+        {
+          "date": "2024-10-28",
+          "date_display": "10/28/2024",
+          "value": "4.5",
+          "numeric_value": 4.5,
+          "flag": "",
+          "ref_range": "3.5-5.5",
+          "ref_min": 3.5,
+          "ref_max": 5.5,
+          "units": "g/dL"
+        },
+        {
+          "date": "2025-12-02",
+          "date_display": "12/02/2025",
+          "value": "4.6",
+          "numeric_value": 4.6,
+          "flag": "",
+          "ref_range": "3.5-5.5",
+          "ref_min": 3.5,
+          "ref_max": 5.5,
+          "units": "g/dL"
+        },
+        {
+          "date": "2026-08-12",
+          "date_display": "08/12/2026",
+          "value": "4.3",
+          "numeric_value": 4.3,
+          "flag": "",
+          "ref_range": "3.5-5.5",
+          "ref_min": 3.5,
+          "ref_max": 5.5,
+          "units": "g/dL"
+        }
+      ]
+    },
+    "Alk Phosphatase": {
+      "name": "Alk Phosphatase",
+      "category": "Comprehensive Metabolic Panel (CMP)",
+      "units": "IU/L",
+      "ref_range": "30-120",
+      "ref_min": 30.0,
+      "ref_max": 120.0,
+      "history": [
+        {
+          "date": "2022-01-26",
+          "date_display": "01/26/2022",
+          "value": "66",
+          "numeric_value": 66.0,
+          "flag": "",
+          "ref_range": "30-120",
+          "ref_min": 30.0,
+          "ref_max": 120.0,
+          "units": "IU/L"
+        },
+        {
+          "date": "2023-09-26",
+          "date_display": "09/26/2023",
+          "value": "60",
+          "numeric_value": 60.0,
+          "flag": "",
+          "ref_range": "30-120",
+          "ref_min": 30.0,
+          "ref_max": 120.0,
+          "units": "IU/L"
+        },
+        {
+          "date": "2023-12-21",
+          "date_display": "12/21/2023",
+          "value": "51",
+          "numeric_value": 51.0,
+          "flag": "",
+          "ref_range": "30-120",
+          "ref_min": 30.0,
+          "ref_max": 120.0,
+          "units": "IU/L"
+        },
+        {
+          "date": "2024-10-28",
+          "date_display": "10/28/2024",
+          "value": "56",
+          "numeric_value": 56.0,
+          "flag": "",
+          "ref_range": "30-120",
+          "ref_min": 30.0,
+          "ref_max": 120.0,
+          "units": "IU/L"
+        },
+        {
+          "date": "2025-12-02",
+          "date_display": "12/02/2025",
+          "value": "63",
+          "numeric_value": 63.0,
+          "flag": "",
+          "ref_range": "30-120",
+          "ref_min": 30.0,
+          "ref_max": 120.0,
+          "units": "IU/L"
+        },
+        {
+          "date": "2026-08-12",
+          "date_display": "08/12/2026",
+          "value": "69",
+          "numeric_value": 69.0,
+          "flag": "",
+          "ref_range": "30-120",
+          "ref_min": 30.0,
+          "ref_max": 120.0,
+          "units": "IU/L"
+        }
+      ]
+    },
+    "BUN": {
+      "name": "BUN",
+      "category": "Comprehensive Metabolic Panel (CMP)",
+      "units": "mg/dL",
+      "ref_range": "7-21",
+      "ref_min": 7.0,
+      "ref_max": 21.0,
+      "history": [
+        {
+          "date": "2022-01-26",
+          "date_display": "01/26/2022",
+          "value": "17",
+          "numeric_value": 17.0,
+          "flag": "",
+          "ref_range": "7-21",
+          "ref_min": 7.0,
+          "ref_max": 21.0,
+          "units": "mg/dL"
+        },
+        {
+          "date": "2023-09-26",
+          "date_display": "09/26/2023",
+          "value": "21",
+          "numeric_value": 21.0,
+          "flag": "",
+          "ref_range": "7-21",
+          "ref_min": 7.0,
+          "ref_max": 21.0,
+          "units": "mg/dL"
+        },
+        {
+          "date": "2023-12-21",
+          "date_display": "12/21/2023",
+          "value": "22",
+          "numeric_value": 22.0,
+          "flag": "H",
+          "ref_range": "7-21",
+          "ref_min": 7.0,
+          "ref_max": 21.0,
+          "units": "mg/dL"
+        },
+        {
+          "date": "2024-10-28",
+          "date_display": "10/28/2024",
+          "value": "22",
+          "numeric_value": 22.0,
+          "flag": "H",
+          "ref_range": "7-21",
+          "ref_min": 7.0,
+          "ref_max": 21.0,
+          "units": "mg/dL"
+        },
+        {
+          "date": "2025-12-02",
+          "date_display": "12/02/2025",
+          "value": "20",
+          "numeric_value": 20.0,
+          "flag": "",
+          "ref_range": "7-21",
+          "ref_min": 7.0,
+          "ref_max": 21.0,
+          "units": "mg/dL"
+        },
+        {
+          "date": "2026-08-12",
+          "date_display": "08/12/2026",
+          "value": "24",
+          "numeric_value": 24.0,
+          "flag": "H",
+          "ref_range": "7-21",
+          "ref_min": 7.0,
+          "ref_max": 21.0,
+          "units": "mg/dL"
+        }
+      ]
+    },
+    "CO2": {
+      "name": "CO2",
+      "category": "Comprehensive Metabolic Panel (CMP)",
+      "units": "mmol/L",
+      "ref_range": "20-32",
+      "ref_min": 20.0,
+      "ref_max": 32.0,
+      "history": [
+        {
+          "date": "2022-01-26",
+          "date_display": "01/26/2022",
+          "value": "24",
+          "numeric_value": 24.0,
+          "flag": "",
+          "ref_range": "20-32",
+          "ref_min": 20.0,
+          "ref_max": 32.0,
+          "units": "mmol/L"
+        },
+        {
+          "date": "2023-09-26",
+          "date_display": "09/26/2023",
+          "value": "24",
+          "numeric_value": 24.0,
+          "flag": "",
+          "ref_range": "20-32",
+          "ref_min": 20.0,
+          "ref_max": 32.0,
+          "units": "mmol/L"
+        },
+        {
+          "date": "2023-12-21",
+          "date_display": "12/21/2023",
+          "value": "25",
+          "numeric_value": 25.0,
+          "flag": "",
+          "ref_range": "20-32",
+          "ref_min": 20.0,
+          "ref_max": 32.0,
+          "units": "mmol/L"
+        },
+        {
+          "date": "2024-10-28",
+          "date_display": "10/28/2024",
+          "value": "25",
+          "numeric_value": 25.0,
+          "flag": "",
+          "ref_range": "20-32",
+          "ref_min": 20.0,
+          "ref_max": 32.0,
+          "units": "mmol/L"
+        },
+        {
+          "date": "2025-12-02",
+          "date_display": "12/02/2025",
+          "value": "21",
+          "numeric_value": 21.0,
+          "flag": "",
+          "ref_range": "20-32",
+          "ref_min": 20.0,
+          "ref_max": 32.0,
+          "units": "mmol/L"
+        },
+        {
+          "date": "2026-08-12",
+          "date_display": "08/12/2026",
+          "value": "24",
+          "numeric_value": 24.0,
+          "flag": "",
+          "ref_range": "20-32",
+          "ref_min": 20.0,
+          "ref_max": 32.0,
+          "units": "mmol/L"
+        }
+      ]
+    },
+    "Calcium": {
+      "name": "Calcium",
+      "category": "Comprehensive Metabolic Panel (CMP)",
+      "units": "mg/dL",
+      "ref_range": "8.5-10.7",
+      "ref_min": 8.5,
+      "ref_max": 10.7,
+      "history": [
+        {
+          "date": "2022-01-26",
+          "date_display": "01/26/2022",
+          "value": "9.6",
+          "numeric_value": 9.6,
+          "flag": "",
+          "ref_range": "8.5-10.7",
+          "ref_min": 8.5,
+          "ref_max": 10.7,
+          "units": "mg/dL"
+        },
+        {
+          "date": "2023-09-26",
+          "date_display": "09/26/2023",
+          "value": "9.4",
+          "numeric_value": 9.4,
+          "flag": "",
+          "ref_range": "8.5-10.7",
+          "ref_min": 8.5,
+          "ref_max": 10.7,
+          "units": "mg/dL"
+        },
+        {
+          "date": "2023-12-21",
+          "date_display": "12/21/2023",
+          "value": "9.1",
+          "numeric_value": 9.1,
+          "flag": "",
+          "ref_range": "8.5-10.7",
+          "ref_min": 8.5,
+          "ref_max": 10.7,
+          "units": "mg/dL"
+        },
+        {
+          "date": "2024-10-28",
+          "date_display": "10/28/2024",
+          "value": "9.0",
+          "numeric_value": 9.0,
+          "flag": "",
+          "ref_range": "8.5-10.7",
+          "ref_min": 8.5,
+          "ref_max": 10.7,
+          "units": "mg/dL"
+        },
+        {
+          "date": "2025-12-02",
+          "date_display": "12/02/2025",
+          "value": "9.1",
+          "numeric_value": 9.1,
+          "flag": "",
+          "ref_range": "8.5-10.7",
+          "ref_min": 8.5,
+          "ref_max": 10.7,
+          "units": "mg/dL"
+        },
+        {
+          "date": "2026-08-12",
+          "date_display": "08/12/2026",
+          "value": "9.0",
+          "numeric_value": 9.0,
+          "flag": "",
+          "ref_range": "8.5-10.7",
+          "ref_min": 8.5,
+          "ref_max": 10.7,
+          "units": "mg/dL"
+        }
+      ]
+    },
+    "Chloride": {
+      "name": "Chloride",
+      "category": "Comprehensive Metabolic Panel (CMP)",
+      "units": "mmol/L",
+      "ref_range": "95-113",
+      "ref_min": 95.0,
+      "ref_max": 113.0,
+      "history": [
+        {
+          "date": "2022-01-26",
+          "date_display": "01/26/2022",
+          "value": "101",
+          "numeric_value": 101.0,
+          "flag": "",
+          "ref_range": "95-113",
+          "ref_min": 95.0,
+          "ref_max": 113.0,
+          "units": "mmol/L"
+        },
+        {
+          "date": "2023-09-26",
+          "date_display": "09/26/2023",
+          "value": "102",
+          "numeric_value": 102.0,
+          "flag": "",
+          "ref_range": "95-113",
+          "ref_min": 95.0,
+          "ref_max": 113.0,
+          "units": "mmol/L"
+        },
+        {
+          "date": "2023-12-21",
+          "date_display": "12/21/2023",
+          "value": "104",
+          "numeric_value": 104.0,
+          "flag": "",
+          "ref_range": "95-113",
+          "ref_min": 95.0,
+          "ref_max": 113.0,
+          "units": "mmol/L"
+        },
+        {
+          "date": "2024-10-28",
+          "date_display": "10/28/2024",
+          "value": "101",
+          "numeric_value": 101.0,
+          "flag": "",
+          "ref_range": "95-113",
+          "ref_min": 95.0,
+          "ref_max": 113.0,
+          "units": "mmol/L"
+        },
+        {
+          "date": "2025-12-02",
+          "date_display": "12/02/2025",
+          "value": "102",
+          "numeric_value": 102.0,
+          "flag": "",
+          "ref_range": "95-113",
+          "ref_min": 95.0,
+          "ref_max": 113.0,
+          "units": "mmol/L"
+        },
+        {
+          "date": "2026-08-12",
+          "date_display": "08/12/2026",
+          "value": "103",
+          "numeric_value": 103.0,
+          "flag": "",
+          "ref_range": "95-113",
+          "ref_min": 95.0,
+          "ref_max": 113.0,
+          "units": "mmol/L"
+        }
+      ]
+    },
+    "Chol/HDL Ratio": {
+      "name": "Chol/HDL Ratio",
+      "category": "Lipid Panel (Cardiovascular)",
+      "units": "Ratio",
+      "ref_range": "--",
+      "ref_min": null,
+      "ref_max": null,
+      "history": [
+        {
+          "date": "2022-01-26",
+          "date_display": "01/26/2022",
+          "value": "4.7",
+          "numeric_value": 4.7,
+          "flag": "",
+          "ref_range": "--",
+          "ref_min": null,
+          "ref_max": null,
+          "units": "Ratio"
+        },
+        {
+          "date": "2023-09-26",
+          "date_display": "09/26/2023",
+          "value": "5.4",
+          "numeric_value": 5.4,
+          "flag": "",
+          "ref_range": "--",
+          "ref_min": null,
+          "ref_max": null,
+          "units": "Ratio"
+        },
+        {
+          "date": "2023-12-21",
+          "date_display": "12/21/2023",
+          "value": "3.4",
+          "numeric_value": 3.4,
+          "flag": "",
+          "ref_range": "--",
+          "ref_min": null,
+          "ref_max": null,
+          "units": "Ratio"
+        },
+        {
+          "date": "2024-10-28",
+          "date_display": "10/28/2024",
+          "value": "3.3",
+          "numeric_value": 3.3,
+          "flag": "",
+          "ref_range": "--",
+          "ref_min": null,
+          "ref_max": null,
+          "units": "Ratio"
+        },
+        {
+          "date": "2025-12-02",
+          "date_display": "12/02/2025",
+          "value": "3.7",
+          "numeric_value": 3.7,
+          "flag": "",
+          "ref_range": "--",
+          "ref_min": null,
+          "ref_max": null,
+          "units": "Ratio"
+        },
+        {
+          "date": "2026-08-12",
+          "date_display": "08/12/2026",
+          "value": "3.1",
+          "numeric_value": 3.1,
+          "flag": "",
+          "ref_range": "--",
+          "ref_min": null,
+          "ref_max": null,
+          "units": "Ratio"
+        }
+      ]
+    },
+    "Cholesterol": {
+      "name": "Cholesterol",
+      "category": "Lipid Panel (Cardiovascular)",
+      "units": "mg/dL",
+      "ref_range": "140-200",
+      "ref_min": 140.0,
+      "ref_max": 200.0,
+      "history": [
+        {
+          "date": "2022-01-26",
+          "date_display": "01/26/2022",
+          "value": "230",
+          "numeric_value": 230.0,
+          "flag": "H",
+          "ref_range": "140-200",
+          "ref_min": 140.0,
+          "ref_max": 200.0,
+          "units": "mg/dL"
+        },
+        {
+          "date": "2023-09-26",
+          "date_display": "09/26/2023",
+          "value": "225",
+          "numeric_value": 225.0,
+          "flag": "H",
+          "ref_range": "140-200",
+          "ref_min": 140.0,
+          "ref_max": 200.0,
+          "units": "mg/dL"
+        },
+        {
+          "date": "2023-12-21",
+          "date_display": "12/21/2023",
+          "value": "147",
+          "numeric_value": 147.0,
+          "flag": "",
+          "ref_range": "140-200",
+          "ref_min": 140.0,
+          "ref_max": 200.0,
+          "units": "mg/dL"
+        },
+        {
+          "date": "2024-10-28",
+          "date_display": "10/28/2024",
+          "value": "142",
+          "numeric_value": 142.0,
+          "flag": "",
+          "ref_range": "140-200",
+          "ref_min": 140.0,
+          "ref_max": 200.0,
+          "units": "mg/dL"
+        },
+        {
+          "date": "2025-12-02",
+          "date_display": "12/02/2025",
+          "value": "180",
+          "numeric_value": 180.0,
+          "flag": "",
+          "ref_range": "140-200",
+          "ref_min": 140.0,
+          "ref_max": 200.0,
+          "units": "mg/dL"
+        },
+        {
+          "date": "2026-08-12",
+          "date_display": "08/12/2026",
+          "value": "132",
+          "numeric_value": 132.0,
+          "flag": "L",
+          "ref_range": "140-200",
+          "ref_min": 140.0,
+          "ref_max": 200.0,
+          "units": "mg/dL"
+        }
+      ]
+    },
+    "Creatinine": {
+      "name": "Creatinine",
+      "category": "Comprehensive Metabolic Panel (CMP)",
+      "units": "mg/dL",
+      "ref_range": "0.7-1.4",
+      "ref_min": 0.7,
+      "ref_max": 1.4,
+      "history": [
+        {
+          "date": "2022-01-26",
+          "date_display": "01/26/2022",
+          "value": "1.2",
+          "numeric_value": 1.2,
+          "flag": "",
+          "ref_range": "0.7-1.4",
+          "ref_min": 0.7,
+          "ref_max": 1.4,
+          "units": "mg/dL"
+        },
+        {
+          "date": "2023-09-26",
+          "date_display": "09/26/2023",
+          "value": "1.3",
+          "numeric_value": 1.3,
+          "flag": "",
+          "ref_range": "0.7-1.4",
+          "ref_min": 0.7,
+          "ref_max": 1.4,
+          "units": "mg/dL"
+        },
+        {
+          "date": "2023-12-21",
+          "date_display": "12/21/2023",
+          "value": "1.4",
+          "numeric_value": 1.4,
+          "flag": "",
+          "ref_range": "0.7-1.4",
+          "ref_min": 0.7,
+          "ref_max": 1.4,
+          "units": "mg/dL"
+        },
+        {
+          "date": "2024-10-28",
+          "date_display": "10/28/2024",
+          "value": "1.2",
+          "numeric_value": 1.2,
+          "flag": "",
+          "ref_range": "0.7-1.4",
+          "ref_min": 0.7,
+          "ref_max": 1.4,
+          "units": "mg/dL"
+        },
+        {
+          "date": "2025-12-02",
+          "date_display": "12/02/2025",
+          "value": "1.2",
+          "numeric_value": 1.2,
+          "flag": "",
+          "ref_range": "0.7-1.4",
+          "ref_min": 0.7,
+          "ref_max": 1.4,
+          "units": "mg/dL"
+        },
+        {
+          "date": "2026-08-12",
+          "date_display": "08/12/2026",
+          "value": "1.2",
+          "numeric_value": 1.2,
+          "flag": "",
+          "ref_range": "0.7-1.4",
+          "ref_min": 0.7,
+          "ref_max": 1.4,
+          "units": "mg/dL"
+        }
+      ]
+    },
+    "Direct HDL": {
+      "name": "Direct HDL",
+      "category": "Lipid Panel (Cardiovascular)",
+      "units": "mg/dL",
+      "ref_range": "30-75",
+      "ref_min": 30.0,
+      "ref_max": 75.0,
+      "history": [
+        {
+          "date": "2022-01-26",
+          "date_display": "01/26/2022",
+          "value": "49",
+          "numeric_value": 49.0,
+          "flag": "",
+          "ref_range": "30-75",
+          "ref_min": 30.0,
+          "ref_max": 75.0,
+          "units": "mg/dL"
+        },
+        {
+          "date": "2023-09-26",
+          "date_display": "09/26/2023",
+          "value": "42",
+          "numeric_value": 42.0,
+          "flag": "",
+          "ref_range": "30-75",
+          "ref_min": 30.0,
+          "ref_max": 75.0,
+          "units": "mg/dL"
+        },
+        {
+          "date": "2023-12-21",
+          "date_display": "12/21/2023",
+          "value": "43",
+          "numeric_value": 43.0,
+          "flag": "",
+          "ref_range": "30-75",
+          "ref_min": 30.0,
+          "ref_max": 75.0,
+          "units": "mg/dL"
+        },
+        {
+          "date": "2024-10-28",
+          "date_display": "10/28/2024",
+          "value": "43",
+          "numeric_value": 43.0,
+          "flag": "",
+          "ref_range": "30-75",
+          "ref_min": 30.0,
+          "ref_max": 75.0,
+          "units": "mg/dL"
+        },
+        {
+          "date": "2025-12-02",
+          "date_display": "12/02/2025",
+          "value": "49",
+          "numeric_value": 49.0,
+          "flag": "",
+          "ref_range": "30-75",
+          "ref_min": 30.0,
+          "ref_max": 75.0,
+          "units": "mg/dL"
+        },
+        {
+          "date": "2026-08-12",
+          "date_display": "08/12/2026",
+          "value": "43",
+          "numeric_value": 43.0,
+          "flag": "",
+          "ref_range": "30-75",
+          "ref_min": 30.0,
+          "ref_max": 75.0,
+          "units": "mg/dL"
+        }
+      ]
+    },
+    "Free Thyroxine": {
+      "name": "Free Thyroxine",
+      "category": "Hormones, Endocrine & Men's Health",
+      "units": "ng/dL",
+      "ref_range": "0.71-1.85",
+      "ref_min": 0.71,
+      "ref_max": 1.85,
+      "history": [
+        {
+          "date": "2022-01-26",
+          "date_display": "01/26/2022",
+          "value": "0.94",
+          "numeric_value": 0.94,
+          "flag": "",
+          "ref_range": "0.71-1.85",
+          "ref_min": 0.71,
+          "ref_max": 1.85,
+          "units": "ng/dL"
+        },
+        {
+          "date": "2023-09-26",
+          "date_display": "09/26/2023",
+          "value": "1.02",
+          "numeric_value": 1.02,
+          "flag": "",
+          "ref_range": "0.71-1.85",
+          "ref_min": 0.71,
+          "ref_max": 1.85,
+          "units": "ng/dL"
+        },
+        {
+          "date": "2024-10-28",
+          "date_display": "10/28/2024",
+          "value": "1.03",
+          "numeric_value": 1.03,
+          "flag": "",
+          "ref_range": "0.71-1.85",
+          "ref_min": 0.71,
+          "ref_max": 1.85,
+          "units": "ng/dL"
+        },
+        {
+          "date": "2025-12-02",
+          "date_display": "12/02/2025",
+          "value": "0.94",
+          "numeric_value": 0.94,
+          "flag": "",
+          "ref_range": "0.71-1.85",
+          "ref_min": 0.71,
+          "ref_max": 1.85,
+          "units": "ng/dL"
+        }
+      ]
+    },
+    "GRAN": {
+      "name": "GRAN",
+      "category": "Complete Blood Count (CBC)",
+      "units": "K/uL",
+      "ref_range": "2.0-7.8",
+      "ref_min": 2.0,
+      "ref_max": 7.8,
+      "history": [
+        {
+          "date": "2022-01-26",
+          "date_display": "01/26/2022",
+          "value": "4.0",
+          "numeric_value": 4.0,
+          "flag": "",
+          "ref_range": "2.0-7.8",
+          "ref_min": 2.0,
+          "ref_max": 7.8,
+          "units": "K/uL"
+        },
+        {
+          "date": "2023-09-26",
+          "date_display": "09/26/2023",
+          "value": "3.5",
+          "numeric_value": 3.5,
+          "flag": "",
+          "ref_range": "2.0-7.8",
+          "ref_min": 2.0,
+          "ref_max": 7.8,
+          "units": "K/uL"
+        },
+        {
+          "date": "2023-12-21",
+          "date_display": "12/21/2023",
+          "value": "4.2",
+          "numeric_value": 4.2,
+          "flag": "",
+          "ref_range": "2.0-7.8",
+          "ref_min": 2.0,
+          "ref_max": 7.8,
+          "units": "K/uL"
+        },
+        {
+          "date": "2024-10-28",
+          "date_display": "10/28/2024",
+          "value": "4.2",
+          "numeric_value": 4.2,
+          "flag": "",
+          "ref_range": "2.0-7.8",
+          "ref_min": 2.0,
+          "ref_max": 7.8,
+          "units": "K/uL"
+        },
+        {
+          "date": "2025-12-02",
+          "date_display": "12/02/2025",
+          "value": "4.7",
+          "numeric_value": 4.7,
+          "flag": "",
+          "ref_range": "2.0-7.8",
+          "ref_min": 2.0,
+          "ref_max": 7.8,
+          "units": "K/uL"
+        },
+        {
+          "date": "2026-08-12",
+          "date_display": "08/12/2026",
+          "value": "6.0",
+          "numeric_value": 6.0,
+          "flag": "",
+          "ref_range": "2.0-7.8",
+          "ref_min": 2.0,
+          "ref_max": 7.8,
+          "units": "K/uL"
+        }
+      ]
+    },
+    "GRAN%": {
+      "name": "GRAN%",
+      "category": "Complete Blood Count (CBC)",
+      "units": "%",
+      "ref_range": "37.0-92.0",
+      "ref_min": 37.0,
+      "ref_max": 92.0,
+      "history": [
+        {
+          "date": "2022-01-26",
+          "date_display": "01/26/2022",
+          "value": "59.7",
+          "numeric_value": 59.7,
+          "flag": "",
+          "ref_range": "37.0-92.0",
+          "ref_min": 37.0,
+          "ref_max": 92.0,
+          "units": "%"
+        },
+        {
+          "date": "2023-09-26",
+          "date_display": "09/26/2023",
+          "value": "59.3",
+          "numeric_value": 59.3,
+          "flag": "",
+          "ref_range": "37.0-92.0",
+          "ref_min": 37.0,
+          "ref_max": 92.0,
+          "units": "%"
+        },
+        {
+          "date": "2023-12-21",
+          "date_display": "12/21/2023",
+          "value": "63.7",
+          "numeric_value": 63.7,
+          "flag": "",
+          "ref_range": "37.0-92.0",
+          "ref_min": 37.0,
+          "ref_max": 92.0,
+          "units": "%"
+        },
+        {
+          "date": "2024-10-28",
+          "date_display": "10/28/2024",
+          "value": "66.5",
+          "numeric_value": 66.5,
+          "flag": "",
+          "ref_range": "37.0-92.0",
+          "ref_min": 37.0,
+          "ref_max": 92.0,
+          "units": "%"
+        },
+        {
+          "date": "2025-12-02",
+          "date_display": "12/02/2025",
+          "value": "67.4",
+          "numeric_value": 67.4,
+          "flag": "",
+          "ref_range": "37.0-92.0",
+          "ref_min": 37.0,
+          "ref_max": 92.0,
+          "units": "%"
+        },
+        {
+          "date": "2026-08-12",
+          "date_display": "08/12/2026",
+          "value": "74.3",
+          "numeric_value": 74.3,
+          "flag": "",
+          "ref_range": "37.0-92.0",
+          "ref_min": 37.0,
+          "ref_max": 92.0,
+          "units": "%"
+        }
+      ]
+    },
+    "Glucose": {
+      "name": "Glucose",
+      "category": "Comprehensive Metabolic Panel (CMP)",
+      "units": "mg/dL",
+      "ref_range": "64-110",
+      "ref_min": 64.0,
+      "ref_max": 110.0,
+      "history": [
+        {
+          "date": "2022-01-26",
+          "date_display": "01/26/2022",
+          "value": "95",
+          "numeric_value": 95.0,
+          "flag": "",
+          "ref_range": "64-110",
+          "ref_min": 64.0,
+          "ref_max": 110.0,
+          "units": "mg/dL"
+        },
+        {
+          "date": "2023-09-26",
+          "date_display": "09/26/2023",
+          "value": "94",
+          "numeric_value": 94.0,
+          "flag": "",
+          "ref_range": "64-110",
+          "ref_min": 64.0,
+          "ref_max": 110.0,
+          "units": "mg/dL"
+        },
+        {
+          "date": "2023-12-21",
+          "date_display": "12/21/2023",
+          "value": "104",
+          "numeric_value": 104.0,
+          "flag": "",
+          "ref_range": "64-110",
+          "ref_min": 64.0,
+          "ref_max": 110.0,
+          "units": "mg/dL"
+        },
+        {
+          "date": "2024-10-28",
+          "date_display": "10/28/2024",
+          "value": "99",
+          "numeric_value": 99.0,
+          "flag": "",
+          "ref_range": "64-110",
+          "ref_min": 64.0,
+          "ref_max": 110.0,
+          "units": "mg/dL"
+        },
+        {
+          "date": "2025-12-02",
+          "date_display": "12/02/2025",
+          "value": "98",
+          "numeric_value": 98.0,
+          "flag": "",
+          "ref_range": "64-110",
+          "ref_min": 64.0,
+          "ref_max": 110.0,
+          "units": "mg/dL"
+        },
+        {
+          "date": "2026-08-12",
+          "date_display": "08/12/2026",
+          "value": "98",
+          "numeric_value": 98.0,
+          "flag": "",
+          "ref_range": "64-110",
+          "ref_min": 64.0,
+          "ref_max": 110.0,
+          "units": "mg/dL"
+        }
+      ]
+    },
+    "HCT": {
+      "name": "HCT",
+      "category": "Complete Blood Count (CBC)",
+      "units": "%",
+      "ref_range": "37.0-51.0",
+      "ref_min": 37.0,
+      "ref_max": 51.0,
+      "history": [
+        {
+          "date": "2022-01-26",
+          "date_display": "01/26/2022",
+          "value": "51.7",
+          "numeric_value": 51.7,
+          "flag": "H",
+          "ref_range": "37.0-51.0",
+          "ref_min": 37.0,
+          "ref_max": 51.0,
+          "units": "%"
+        },
+        {
+          "date": "2023-09-26",
+          "date_display": "09/26/2023",
+          "value": "48.3",
+          "numeric_value": 48.3,
+          "flag": "",
+          "ref_range": "37.0-51.0",
+          "ref_min": 37.0,
+          "ref_max": 51.0,
+          "units": "%"
+        },
+        {
+          "date": "2023-12-21",
+          "date_display": "12/21/2023",
+          "value": "45.8",
+          "numeric_value": 45.8,
+          "flag": "",
+          "ref_range": "37.0-51.0",
+          "ref_min": 37.0,
+          "ref_max": 51.0,
+          "units": "%"
+        },
+        {
+          "date": "2024-10-28",
+          "date_display": "10/28/2024",
+          "value": "50.8",
+          "numeric_value": 50.8,
+          "flag": "",
+          "ref_range": "37.0-51.0",
+          "ref_min": 37.0,
+          "ref_max": 51.0,
+          "units": "%"
+        },
+        {
+          "date": "2025-12-02",
+          "date_display": "12/02/2025",
+          "value": "53.4",
+          "numeric_value": 53.4,
+          "flag": "H",
+          "ref_range": "37.0-51.0",
+          "ref_min": 37.0,
+          "ref_max": 51.0,
+          "units": "%"
+        },
+        {
+          "date": "2026-08-12",
+          "date_display": "08/12/2026",
+          "value": "49.6",
+          "numeric_value": 49.6,
+          "flag": "",
+          "ref_range": "37.0-51.0",
+          "ref_min": 37.0,
+          "ref_max": 51.0,
+          "units": "%"
+        }
+      ]
+    },
+    "HGB": {
+      "name": "HGB",
+      "category": "Complete Blood Count (CBC)",
+      "units": "g/dL",
+      "ref_range": "12.0-18.0",
+      "ref_min": 12.0,
+      "ref_max": 18.0,
+      "history": [
+        {
+          "date": "2022-01-26",
+          "date_display": "01/26/2022",
+          "value": "16.9",
+          "numeric_value": 16.9,
+          "flag": "",
+          "ref_range": "12.0-18.0",
+          "ref_min": 12.0,
+          "ref_max": 18.0,
+          "units": "g/dL"
+        },
+        {
+          "date": "2023-09-26",
+          "date_display": "09/26/2023",
+          "value": "15.9",
+          "numeric_value": 15.9,
+          "flag": "",
+          "ref_range": "12.0-18.0",
+          "ref_min": 12.0,
+          "ref_max": 18.0,
+          "units": "g/dL"
+        },
+        {
+          "date": "2023-12-21",
+          "date_display": "12/21/2023",
+          "value": "15.2",
+          "numeric_value": 15.2,
+          "flag": "",
+          "ref_range": "12.0-18.0",
+          "ref_min": 12.0,
+          "ref_max": 18.0,
+          "units": "g/dL"
+        },
+        {
+          "date": "2024-10-28",
+          "date_display": "10/28/2024",
+          "value": "16.2",
+          "numeric_value": 16.2,
+          "flag": "",
+          "ref_range": "12.0-18.0",
+          "ref_min": 12.0,
+          "ref_max": 18.0,
+          "units": "g/dL"
+        },
+        {
+          "date": "2025-12-02",
+          "date_display": "12/02/2025",
+          "value": "17.1",
+          "numeric_value": 17.1,
+          "flag": "",
+          "ref_range": "12.0-18.0",
+          "ref_min": 12.0,
+          "ref_max": 18.0,
+          "units": "g/dL"
+        },
+        {
+          "date": "2026-08-12",
+          "date_display": "08/12/2026",
+          "value": "15.9",
+          "numeric_value": 15.9,
+          "flag": "",
+          "ref_range": "12.0-18.0",
+          "ref_min": 12.0,
+          "ref_max": 18.0,
+          "units": "g/dL"
+        }
+      ]
+    },
+    "LDL-Direct": {
+      "name": "LDL-Direct",
+      "category": "Lipid Panel (Cardiovascular)",
+      "units": "--",
+      "ref_range": "0-130",
+      "ref_min": 0.0,
+      "ref_max": 130.0,
+      "history": [
+        {
+          "date": "2022-01-26",
+          "date_display": "01/26/2022",
+          "value": "125",
+          "numeric_value": 125.0,
+          "flag": "",
+          "ref_range": "0-130",
+          "ref_min": 0.0,
+          "ref_max": 130.0,
+          "units": "--"
+        }
+      ]
+    },
+    "LYM": {
+      "name": "LYM",
+      "category": "Complete Blood Count (CBC)",
+      "units": "K/uL",
+      "ref_range": "0.6-4.1",
+      "ref_min": 0.6,
+      "ref_max": 4.1,
+      "history": [
+        {
+          "date": "2022-01-26",
+          "date_display": "01/26/2022",
+          "value": "2.2",
+          "numeric_value": 2.2,
+          "flag": "",
+          "ref_range": "0.6-4.1",
+          "ref_min": 0.6,
+          "ref_max": 4.1,
+          "units": "K/uL"
+        },
+        {
+          "date": "2023-09-26",
+          "date_display": "09/26/2023",
+          "value": "2.0",
+          "numeric_value": 2.0,
+          "flag": "",
+          "ref_range": "0.6-4.1",
+          "ref_min": 0.6,
+          "ref_max": 4.1,
+          "units": "K/uL"
+        },
+        {
+          "date": "2023-12-21",
+          "date_display": "12/21/2023",
+          "value": "1.9",
+          "numeric_value": 1.9,
+          "flag": "",
+          "ref_range": "0.6-4.1",
+          "ref_min": 0.6,
+          "ref_max": 4.1,
+          "units": "K/uL"
+        },
+        {
+          "date": "2024-10-28",
+          "date_display": "10/28/2024",
+          "value": "1.6",
+          "numeric_value": 1.6,
+          "flag": "",
+          "ref_range": "0.6-4.1",
+          "ref_min": 0.6,
+          "ref_max": 4.1,
+          "units": "K/uL"
+        },
+        {
+          "date": "2025-12-02",
+          "date_display": "12/02/2025",
+          "value": "1.8",
+          "numeric_value": 1.8,
+          "flag": "",
+          "ref_range": "0.6-4.1",
+          "ref_min": 0.6,
+          "ref_max": 4.1,
+          "units": "K/uL"
+        },
+        {
+          "date": "2026-08-12",
+          "date_display": "08/12/2026",
+          "value": "1.6",
+          "numeric_value": 1.6,
+          "flag": "",
+          "ref_range": "0.6-4.1",
+          "ref_min": 0.6,
+          "ref_max": 4.1,
+          "units": "K/uL"
+        }
+      ]
+    },
+    "LYM%": {
+      "name": "LYM%",
+      "category": "Complete Blood Count (CBC)",
+      "units": "%",
+      "ref_range": "10.0-58.5",
+      "ref_min": 10.0,
+      "ref_max": 58.5,
+      "history": [
+        {
+          "date": "2022-01-26",
+          "date_display": "01/26/2022",
+          "value": "33.4",
+          "numeric_value": 33.4,
+          "flag": "",
+          "ref_range": "10.0-58.5",
+          "ref_min": 10.0,
+          "ref_max": 58.5,
+          "units": "%"
+        },
+        {
+          "date": "2023-09-26",
+          "date_display": "09/26/2023",
+          "value": "34.2",
+          "numeric_value": 34.2,
+          "flag": "",
+          "ref_range": "10.0-58.5",
+          "ref_min": 10.0,
+          "ref_max": 58.5,
+          "units": "%"
+        },
+        {
+          "date": "2023-12-21",
+          "date_display": "12/21/2023",
+          "value": "29.9",
+          "numeric_value": 29.9,
+          "flag": "",
+          "ref_range": "10.0-58.5",
+          "ref_min": 10.0,
+          "ref_max": 58.5,
+          "units": "%"
+        },
+        {
+          "date": "2024-10-28",
+          "date_display": "10/28/2024",
+          "value": "26.4",
+          "numeric_value": 26.4,
+          "flag": "",
+          "ref_range": "10.0-58.5",
+          "ref_min": 10.0,
+          "ref_max": 58.5,
+          "units": "%"
+        },
+        {
+          "date": "2025-12-02",
+          "date_display": "12/02/2025",
+          "value": "26.1",
+          "numeric_value": 26.1,
+          "flag": "",
+          "ref_range": "10.0-58.5",
+          "ref_min": 10.0,
+          "ref_max": 58.5,
+          "units": "%"
+        },
+        {
+          "date": "2026-08-12",
+          "date_display": "08/12/2026",
+          "value": "20.5",
+          "numeric_value": 20.5,
+          "flag": "",
+          "ref_range": "10.0-58.5",
+          "ref_min": 10.0,
+          "ref_max": 58.5,
+          "units": "%"
+        }
+      ]
+    },
+    "MCH": {
+      "name": "MCH",
+      "category": "Complete Blood Count (CBC)",
+      "units": "pg",
+      "ref_range": "26.0-32.0",
+      "ref_min": 26.0,
+      "ref_max": 32.0,
+      "history": [
+        {
+          "date": "2022-01-26",
+          "date_display": "01/26/2022",
+          "value": "30.2",
+          "numeric_value": 30.2,
+          "flag": "",
+          "ref_range": "26.0-32.0",
+          "ref_min": 26.0,
+          "ref_max": 32.0,
+          "units": "pg"
+        },
+        {
+          "date": "2023-09-26",
+          "date_display": "09/26/2023",
+          "value": "31.1",
+          "numeric_value": 31.1,
+          "flag": "",
+          "ref_range": "26.0-32.0",
+          "ref_min": 26.0,
+          "ref_max": 32.0,
+          "units": "pg"
+        },
+        {
+          "date": "2023-12-21",
+          "date_display": "12/21/2023",
+          "value": "31.2",
+          "numeric_value": 31.2,
+          "flag": "",
+          "ref_range": "26.0-32.0",
+          "ref_min": 26.0,
+          "ref_max": 32.0,
+          "units": "pg"
+        },
+        {
+          "date": "2024-10-28",
+          "date_display": "10/28/2024",
+          "value": "30.4",
+          "numeric_value": 30.4,
+          "flag": "",
+          "ref_range": "26.0-32.0",
+          "ref_min": 26.0,
+          "ref_max": 32.0,
+          "units": "pg"
+        },
+        {
+          "date": "2025-12-02",
+          "date_display": "12/02/2025",
+          "value": "30.9",
+          "numeric_value": 30.9,
+          "flag": "",
+          "ref_range": "26.0-32.0",
+          "ref_min": 26.0,
+          "ref_max": 32.0,
+          "units": "pg"
+        },
+        {
+          "date": "2026-08-12",
+          "date_display": "08/12/2026",
+          "value": "30.8",
+          "numeric_value": 30.8,
+          "flag": "",
+          "ref_range": "26.0-32.0",
+          "ref_min": 26.0,
+          "ref_max": 32.0,
+          "units": "pg"
+        }
+      ]
+    },
+    "MCHC": {
+      "name": "MCHC",
+      "category": "Complete Blood Count (CBC)",
+      "units": "g/dL",
+      "ref_range": "31.0-36.0",
+      "ref_min": 31.0,
+      "ref_max": 36.0,
+      "history": [
+        {
+          "date": "2022-01-26",
+          "date_display": "01/26/2022",
+          "value": "32.7",
+          "numeric_value": 32.7,
+          "flag": "",
+          "ref_range": "31.0-36.0",
+          "ref_min": 31.0,
+          "ref_max": 36.0,
+          "units": "g/dL"
+        },
+        {
+          "date": "2023-09-26",
+          "date_display": "09/26/2023",
+          "value": "32.9",
+          "numeric_value": 32.9,
+          "flag": "",
+          "ref_range": "31.0-36.0",
+          "ref_min": 31.0,
+          "ref_max": 36.0,
+          "units": "g/dL"
+        },
+        {
+          "date": "2023-12-21",
+          "date_display": "12/21/2023",
+          "value": "33.2",
+          "numeric_value": 33.2,
+          "flag": "",
+          "ref_range": "31.0-36.0",
+          "ref_min": 31.0,
+          "ref_max": 36.0,
+          "units": "g/dL"
+        },
+        {
+          "date": "2024-10-28",
+          "date_display": "10/28/2024",
+          "value": "32.0",
+          "numeric_value": 32.0,
+          "flag": "",
+          "ref_range": "31.0-36.0",
+          "ref_min": 31.0,
+          "ref_max": 36.0,
+          "units": "g/dL"
+        },
+        {
+          "date": "2025-12-02",
+          "date_display": "12/02/2025",
+          "value": "32.1",
+          "numeric_value": 32.1,
+          "flag": "",
+          "ref_range": "31.0-36.0",
+          "ref_min": 31.0,
+          "ref_max": 36.0,
+          "units": "g/dL"
+        },
+        {
+          "date": "2026-08-12",
+          "date_display": "08/12/2026",
+          "value": "32.0",
+          "numeric_value": 32.0,
+          "flag": "",
+          "ref_range": "31.0-36.0",
+          "ref_min": 31.0,
+          "ref_max": 36.0,
+          "units": "g/dL"
+        }
+      ]
+    },
+    "MCV": {
+      "name": "MCV",
+      "category": "Complete Blood Count (CBC)",
+      "units": "fL",
+      "ref_range": "80.0-97.0",
+      "ref_min": 80.0,
+      "ref_max": 97.0,
+      "history": [
+        {
+          "date": "2022-01-26",
+          "date_display": "01/26/2022",
+          "value": "92.4",
+          "numeric_value": 92.4,
+          "flag": "",
+          "ref_range": "80.0-97.0",
+          "ref_min": 80.0,
+          "ref_max": 97.0,
+          "units": "fL"
+        },
+        {
+          "date": "2023-09-26",
+          "date_display": "09/26/2023",
+          "value": "94.3",
+          "numeric_value": 94.3,
+          "flag": "",
+          "ref_range": "80.0-97.0",
+          "ref_min": 80.0,
+          "ref_max": 97.0,
+          "units": "fL"
+        },
+        {
+          "date": "2023-12-21",
+          "date_display": "12/21/2023",
+          "value": "93.8",
+          "numeric_value": 93.8,
+          "flag": "",
+          "ref_range": "80.0-97.0",
+          "ref_min": 80.0,
+          "ref_max": 97.0,
+          "units": "fL"
+        },
+        {
+          "date": "2024-10-28",
+          "date_display": "10/28/2024",
+          "value": "95.1",
+          "numeric_value": 95.1,
+          "flag": "",
+          "ref_range": "80.0-97.0",
+          "ref_min": 80.0,
+          "ref_max": 97.0,
+          "units": "fL"
+        },
+        {
+          "date": "2025-12-02",
+          "date_display": "12/02/2025",
+          "value": "96.4",
+          "numeric_value": 96.4,
+          "flag": "",
+          "ref_range": "80.0-97.0",
+          "ref_min": 80.0,
+          "ref_max": 97.0,
+          "units": "fL"
+        },
+        {
+          "date": "2026-08-12",
+          "date_display": "08/12/2026",
+          "value": "96.0",
+          "numeric_value": 96.0,
+          "flag": "",
+          "ref_range": "80.0-97.0",
+          "ref_min": 80.0,
+          "ref_max": 97.0,
+          "units": "fL"
+        }
+      ]
+    },
+    "MID": {
+      "name": "MID",
+      "category": "Complete Blood Count (CBC)",
+      "units": "K/uL",
+      "ref_range": "0.0-1.8",
+      "ref_min": 0.0,
+      "ref_max": 1.8,
+      "history": [
+        {
+          "date": "2022-01-26",
+          "date_display": "01/26/2022",
+          "value": "0.5",
+          "numeric_value": 0.5,
+          "flag": "",
+          "ref_range": "0.0-1.8",
+          "ref_min": 0.0,
+          "ref_max": 1.8,
+          "units": "K/uL"
+        },
+        {
+          "date": "2023-09-26",
+          "date_display": "09/26/2023",
+          "value": "0.4",
+          "numeric_value": 0.4,
+          "flag": "",
+          "ref_range": "0.0-1.8",
+          "ref_min": 0.0,
+          "ref_max": 1.8,
+          "units": "K/uL"
+        },
+        {
+          "date": "2023-12-21",
+          "date_display": "12/21/2023",
+          "value": "0.5",
+          "numeric_value": 0.5,
+          "flag": "",
+          "ref_range": "0.0-1.8",
+          "ref_min": 0.0,
+          "ref_max": 1.8,
+          "units": "K/uL"
+        },
+        {
+          "date": "2024-10-28",
+          "date_display": "10/28/2024",
+          "value": "0.5",
+          "numeric_value": 0.5,
+          "flag": "",
+          "ref_range": "0.0-1.8",
+          "ref_min": 0.0,
+          "ref_max": 1.8,
+          "units": "K/uL"
+        },
+        {
+          "date": "2025-12-02",
+          "date_display": "12/02/2025",
+          "value": "0.5",
+          "numeric_value": 0.5,
+          "flag": "",
+          "ref_range": "0.0-1.8",
+          "ref_min": 0.0,
+          "ref_max": 1.8,
+          "units": "K/uL"
+        },
+        {
+          "date": "2026-08-12",
+          "date_display": "08/12/2026",
+          "value": "0.5",
+          "numeric_value": 0.5,
+          "flag": "",
+          "ref_range": "0.0-1.8",
+          "ref_min": 0.0,
+          "ref_max": 1.8,
+          "units": "K/uL"
+        }
+      ]
+    },
+    "MID%": {
+      "name": "MID%",
+      "category": "Complete Blood Count (CBC)",
+      "units": "%",
+      "ref_range": "0.1-24.0",
+      "ref_min": 0.1,
+      "ref_max": 24.0,
+      "history": [
+        {
+          "date": "2022-01-26",
+          "date_display": "01/26/2022",
+          "value": "6.9",
+          "numeric_value": 6.9,
+          "flag": "",
+          "ref_range": "0.1-24.0",
+          "ref_min": 0.1,
+          "ref_max": 24.0,
+          "units": "%"
+        },
+        {
+          "date": "2023-09-26",
+          "date_display": "09/26/2023",
+          "value": "6.5",
+          "numeric_value": 6.5,
+          "flag": "",
+          "ref_range": "0.1-24.0",
+          "ref_min": 0.1,
+          "ref_max": 24.0,
+          "units": "%"
+        },
+        {
+          "date": "2023-12-21",
+          "date_display": "12/21/2023",
+          "value": "6.4",
+          "numeric_value": 6.4,
+          "flag": "",
+          "ref_range": "0.1-24.0",
+          "ref_min": 0.1,
+          "ref_max": 24.0,
+          "units": "%"
+        },
+        {
+          "date": "2024-10-28",
+          "date_display": "10/28/2024",
+          "value": "7.1",
+          "numeric_value": 7.1,
+          "flag": "",
+          "ref_range": "0.1-24.0",
+          "ref_min": 0.1,
+          "ref_max": 24.0,
+          "units": "%"
+        },
+        {
+          "date": "2025-12-02",
+          "date_display": "12/02/2025",
+          "value": "6.5",
+          "numeric_value": 6.5,
+          "flag": "",
+          "ref_range": "0.1-24.0",
+          "ref_min": 0.1,
+          "ref_max": 24.0,
+          "units": "%"
+        },
+        {
+          "date": "2026-08-12",
+          "date_display": "08/12/2026",
+          "value": "5.2",
+          "numeric_value": 5.2,
+          "flag": "",
+          "ref_range": "0.1-24.0",
+          "ref_min": 0.1,
+          "ref_max": 24.0,
+          "units": "%"
+        }
+      ]
+    },
+    "MPV": {
+      "name": "MPV",
+      "category": "Complete Blood Count (CBC)",
+      "units": "fL",
+      "ref_range": "0.0-99.8",
+      "ref_min": 0.0,
+      "ref_max": 99.8,
+      "history": [
+        {
+          "date": "2022-01-26",
+          "date_display": "01/26/2022",
+          "value": "9.6",
+          "numeric_value": 9.6,
+          "flag": "",
+          "ref_range": "0.0-99.8",
+          "ref_min": 0.0,
+          "ref_max": 99.8,
+          "units": "fL"
+        },
+        {
+          "date": "2023-09-26",
+          "date_display": "09/26/2023",
+          "value": "9.9",
+          "numeric_value": 9.9,
+          "flag": "",
+          "ref_range": "0.0-99.8",
+          "ref_min": 0.0,
+          "ref_max": 99.8,
+          "units": "fL"
+        },
+        {
+          "date": "2023-12-21",
+          "date_display": "12/21/2023",
+          "value": "10.2",
+          "numeric_value": 10.2,
+          "flag": "",
+          "ref_range": "0.0-99.8",
+          "ref_min": 0.0,
+          "ref_max": 99.8,
+          "units": "fL"
+        },
+        {
+          "date": "2024-10-28",
+          "date_display": "10/28/2024",
+          "value": "10.1",
+          "numeric_value": 10.1,
+          "flag": "",
+          "ref_range": "0.0-99.8",
+          "ref_min": 0.0,
+          "ref_max": 99.8,
+          "units": "fL"
+        },
+        {
+          "date": "2025-12-02",
+          "date_display": "12/02/2025",
+          "value": "10.6",
+          "numeric_value": 10.6,
+          "flag": "",
+          "ref_range": "0.0-99.8",
+          "ref_min": 0.0,
+          "ref_max": 99.8,
+          "units": "fL"
+        },
+        {
+          "date": "2026-08-12",
+          "date_display": "08/12/2026",
+          "value": "10.8",
+          "numeric_value": 10.8,
+          "flag": "",
+          "ref_range": "0.0-99.8",
+          "ref_min": 0.0,
+          "ref_max": 99.8,
+          "units": "fL"
+        }
+      ]
+    },
+    "PLT": {
+      "name": "PLT",
+      "category": "Complete Blood Count (CBC)",
+      "units": "K/uL",
+      "ref_range": "140.0-440.0",
+      "ref_min": 140.0,
+      "ref_max": 440.0,
+      "history": [
+        {
+          "date": "2022-01-26",
+          "date_display": "01/26/2022",
+          "value": "173.0",
+          "numeric_value": 173.0,
+          "flag": "",
+          "ref_range": "140.0-440.0",
+          "ref_min": 140.0,
+          "ref_max": 440.0,
+          "units": "K/uL"
+        },
+        {
+          "date": "2023-09-26",
+          "date_display": "09/26/2023",
+          "value": "172.0",
+          "numeric_value": 172.0,
+          "flag": "",
+          "ref_range": "140.0-440.0",
+          "ref_min": 140.0,
+          "ref_max": 440.0,
+          "units": "K/uL"
+        },
+        {
+          "date": "2023-12-21",
+          "date_display": "12/21/2023",
+          "value": "159.0",
+          "numeric_value": 159.0,
+          "flag": "",
+          "ref_range": "140.0-440.0",
+          "ref_min": 140.0,
+          "ref_max": 440.0,
+          "units": "K/uL"
+        },
+        {
+          "date": "2024-10-28",
+          "date_display": "10/28/2024",
+          "value": "165.0",
+          "numeric_value": 165.0,
+          "flag": "",
+          "ref_range": "140.0-440.0",
+          "ref_min": 140.0,
+          "ref_max": 440.0,
+          "units": "K/uL"
+        },
+        {
+          "date": "2025-12-02",
+          "date_display": "12/02/2025",
+          "value": "189.0",
+          "numeric_value": 189.0,
+          "flag": "",
+          "ref_range": "140.0-440.0",
+          "ref_min": 140.0,
+          "ref_max": 440.0,
+          "units": "K/uL"
+        },
+        {
+          "date": "2026-08-12",
+          "date_display": "08/12/2026",
+          "value": "186.0",
+          "numeric_value": 186.0,
+          "flag": "",
+          "ref_range": "140.0-440.0",
+          "ref_min": 140.0,
+          "ref_max": 440.0,
+          "units": "K/uL"
+        }
+      ]
+    },
+    "Potassium": {
+      "name": "Potassium",
+      "category": "Comprehensive Metabolic Panel (CMP)",
+      "units": "mmol/L",
+      "ref_range": "3.7-5.2",
+      "ref_min": 3.7,
+      "ref_max": 5.2,
+      "history": [
+        {
+          "date": "2022-01-26",
+          "date_display": "01/26/2022",
+          "value": "4.0",
+          "numeric_value": 4.0,
+          "flag": "",
+          "ref_range": "3.7-5.2",
+          "ref_min": 3.7,
+          "ref_max": 5.2,
+          "units": "mmol/L"
+        },
+        {
+          "date": "2023-09-26",
+          "date_display": "09/26/2023",
+          "value": "3.8",
+          "numeric_value": 3.8,
+          "flag": "",
+          "ref_range": "3.7-5.2",
+          "ref_min": 3.7,
+          "ref_max": 5.2,
+          "units": "mmol/L"
+        },
+        {
+          "date": "2023-12-21",
+          "date_display": "12/21/2023",
+          "value": "3.9",
+          "numeric_value": 3.9,
+          "flag": "",
+          "ref_range": "3.7-5.2",
+          "ref_min": 3.7,
+          "ref_max": 5.2,
+          "units": "mmol/L"
+        },
+        {
+          "date": "2024-10-28",
+          "date_display": "10/28/2024",
+          "value": "4.2",
+          "numeric_value": 4.2,
+          "flag": "",
+          "ref_range": "3.7-5.2",
+          "ref_min": 3.7,
+          "ref_max": 5.2,
+          "units": "mmol/L"
+        },
+        {
+          "date": "2025-12-02",
+          "date_display": "12/02/2025",
+          "value": "4.1",
+          "numeric_value": 4.1,
+          "flag": "",
+          "ref_range": "3.7-5.2",
+          "ref_min": 3.7,
+          "ref_max": 5.2,
+          "units": "mmol/L"
+        },
+        {
+          "date": "2026-08-12",
+          "date_display": "08/12/2026",
+          "value": "4.1",
+          "numeric_value": 4.1,
+          "flag": "",
+          "ref_range": "3.7-5.2",
+          "ref_min": 3.7,
+          "ref_max": 5.2,
+          "units": "mmol/L"
+        }
+      ]
+    },
+    "RBC": {
+      "name": "RBC",
+      "category": "Complete Blood Count (CBC)",
+      "units": "M/uL",
+      "ref_range": "4.2-6.3",
+      "ref_min": 4.2,
+      "ref_max": 6.3,
+      "history": [
+        {
+          "date": "2022-01-26",
+          "date_display": "01/26/2022",
+          "value": "5.6",
+          "numeric_value": 5.6,
+          "flag": "",
+          "ref_range": "4.2-6.3",
+          "ref_min": 4.2,
+          "ref_max": 6.3,
+          "units": "M/uL"
+        },
+        {
+          "date": "2023-09-26",
+          "date_display": "09/26/2023",
+          "value": "5.1",
+          "numeric_value": 5.1,
+          "flag": "",
+          "ref_range": "4.2-6.3",
+          "ref_min": 4.2,
+          "ref_max": 6.3,
+          "units": "M/uL"
+        },
+        {
+          "date": "2023-12-21",
+          "date_display": "12/21/2023",
+          "value": "4.9",
+          "numeric_value": 4.9,
+          "flag": "",
+          "ref_range": "4.2-6.3",
+          "ref_min": 4.2,
+          "ref_max": 6.3,
+          "units": "M/uL"
+        },
+        {
+          "date": "2024-10-28",
+          "date_display": "10/28/2024",
+          "value": "5.3",
+          "numeric_value": 5.3,
+          "flag": "",
+          "ref_range": "4.2-6.3",
+          "ref_min": 4.2,
+          "ref_max": 6.3,
+          "units": "M/uL"
+        },
+        {
+          "date": "2025-12-02",
+          "date_display": "12/02/2025",
+          "value": "5.5",
+          "numeric_value": 5.5,
+          "flag": "",
+          "ref_range": "4.2-6.3",
+          "ref_min": 4.2,
+          "ref_max": 6.3,
+          "units": "M/uL"
+        },
+        {
+          "date": "2026-08-12",
+          "date_display": "08/12/2026",
+          "value": "5.2",
+          "numeric_value": 5.2,
+          "flag": "",
+          "ref_range": "4.2-6.3",
+          "ref_min": 4.2,
+          "ref_max": 6.3,
+          "units": "M/uL"
+        }
+      ]
+    },
+    "RDW": {
+      "name": "RDW",
+      "category": "Complete Blood Count (CBC)",
+      "units": "%",
+      "ref_range": "11.5-14.5",
+      "ref_min": 11.5,
+      "ref_max": 14.5,
+      "history": [
+        {
+          "date": "2022-01-26",
+          "date_display": "01/26/2022",
+          "value": "13.5",
+          "numeric_value": 13.5,
+          "flag": "",
+          "ref_range": "11.5-14.5",
+          "ref_min": 11.5,
+          "ref_max": 14.5,
+          "units": "%"
+        },
+        {
+          "date": "2023-09-26",
+          "date_display": "09/26/2023",
+          "value": "14.0",
+          "numeric_value": 14.0,
+          "flag": "",
+          "ref_range": "11.5-14.5",
+          "ref_min": 11.5,
+          "ref_max": 14.5,
+          "units": "%"
+        },
+        {
+          "date": "2023-12-21",
+          "date_display": "12/21/2023",
+          "value": "13.7",
+          "numeric_value": 13.7,
+          "flag": "",
+          "ref_range": "11.5-14.5",
+          "ref_min": 11.5,
+          "ref_max": 14.5,
+          "units": "%"
+        },
+        {
+          "date": "2024-10-28",
+          "date_display": "10/28/2024",
+          "value": "13.5",
+          "numeric_value": 13.5,
+          "flag": "",
+          "ref_range": "11.5-14.5",
+          "ref_min": 11.5,
+          "ref_max": 14.5,
+          "units": "%"
+        },
+        {
+          "date": "2025-12-02",
+          "date_display": "12/02/2025",
+          "value": "14.1",
+          "numeric_value": 14.1,
+          "flag": "",
+          "ref_range": "11.5-14.5",
+          "ref_min": 11.5,
+          "ref_max": 14.5,
+          "units": "%"
+        },
+        {
+          "date": "2026-08-12",
+          "date_display": "08/12/2026",
+          "value": "14.0",
+          "numeric_value": 14.0,
+          "flag": "",
+          "ref_range": "11.5-14.5",
+          "ref_min": 11.5,
+          "ref_max": 14.5,
+          "units": "%"
+        }
+      ]
+    },
+    "Sed Rate": {
+      "name": "Sed Rate",
+      "category": "Vitamins, Inflammation & Specialty",
+      "units": "sec.",
+      "ref_range": "--",
+      "ref_min": null,
+      "ref_max": null,
+      "history": [
+        {
+          "date": "2022-01-26",
+          "date_display": "01/26/2022",
+          "value": "10",
+          "numeric_value": 10.0,
+          "flag": "",
+          "ref_range": "--",
+          "ref_min": null,
+          "ref_max": null,
+          "units": "sec."
+        },
+        {
+          "date": "2023-09-26",
+          "date_display": "09/26/2023",
+          "value": "5",
+          "numeric_value": 5.0,
+          "flag": "",
+          "ref_range": "0-15",
+          "ref_min": 0.0,
+          "ref_max": 15.0,
+          "units": "sec."
+        },
+        {
+          "date": "2024-10-28",
+          "date_display": "10/28/2024",
+          "value": "0",
+          "numeric_value": 0.0,
+          "flag": "",
+          "ref_range": "0-15",
+          "ref_min": 0.0,
+          "ref_max": 15.0,
+          "units": "sec."
+        }
+      ]
+    },
+    "Sodium": {
+      "name": "Sodium",
+      "category": "Comprehensive Metabolic Panel (CMP)",
+      "units": "mmol/L",
+      "ref_range": "134-151",
+      "ref_min": 134.0,
+      "ref_max": 151.0,
+      "history": [
+        {
+          "date": "2022-01-26",
+          "date_display": "01/26/2022",
+          "value": "137",
+          "numeric_value": 137.0,
+          "flag": "",
+          "ref_range": "134-151",
+          "ref_min": 134.0,
+          "ref_max": 151.0,
+          "units": "mmol/L"
+        },
+        {
+          "date": "2023-09-26",
+          "date_display": "09/26/2023",
+          "value": "139",
+          "numeric_value": 139.0,
+          "flag": "",
+          "ref_range": "134-151",
+          "ref_min": 134.0,
+          "ref_max": 151.0,
+          "units": "mmol/L"
+        },
+        {
+          "date": "2023-12-21",
+          "date_display": "12/21/2023",
+          "value": "141",
+          "numeric_value": 141.0,
+          "flag": "",
+          "ref_range": "134-151",
+          "ref_min": 134.0,
+          "ref_max": 151.0,
+          "units": "mmol/L"
+        },
+        {
+          "date": "2024-10-28",
+          "date_display": "10/28/2024",
+          "value": "137",
+          "numeric_value": 137.0,
+          "flag": "",
+          "ref_range": "134-151",
+          "ref_min": 134.0,
+          "ref_max": 151.0,
+          "units": "mmol/L"
+        },
+        {
+          "date": "2025-12-02",
+          "date_display": "12/02/2025",
+          "value": "135",
+          "numeric_value": 135.0,
+          "flag": "",
+          "ref_range": "134-151",
+          "ref_min": 134.0,
+          "ref_max": 151.0,
+          "units": "mmol/L"
+        },
+        {
+          "date": "2026-08-12",
+          "date_display": "08/12/2026",
+          "value": "136",
+          "numeric_value": 136.0,
+          "flag": "",
+          "ref_range": "134-151",
+          "ref_min": 134.0,
+          "ref_max": 151.0,
+          "units": "mmol/L"
+        }
+      ]
+    },
+    "Total Bili": {
+      "name": "Total Bili",
+      "category": "Comprehensive Metabolic Panel (CMP)",
+      "units": "mg/dL",
+      "ref_range": "0.30-1.10",
+      "ref_min": 0.3,
+      "ref_max": 1.1,
+      "history": [
+        {
+          "date": "2022-01-26",
+          "date_display": "01/26/2022",
+          "value": "0.40",
+          "numeric_value": 0.4,
+          "flag": "",
+          "ref_range": "0.30-1.10",
+          "ref_min": 0.3,
+          "ref_max": 1.1,
+          "units": "mg/dL"
+        },
+        {
+          "date": "2023-09-26",
+          "date_display": "09/26/2023",
+          "value": "0.70",
+          "numeric_value": 0.7,
+          "flag": "",
+          "ref_range": "0.30-1.10",
+          "ref_min": 0.3,
+          "ref_max": 1.1,
+          "units": "mg/dL"
+        },
+        {
+          "date": "2023-12-21",
+          "date_display": "12/21/2023",
+          "value": "1.00",
+          "numeric_value": 1.0,
+          "flag": "",
+          "ref_range": "0.30-1.10",
+          "ref_min": 0.3,
+          "ref_max": 1.1,
+          "units": "mg/dL"
+        },
+        {
+          "date": "2024-10-28",
+          "date_display": "10/28/2024",
+          "value": "0.90",
+          "numeric_value": 0.9,
+          "flag": "",
+          "ref_range": "0.30-1.10",
+          "ref_min": 0.3,
+          "ref_max": 1.1,
+          "units": "mg/dL"
+        },
+        {
+          "date": "2025-12-02",
+          "date_display": "12/02/2025",
+          "value": "0.90",
+          "numeric_value": 0.9,
+          "flag": "",
+          "ref_range": "0.30-1.10",
+          "ref_min": 0.3,
+          "ref_max": 1.1,
+          "units": "mg/dL"
+        },
+        {
+          "date": "2026-08-12",
+          "date_display": "08/12/2026",
+          "value": "0.90",
+          "numeric_value": 0.9,
+          "flag": "",
+          "ref_range": "0.30-1.10",
+          "ref_min": 0.3,
+          "ref_max": 1.1,
+          "units": "mg/dL"
+        }
+      ]
+    },
+    "Total Protein": {
+      "name": "Total Protein",
+      "category": "Comprehensive Metabolic Panel (CMP)",
+      "units": "g/dL",
+      "ref_range": "6.0-8.2",
+      "ref_min": 6.0,
+      "ref_max": 8.2,
+      "history": [
+        {
+          "date": "2022-01-26",
+          "date_display": "01/26/2022",
+          "value": "6.8",
+          "numeric_value": 6.8,
+          "flag": "",
+          "ref_range": "6.0-8.2",
+          "ref_min": 6.0,
+          "ref_max": 8.2,
+          "units": "g/dL"
+        },
+        {
+          "date": "2023-09-26",
+          "date_display": "09/26/2023",
+          "value": "7.0",
+          "numeric_value": 7.0,
+          "flag": "",
+          "ref_range": "6.0-8.2",
+          "ref_min": 6.0,
+          "ref_max": 8.2,
+          "units": "g/dL"
+        },
+        {
+          "date": "2023-12-21",
+          "date_display": "12/21/2023",
+          "value": "6.5",
+          "numeric_value": 6.5,
+          "flag": "",
+          "ref_range": "6.0-8.2",
+          "ref_min": 6.0,
+          "ref_max": 8.2,
+          "units": "g/dL"
+        },
+        {
+          "date": "2024-10-28",
+          "date_display": "10/28/2024",
+          "value": "6.8",
+          "numeric_value": 6.8,
+          "flag": "",
+          "ref_range": "6.0-8.2",
+          "ref_min": 6.0,
+          "ref_max": 8.2,
+          "units": "g/dL"
+        },
+        {
+          "date": "2025-12-02",
+          "date_display": "12/02/2025",
+          "value": "6.7",
+          "numeric_value": 6.7,
+          "flag": "",
+          "ref_range": "6.0-8.2",
+          "ref_min": 6.0,
+          "ref_max": 8.2,
+          "units": "g/dL"
+        },
+        {
+          "date": "2026-08-12",
+          "date_display": "08/12/2026",
+          "value": "6.7",
+          "numeric_value": 6.7,
+          "flag": "",
+          "ref_range": "6.0-8.2",
+          "ref_min": 6.0,
+          "ref_max": 8.2,
+          "units": "g/dL"
+        }
+      ]
+    },
+    "Triglycerides": {
+      "name": "Triglycerides",
+      "category": "Lipid Panel (Cardiovascular)",
+      "units": "mg/dL",
+      "ref_range": "35-160",
+      "ref_min": 35.0,
+      "ref_max": 160.0,
+      "history": [
+        {
+          "date": "2022-01-26",
+          "date_display": "01/26/2022",
+          "value": "246",
+          "numeric_value": 246.0,
+          "flag": "H",
+          "ref_range": "35-160",
+          "ref_min": 35.0,
+          "ref_max": 160.0,
+          "units": "mg/dL"
+        },
+        {
+          "date": "2023-09-26",
+          "date_display": "09/26/2023",
+          "value": "188",
+          "numeric_value": 188.0,
+          "flag": "H",
+          "ref_range": "35-160",
+          "ref_min": 35.0,
+          "ref_max": 160.0,
+          "units": "mg/dL"
+        },
+        {
+          "date": "2023-12-21",
+          "date_display": "12/21/2023",
+          "value": "127",
+          "numeric_value": 127.0,
+          "flag": "",
+          "ref_range": "35-160",
+          "ref_min": 35.0,
+          "ref_max": 160.0,
+          "units": "mg/dL"
+        },
+        {
+          "date": "2024-10-28",
+          "date_display": "10/28/2024",
+          "value": "84",
+          "numeric_value": 84.0,
+          "flag": "",
+          "ref_range": "35-160",
+          "ref_min": 35.0,
+          "ref_max": 160.0,
+          "units": "mg/dL"
+        },
+        {
+          "date": "2025-12-02",
+          "date_display": "12/02/2025",
+          "value": "145",
+          "numeric_value": 145.0,
+          "flag": "",
+          "ref_range": "35-160",
+          "ref_min": 35.0,
+          "ref_max": 160.0,
+          "units": "mg/dL"
+        },
+        {
+          "date": "2026-08-12",
+          "date_display": "08/12/2026",
+          "value": "150",
+          "numeric_value": 150.0,
+          "flag": "",
+          "ref_range": "35-160",
+          "ref_min": 35.0,
+          "ref_max": 160.0,
+          "units": "mg/dL"
+        }
+      ]
+    },
+    "Vitamin D, 25-Hydroxy": {
+      "name": "Vitamin D, 25-Hydroxy",
+      "category": "Vitamins, Inflammation & Specialty",
+      "units": "ng/mL",
+      "ref_range": "30.0-100.0",
+      "ref_min": 30.0,
+      "ref_max": 100.0,
+      "history": [
+        {
+          "date": "2022-01-26",
+          "date_display": "01/26/2022",
+          "value": "19.7",
+          "numeric_value": 19.7,
+          "flag": "L",
+          "ref_range": "30.0-100.0",
+          "ref_min": 30.0,
+          "ref_max": 100.0,
+          "units": "ng/mL"
+        },
+        {
+          "date": "2023-09-26",
+          "date_display": "09/26/2023",
+          "value": "23.7",
+          "numeric_value": 23.7,
+          "flag": "L",
+          "ref_range": "30.0-100.0",
+          "ref_min": 30.0,
+          "ref_max": 100.0,
+          "units": "ng/mL"
+        },
+        {
+          "date": "2023-12-21",
+          "date_display": "12/21/2023",
+          "value": "52.3",
+          "numeric_value": 52.3,
+          "flag": "",
+          "ref_range": "30.0-100.0",
+          "ref_min": 30.0,
+          "ref_max": 100.0,
+          "units": "ng/mL"
+        },
+        {
+          "date": "2024-10-28",
+          "date_display": "10/28/2024",
+          "value": "42.4",
+          "numeric_value": 42.4,
+          "flag": "",
+          "ref_range": "30.0-100.0",
+          "ref_min": 30.0,
+          "ref_max": 100.0,
+          "units": "ng/mL"
+        },
+        {
+          "date": "2025-12-02",
+          "date_display": "12/02/2025",
+          "value": "39.6",
+          "numeric_value": 39.6,
+          "flag": "",
+          "ref_range": "30.0-100.0",
+          "ref_min": 30.0,
+          "ref_max": 100.0,
+          "units": "ng/mL"
+        }
+      ]
+    },
+    "WBC": {
+      "name": "WBC",
+      "category": "Complete Blood Count (CBC)",
+      "units": "K/uL",
+      "ref_range": "4.1-10.9",
+      "ref_min": 4.1,
+      "ref_max": 10.9,
+      "history": [
+        {
+          "date": "2022-01-26",
+          "date_display": "01/26/2022",
+          "value": "6.7",
+          "numeric_value": 6.7,
+          "flag": "",
+          "ref_range": "4.1-10.9",
+          "ref_min": 4.1,
+          "ref_max": 10.9,
+          "units": "K/uL"
+        },
+        {
+          "date": "2023-09-26",
+          "date_display": "09/26/2023",
+          "value": "5.9",
+          "numeric_value": 5.9,
+          "flag": "",
+          "ref_range": "4.1-10.9",
+          "ref_min": 4.1,
+          "ref_max": 10.9,
+          "units": "K/uL"
+        },
+        {
+          "date": "2023-12-21",
+          "date_display": "12/21/2023",
+          "value": "6.6",
+          "numeric_value": 6.6,
+          "flag": "",
+          "ref_range": "4.1-10.9",
+          "ref_min": 4.1,
+          "ref_max": 10.9,
+          "units": "K/uL"
+        },
+        {
+          "date": "2024-10-28",
+          "date_display": "10/28/2024",
+          "value": "6.3",
+          "numeric_value": 6.3,
+          "flag": "",
+          "ref_range": "4.1-10.9",
+          "ref_min": 4.1,
+          "ref_max": 10.9,
+          "units": "K/uL"
+        },
+        {
+          "date": "2025-12-02",
+          "date_display": "12/02/2025",
+          "value": "7.0",
+          "numeric_value": 7.0,
+          "flag": "",
+          "ref_range": "4.1-10.9",
+          "ref_min": 4.1,
+          "ref_max": 10.9,
+          "units": "K/uL"
+        },
+        {
+          "date": "2026-08-12",
+          "date_display": "08/12/2026",
+          "value": "8.1",
+          "numeric_value": 8.1,
+          "flag": "",
+          "ref_range": "4.1-10.9",
+          "ref_min": 4.1,
+          "ref_max": 10.9,
+          "units": "K/uL"
+        }
+      ]
+    },
+    "eGFR African Amer.": {
+      "name": "eGFR African Amer.",
+      "category": "Comprehensive Metabolic Panel (CMP)",
+      "units": "--",
+      "ref_range": ">60.0",
+      "ref_min": 60.0,
+      "ref_max": null,
+      "history": [
+        {
+          "date": "2022-01-26",
+          "date_display": "01/26/2022",
+          "value": "83.5",
+          "numeric_value": 83.5,
+          "flag": "",
+          "ref_range": ">60.0",
+          "ref_min": 60.0,
+          "ref_max": null,
+          "units": "--"
+        },
+        {
+          "date": "2023-09-26",
+          "date_display": "09/26/2023",
+          "value": "75.3",
+          "numeric_value": 75.3,
+          "flag": "",
+          "ref_range": ">60.0",
+          "ref_min": 60.0,
+          "ref_max": null,
+          "units": "--"
+        },
+        {
+          "date": "2023-12-21",
+          "date_display": "12/21/2023",
+          "value": "68.9",
+          "numeric_value": 68.9,
+          "flag": "",
+          "ref_range": ">60.0",
+          "ref_min": 60.0,
+          "ref_max": null,
+          "units": "--"
+        },
+        {
+          "date": "2024-10-28",
+          "date_display": "10/28/2024",
+          "value": "82.4",
+          "numeric_value": 82.4,
+          "flag": "",
+          "ref_range": ">60.0",
+          "ref_min": 60.0,
+          "ref_max": null,
+          "units": "--"
+        },
+        {
+          "date": "2025-12-02",
+          "date_display": "12/02/2025",
+          "value": "81.8",
+          "numeric_value": 81.8,
+          "flag": "",
+          "ref_range": ">60.0",
+          "ref_min": 60.0,
+          "ref_max": null,
+          "units": "--"
+        },
+        {
+          "date": "2026-08-12",
+          "date_display": "08/12/2026",
+          "value": "81.2",
+          "numeric_value": 81.2,
+          "flag": "",
+          "ref_range": ">60.0",
+          "ref_min": 60.0,
+          "ref_max": null,
+          "units": "--"
+        }
+      ]
+    },
+    "eGFR Non-African Amer.": {
+      "name": "eGFR Non-African Amer.",
+      "category": "Comprehensive Metabolic Panel (CMP)",
+      "units": "--",
+      "ref_range": ">60.0",
+      "ref_min": 60.0,
+      "ref_max": null,
+      "history": [
+        {
+          "date": "2022-01-26",
+          "date_display": "01/26/2022",
+          "value": "72.1",
+          "numeric_value": 72.1,
+          "flag": "",
+          "ref_range": ">60.0",
+          "ref_min": 60.0,
+          "ref_max": null,
+          "units": "--"
+        },
+        {
+          "date": "2023-09-26",
+          "date_display": "09/26/2023",
+          "value": "65.0",
+          "numeric_value": 65.0,
+          "flag": "",
+          "ref_range": ">60.0",
+          "ref_min": 60.0,
+          "ref_max": null,
+          "units": "--"
+        },
+        {
+          "date": "2023-12-21",
+          "date_display": "12/21/2023",
+          "value": "59.4",
+          "numeric_value": 59.4,
+          "flag": "L",
+          "ref_range": ">60.0",
+          "ref_min": 60.0,
+          "ref_max": null,
+          "units": "--"
+        },
+        {
+          "date": "2024-10-28",
+          "date_display": "10/28/2024",
+          "value": "71.1",
+          "numeric_value": 71.1,
+          "flag": "",
+          "ref_range": ">60.0",
+          "ref_min": 60.0,
+          "ref_max": null,
+          "units": "--"
+        },
+        {
+          "date": "2025-12-02",
+          "date_display": "12/02/2025",
+          "value": "70.6",
+          "numeric_value": 70.6,
+          "flag": "",
+          "ref_range": ">60.0",
+          "ref_min": 60.0,
+          "ref_max": null,
+          "units": "--"
+        },
+        {
+          "date": "2026-08-12",
+          "date_display": "08/12/2026",
+          "value": "70.1",
+          "numeric_value": 70.1,
+          "flag": "",
+          "ref_range": ">60.0",
+          "ref_min": 60.0,
+          "ref_max": null,
+          "units": "--"
+        }
+      ]
+    },
+    "uTSH": {
+      "name": "uTSH",
+      "category": "Hormones, Endocrine & Men's Health",
+      "units": "IU/mL",
+      "ref_range": "0.47-5.01",
+      "ref_min": 0.47,
+      "ref_max": 5.01,
+      "history": [
+        {
+          "date": "2022-01-26",
+          "date_display": "01/26/2022",
+          "value": "4.26",
+          "numeric_value": 4.26,
+          "flag": "",
+          "ref_range": "0.47-5.01",
+          "ref_min": 0.47,
+          "ref_max": 5.01,
+          "units": "IU/mL"
+        },
+        {
+          "date": "2023-09-26",
+          "date_display": "09/26/2023",
+          "value": "4.01",
+          "numeric_value": 4.01,
+          "flag": "",
+          "ref_range": "0.47-5.01",
+          "ref_min": 0.47,
+          "ref_max": 5.01,
+          "units": "IU/mL"
+        },
+        {
+          "date": "2024-10-28",
+          "date_display": "10/28/2024",
+          "value": "4.37",
+          "numeric_value": 4.37,
+          "flag": "",
+          "ref_range": "0.47-5.01",
+          "ref_min": 0.47,
+          "ref_max": 5.01,
+          "units": "IU/mL"
+        },
+        {
+          "date": "2025-12-02",
+          "date_display": "12/02/2025",
+          "value": "3.65",
+          "numeric_value": 3.65,
+          "flag": "",
+          "ref_range": "0.47-5.01",
+          "ref_min": 0.47,
+          "ref_max": 5.01,
+          "units": "IU/mL"
+        }
+      ]
+    },
+    "Free Testosterone(Direct)": {
+      "name": "Free Testosterone(Direct)",
+      "category": "Hormones, Endocrine & Men's Health",
+      "units": "pg/mL",
+      "ref_range": "6.8-21.5",
+      "ref_min": 6.8,
+      "ref_max": 21.5,
+      "history": [
+        {
+          "date": "2023-09-26",
+          "date_display": "09/26/2023",
+          "value": "6.3",
+          "numeric_value": 6.3,
+          "flag": "L",
+          "ref_range": "6.8-21.5",
+          "ref_min": 6.8,
+          "ref_max": 21.5,
+          "units": "pg/mL"
+        },
+        {
+          "date": "2024-10-28",
+          "date_display": "10/28/2024",
+          "value": "8.0",
+          "numeric_value": 8.0,
+          "flag": "",
+          "ref_range": "6.8-21.5",
+          "ref_min": 6.8,
+          "ref_max": 21.5,
+          "units": "pg/mL"
+        },
+        {
+          "date": "2025-12-02",
+          "date_display": "12/02/2025",
+          "value": "11.8",
+          "numeric_value": 11.8,
+          "flag": "",
+          "ref_range": "6.8-21.5",
+          "ref_min": 6.8,
+          "ref_max": 21.5,
+          "units": "pg/mL"
+        }
+      ]
+    },
+    "HgbA1c": {
+      "name": "HgbA1c",
+      "category": "Vitamins, Inflammation & Specialty",
+      "units": "%",
+      "ref_range": "4.40-6.40",
+      "ref_min": 4.4,
+      "ref_max": 6.4,
+      "history": [
+        {
+          "date": "2023-09-26",
+          "date_display": "09/26/2023",
+          "value": "5.40",
+          "numeric_value": 5.4,
+          "flag": "",
+          "ref_range": "4.40-6.40",
+          "ref_min": 4.4,
+          "ref_max": 6.4,
+          "units": "%"
+        },
+        {
+          "date": "2024-10-28",
+          "date_display": "10/28/2024",
+          "value": "5.50",
+          "numeric_value": 5.5,
+          "flag": "",
+          "ref_range": "4.40-6.40",
+          "ref_min": 4.4,
+          "ref_max": 6.4,
+          "units": "%"
+        },
+        {
+          "date": "2025-12-02",
+          "date_display": "12/02/2025",
+          "value": "5.60",
+          "numeric_value": 5.6,
+          "flag": "",
+          "ref_range": "4.40-6.40",
+          "ref_min": 4.4,
+          "ref_max": 6.4,
+          "units": "%"
+        }
+      ]
+    },
+    "LDL-Calculated": {
+      "name": "LDL-Calculated",
+      "category": "Lipid Panel (Cardiovascular)",
+      "units": "mg/dL",
+      "ref_range": "0-130",
+      "ref_min": 0.0,
+      "ref_max": 130.0,
+      "history": [
+        {
+          "date": "2023-09-26",
+          "date_display": "09/26/2023",
+          "value": "145",
+          "numeric_value": 145.0,
+          "flag": "H",
+          "ref_range": "0-130",
+          "ref_min": 0.0,
+          "ref_max": 130.0,
+          "units": "mg/dL"
+        },
+        {
+          "date": "2023-12-21",
+          "date_display": "12/21/2023",
+          "value": "79",
+          "numeric_value": 79.0,
+          "flag": "",
+          "ref_range": "0-130",
+          "ref_min": 0.0,
+          "ref_max": 130.0,
+          "units": "mg/dL"
+        },
+        {
+          "date": "2024-10-28",
+          "date_display": "10/28/2024",
+          "value": "82",
+          "numeric_value": 82.0,
+          "flag": "",
+          "ref_range": "0-130",
+          "ref_min": 0.0,
+          "ref_max": 130.0,
+          "units": "mg/dL"
+        },
+        {
+          "date": "2025-12-02",
+          "date_display": "12/02/2025",
+          "value": "102",
+          "numeric_value": 102.0,
+          "flag": "",
+          "ref_range": "0-130",
+          "ref_min": 0.0,
+          "ref_max": 130.0,
+          "units": "mg/dL"
+        },
+        {
+          "date": "2026-08-12",
+          "date_display": "08/12/2026",
+          "value": "59",
+          "numeric_value": 59.0,
+          "flag": "",
+          "ref_range": "0-130",
+          "ref_min": 0.0,
+          "ref_max": 130.0,
+          "units": "mg/dL"
+        }
+      ]
+    },
+    "Prolactin": {
+      "name": "Prolactin",
+      "category": "Hormones, Endocrine & Men's Health",
+      "units": "ng/mL",
+      "ref_range": "4.0-15.2",
+      "ref_min": 4.0,
+      "ref_max": 15.2,
+      "history": [
+        {
+          "date": "2023-09-26",
+          "date_display": "09/26/2023",
+          "value": "4.5",
+          "numeric_value": 4.5,
+          "flag": "",
+          "ref_range": "4.0-15.2",
+          "ref_min": 4.0,
+          "ref_max": 15.2,
+          "units": "ng/mL"
+        },
+        {
+          "date": "2024-10-28",
+          "date_display": "10/28/2024",
+          "value": "4.7",
+          "numeric_value": 4.7,
+          "flag": "",
+          "ref_range": "3.9-22.7",
+          "ref_min": 3.9,
+          "ref_max": 22.7,
+          "units": "ng/mL"
+        },
+        {
+          "date": "2025-12-02",
+          "date_display": "12/02/2025",
+          "value": "5.7",
+          "numeric_value": 5.7,
+          "flag": "",
+          "ref_range": "3.9-22.7",
+          "ref_min": 3.9,
+          "ref_max": 22.7,
+          "units": "ng/mL"
+        }
+      ]
+    },
+    "SARS-CoV-2 Semi-Quant Total Ab": {
+      "name": "SARS-CoV-2 Semi-Quant Total Ab",
+      "category": "Vitamins, Inflammation & Specialty",
+      "units": "U/mL",
+      "ref_range": "Negative<0.8",
+      "ref_min": null,
+      "ref_max": 0.8,
+      "history": [
+        {
+          "date": "2023-09-26",
+          "date_display": "09/26/2023",
+          "value": "See Dilution",
+          "numeric_value": null,
+          "flag": "",
+          "ref_range": "Negative<0.8",
+          "ref_min": null,
+          "ref_max": 0.8,
+          "units": "U/mL"
+        }
+      ]
+    },
+    "SARS-CoV-2 Spike Ab Dilution": {
+      "name": "SARS-CoV-2 Spike Ab Dilution",
+      "category": "Vitamins, Inflammation & Specialty",
+      "units": "U/mL",
+      "ref_range": "Negative<0.8",
+      "ref_min": null,
+      "ref_max": 0.8,
+      "history": [
+        {
+          "date": "2023-09-26",
+          "date_display": "09/26/2023",
+          "value": "3526",
+          "numeric_value": 3526.0,
+          "flag": "H",
+          "ref_range": "Negative<0.8",
+          "ref_min": null,
+          "ref_max": 0.8,
+          "units": "U/mL"
+        },
+        {
+          "date": "2023-12-21",
+          "date_display": "12/21/2023",
+          "value": "4118",
+          "numeric_value": 4118.0,
+          "flag": "H",
+          "ref_range": "Negative<0.8",
+          "ref_min": null,
+          "ref_max": 0.8,
+          "units": "U/mL"
+        }
+      ]
+    },
+    "SARS-CoV-2 Spike Ab Interp": {
+      "name": "SARS-CoV-2 Spike Ab Interp",
+      "category": "Vitamins, Inflammation & Specialty",
+      "units": "--",
+      "ref_range": "--",
+      "ref_min": null,
+      "ref_max": null,
+      "history": [
+        {
+          "date": "2023-09-26",
+          "date_display": "09/26/2023",
+          "value": "Positive",
+          "numeric_value": null,
+          "flag": "",
+          "ref_range": "--",
+          "ref_min": null,
+          "ref_max": null,
+          "units": "--"
+        },
+        {
+          "date": "2023-12-21",
+          "date_display": "12/21/2023",
+          "value": "Positive",
+          "numeric_value": null,
+          "flag": "",
+          "ref_range": "--",
+          "ref_min": null,
+          "ref_max": null,
+          "units": "--"
+        }
+      ]
+    },
+    "Testosterone": {
+      "name": "Testosterone",
+      "category": "Hormones, Endocrine & Men's Health",
+      "units": "ng/dL",
+      "ref_range": "264-916",
+      "ref_min": 264.0,
+      "ref_max": 916.0,
+      "history": [
+        {
+          "date": "2023-09-26",
+          "date_display": "09/26/2023",
+          "value": "375",
+          "numeric_value": 375.0,
+          "flag": "",
+          "ref_range": "264-916",
+          "ref_min": 264.0,
+          "ref_max": 916.0,
+          "units": "ng/dL"
+        },
+        {
+          "date": "2024-10-28",
+          "date_display": "10/28/2024",
+          "value": "394",
+          "numeric_value": 394.0,
+          "flag": "",
+          "ref_range": "264-916",
+          "ref_min": 264.0,
+          "ref_max": 916.0,
+          "units": "ng/dL"
+        },
+        {
+          "date": "2025-12-02",
+          "date_display": "12/02/2025",
+          "value": "352",
+          "numeric_value": 352.0,
+          "flag": "",
+          "ref_range": "264-916",
+          "ref_min": 264.0,
+          "ref_max": 916.0,
+          "units": "ng/dL"
+        }
+      ]
+    },
+    "_VLDL": {
+      "name": "_VLDL",
+      "category": "Lipid Panel (Cardiovascular)",
+      "units": "Calc",
+      "ref_range": "--",
+      "ref_min": null,
+      "ref_max": null,
+      "history": [
+        {
+          "date": "2023-09-26",
+          "date_display": "09/26/2023",
+          "value": "37.6",
+          "numeric_value": 37.6,
+          "flag": "",
+          "ref_range": "--",
+          "ref_min": null,
+          "ref_max": null,
+          "units": "Calc"
+        },
+        {
+          "date": "2023-12-21",
+          "date_display": "12/21/2023",
+          "value": "25.4",
+          "numeric_value": 25.4,
+          "flag": "",
+          "ref_range": "--",
+          "ref_min": null,
+          "ref_max": null,
+          "units": "Calc"
+        },
+        {
+          "date": "2024-10-28",
+          "date_display": "10/28/2024",
+          "value": "16.8",
+          "numeric_value": 16.8,
+          "flag": "",
+          "ref_range": "--",
+          "ref_min": null,
+          "ref_max": null,
+          "units": "Calc"
+        },
+        {
+          "date": "2025-12-02",
+          "date_display": "12/02/2025",
+          "value": "29.0",
+          "numeric_value": 29.0,
+          "flag": "",
+          "ref_range": "--",
+          "ref_min": null,
+          "ref_max": null,
+          "units": "Calc"
+        },
+        {
+          "date": "2026-08-12",
+          "date_display": "08/12/2026",
+          "value": "30.0",
+          "numeric_value": 30.0,
+          "flag": "",
+          "ref_range": "--",
+          "ref_min": null,
+          "ref_max": null,
+          "units": "Calc"
+        }
+      ]
+    },
+    "SARS-CoV-2 Semi-Quant Spike Ab": {
+      "name": "SARS-CoV-2 Semi-Quant Spike Ab",
+      "category": "Vitamins, Inflammation & Specialty",
+      "units": "U/mL",
+      "ref_range": "Negative<0.8",
+      "ref_min": null,
+      "ref_max": 0.8,
+      "history": [
+        {
+          "date": "2023-12-21",
+          "date_display": "12/21/2023",
+          "value": "See Dilution",
+          "numeric_value": null,
+          "flag": "",
+          "ref_range": "Negative<0.8",
+          "ref_min": null,
+          "ref_max": 0.8,
+          "units": "U/mL"
+        }
+      ]
+    },
+    "PSA": {
+      "name": "PSA",
+      "category": "Hormones, Endocrine & Men's Health",
+      "units": "ng/mL",
+      "ref_range": "0.00-4.00",
+      "ref_min": 0.0,
+      "ref_max": 4.0,
+      "history": [
+        {
+          "date": "2024-10-28",
+          "date_display": "10/28/2024",
+          "value": "0.70",
+          "numeric_value": 0.7,
+          "flag": "",
+          "ref_range": "0.00-4.00",
+          "ref_min": 0.0,
+          "ref_max": 4.0,
+          "units": "ng/mL"
+        },
+        {
+          "date": "2025-12-02",
+          "date_display": "12/02/2025",
+          "value": "0.69",
+          "numeric_value": 0.69,
+          "flag": "",
+          "ref_range": "0.00-4.00",
+          "ref_min": 0.0,
+          "ref_max": 4.0,
+          "units": "ng/mL"
+        }
+      ]
+    },
+    "Magnesium": {
+      "name": "Magnesium",
+      "category": "Vitamins, Inflammation & Specialty",
+      "units": "mg/dL",
+      "ref_range": "1.6-2.6",
+      "ref_min": 1.6,
+      "ref_max": 2.6,
+      "history": [
+        {
+          "date": "2025-12-02",
+          "date_display": "12/02/2025",
+          "value": "2.0",
+          "numeric_value": 2.0,
+          "flag": "",
+          "ref_range": "1.6-2.6",
+          "ref_min": 1.6,
+          "ref_max": 2.6,
+          "units": "mg/dL"
+        }
+      ]
+    }
+  }
+}

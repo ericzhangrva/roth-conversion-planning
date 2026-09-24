@@ -1,0 +1,1558 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>浙二国际保健中心 - 体检报告综合仪表盘 | Physical Exam Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap');
+    body {
+      font-family: 'Inter', 'Noto Sans SC', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background-color: #f8fafc;
+      color: #1e293b;
+    }
+    /* High-contrast segmented tab styles */
+    .nav-tab-btn {
+      transition: all 0.2s ease-in-out;
+    }
+    .nav-tab-btn.active {
+      background-color: #2563eb !important;
+      color: #ffffff !important;
+      box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.25), 0 2px 4px -2px rgba(37, 99, 235, 0.25);
+    }
+    .nav-tab-btn.active .tab-icon {
+      color: #ffffff !important;
+    }
+    .nav-tab-btn.active .tab-badge {
+      background-color: rgba(255, 255, 255, 0.25) !important;
+      color: #ffffff !important;
+    }
+    .badge-high {
+      background-color: #fee2e2;
+      color: #b91c1c;
+      border: 1px solid #fecaca;
+    }
+    .badge-low {
+      background-color: #dbeafe;
+      color: #1d4ed8;
+      border: 1px solid #bfdbfe;
+    }
+    .badge-normal {
+      background-color: #f1f5f9;
+      color: #475569;
+    }
+    .badge-warning {
+      background-color: #fef3c7;
+      color: #b45309;
+      border: 1px solid #fde68a;
+    }
+    /* Custom scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #f1f5f9;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
+    }
+    @media print {
+      .no-print { display: none !important; }
+      body { background: white; }
+      .shadow-sm, .shadow-md, .shadow-lg { box-shadow: none !important; }
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+  <!-- Top Navigation / Header -->
+  <header class="bg-white border-b border-slate-200 sticky top-0 z-40 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16 sm:h-20 whitespace-nowrap">
+        
+        <!-- Hospital & Brand -->
+        <div class="flex items-center space-x-3 shrink-0">
+          <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-600 flex items-center justify-center text-white shadow-md shrink-0">
+            <i class="fa-solid fa-hospital text-xl sm:text-2xl"></i>
+          </div>
+          <div class="min-w-0">
+            <div class="flex items-center space-x-2">
+              <h1 class="text-base sm:text-lg font-bold text-slate-900 tracking-tight" id="hdr-hospital-title">浙江大学医学院附属第二医院</h1>
+              <span class="hidden sm:inline-block px-2 py-0.5 text-xs font-semibold bg-blue-50 text-blue-700 rounded-full border border-blue-200" id="hdr-badge">浙二国际保健中心</span>
+            </div>
+            <p class="text-xs text-slate-500 hidden sm:block truncate" id="hdr-subtitle">全面健康体检报告综合分析仪表盘 (Exam Date: 2025-07-18)</p>
+          </div>
+        </div>
+
+        <!-- Controls: Language, Units & Print (Single Toggle Buttons) -->
+        <div class="flex items-center space-x-2.5 sm:space-x-3 shrink-0 no-print">
+          
+          <!-- Single Toggle Unit Switcher -->
+          <button id="btn-unit-toggle" onclick="toggleUnitMode()" class="px-3 py-1.5 rounded-xl text-xs font-semibold transition-all bg-slate-50 text-slate-700 border border-slate-200 hover:bg-slate-100 hover:border-slate-300 hover:text-blue-600 shadow-2xs flex items-center space-x-1.5">
+            <i class="fa-solid fa-vial-circle-check text-blue-600"></i>
+            <span id="btn-unit-text">美标 (US)</span>
+          </button>
+
+          <!-- Single Toggle Language Switcher -->
+          <button id="btn-lang-toggle" onclick="toggleLanguage()" class="px-3 py-1.5 rounded-xl text-xs font-semibold transition-all bg-slate-50 text-slate-700 border border-slate-200 hover:bg-slate-100 hover:border-slate-300 hover:text-blue-600 shadow-2xs flex items-center space-x-1.5">
+            <span id="btn-lang-flag">🇺🇸</span>
+            <span id="btn-lang-text">English</span>
+          </button>
+
+          <!-- Print / Export -->
+          <button onclick="window.print()" class="p-2 text-slate-500 hover:text-slate-800 hover:bg-slate-100 rounded-xl border border-slate-200 transition" title="Print / Export">
+            <i class="fa-solid fa-print"></i>
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Patient Vitals & Summary Strip -->
+    <div class="bg-gradient-to-r from-slate-900 via-slate-800 to-indigo-950 text-white py-3 px-4 sm:px-6 lg:px-8">
+      <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-4 text-sm">
+        
+        <!-- Demographics -->
+        <div class="flex items-center space-x-6">
+          <div class="flex items-center space-x-2">
+            <i class="fa-solid fa-user-check text-blue-400"></i>
+            <span class="font-bold text-base" id="pt-name">张喆</span>
+            <span class="text-slate-400 text-xs" id="pt-gender-age">男 / 49岁 (1976-01-25)</span>
+          </div>
+          <div class="hidden md:flex items-center space-x-4 text-xs text-slate-300 border-l border-slate-700 pl-4">
+            <div><span class="text-slate-400" data-i18n="lbl_med_id">病案号:</span> <span class="font-mono">51770971</span></div>
+            <div><span class="text-slate-400" data-i18n="lbl_card_id">体检号:</span> <span class="font-mono">6125094855</span></div>
+          </div>
+        </div>
+
+        <!-- Quick Vitals Indicators -->
+        <div class="flex items-center space-x-3 text-xs">
+          <!-- Height & Weight -->
+          <div class="bg-slate-800/80 px-2.5 py-1.5 rounded-lg border border-slate-700 flex items-center space-x-1.5">
+            <span class="text-slate-400" data-i18n="lbl_ht_wt">身长/体重:</span>
+            <span class="font-semibold text-slate-100" id="vital-ht-wt">176 cm / 92.7 kg</span>
+          </div>
+
+          <!-- BMI -->
+          <div class="bg-red-950/80 px-2.5 py-1.5 rounded-lg border border-red-800/60 flex items-center space-x-1.5 text-red-200">
+            <span class="text-red-400 font-medium">BMI:</span>
+            <span class="font-bold text-white">29.9</span>
+            <span class="bg-red-800 text-white text-[10px] px-1.5 py-0.2 rounded" data-i18n="badge_obese">肥胖/超重</span>
+          </div>
+
+          <!-- Waist -->
+          <div class="bg-amber-950/80 px-2.5 py-1.5 rounded-lg border border-amber-800/60 flex items-center space-x-1.5 text-amber-200">
+            <span class="text-amber-400 font-medium" data-i18n="lbl_waist">腰围:</span>
+            <span class="font-bold text-white" id="vital-waist">98 cm (38.6 in)</span>
+            <span class="bg-amber-800 text-white text-[10px] px-1.5 py-0.2 rounded" data-i18n="badge_central_obese">腹型</span>
+          </div>
+
+          <!-- BP -->
+          <div class="bg-blue-950/80 px-2.5 py-1.5 rounded-lg border border-blue-800/60 flex items-center space-x-1.5 text-blue-200">
+            <span class="text-blue-400 font-medium" data-i18n="lbl_bp">诊室血压:</span>
+            <span class="font-bold text-white">139/87</span>
+            <span class="text-[10px] text-blue-300">mmHg</span>
+            <span class="text-slate-400 ml-1 font-mono">HR 89</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- High-Contrast Segmented Navigation Tabs Container -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 bg-slate-50 border-b border-slate-200">
+      <div class="bg-slate-200/80 p-1.5 rounded-2xl border border-slate-300/80 shadow-inner flex space-x-1.5 overflow-x-auto no-scrollbar" role="tablist">
+        
+        <button onclick="switchTab('summary')" id="tab-btn-summary" class="nav-tab-btn active px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold text-slate-700 bg-white shadow-xs hover:text-slate-900 flex items-center space-x-2 whitespace-nowrap">
+          <i class="fa-solid fa-clipboard-list tab-icon text-blue-600"></i>
+          <span data-i18n="tab_summary">主检总结与14项异常</span>
+          <span class="tab-badge bg-red-100 text-red-700 text-[11px] px-2 py-0.5 rounded-full font-bold">14</span>
+        </button>
+
+        <button onclick="switchTab('labs')" id="tab-btn-labs" class="nav-tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold text-slate-700 bg-white/70 hover:bg-white hover:text-slate-900 flex items-center space-x-2 whitespace-nowrap">
+          <i class="fa-solid fa-flask-vial tab-icon text-indigo-600"></i>
+          <span data-i18n="tab_labs">实验室检验全套 (12大类)</span>
+          <span class="tab-badge bg-slate-200 text-slate-700 text-[11px] px-2 py-0.5 rounded-full font-semibold">76项</span>
+        </button>
+
+        <button onclick="switchTab('imaging')" id="tab-btn-imaging" class="nav-tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold text-slate-700 bg-white/70 hover:bg-white hover:text-slate-900 flex items-center space-x-2 whitespace-nowrap">
+          <i class="fa-solid fa-x-ray tab-icon text-teal-600"></i>
+          <span data-i18n="tab_imaging">超声与放射影像 (CT/CR)</span>
+        </button>
+
+        <button onclick="switchTab('cardio')" id="tab-btn-cardio" class="nav-tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold text-slate-700 bg-white/70 hover:bg-white hover:text-slate-900 flex items-center space-x-2 whitespace-nowrap">
+          <i class="fa-solid fa-heart-pulse tab-icon text-rose-600"></i>
+          <span data-i18n="tab_cardio">心电图与动脉硬化 (ECG/PWV/TCD)</span>
+        </button>
+
+        <button onclick="switchTab('specialties')" id="tab-btn-specialties" class="nav-tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold text-slate-700 bg-white/70 hover:bg-white hover:text-slate-900 flex items-center space-x-2 whitespace-nowrap">
+          <i class="fa-solid fa-bone tab-icon text-amber-600"></i>
+          <span data-i18n="tab_specialties">专科检查与骨密度 (BMD/C13)</span>
+        </button>
+
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content Container -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-1 w-full">
+
+    <!-- ================================================================= -->
+    <!-- TAB 1: EXECUTIVE SUMMARY & 14 ABNORMALITIES                       -->
+    <!-- ================================================================= -->
+    <div id="tab-content-summary" class="tab-pane space-y-8">
+      
+      <!-- Alert / Notice Banner -->
+      <div class="bg-blue-50 border border-blue-200 rounded-2xl p-5 shadow-sm flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+        <div class="flex items-start space-x-3">
+          <div class="p-2 bg-blue-100 text-blue-600 rounded-xl mt-0.5">
+            <i class="fa-solid fa-user-doctor text-xl"></i>
+          </div>
+          <div>
+            <h2 class="text-base font-bold text-blue-900" data-i18n="sum_banner_title">浙二国际保健中心 • 专家总检医师审核结论</h2>
+            <p class="text-xs text-blue-700 mt-1" data-i18n="sum_banner_desc">
+              总检医生：颜杨杨 / 徐媛英 ｜ 审核医生：贺肖洁 ｜ 终审日期：2025-07-31 ｜ 本次体检共检出 14 项临床阳性指标与病理异常，请参阅下方详细医学解释与专科就诊随访建议。
+            </p>
+          </div>
+        </div>
+        <div class="flex items-center space-x-2 text-xs font-medium shrink-0">
+          <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-red-100 text-red-800 border border-red-200">
+            <i class="fa-solid fa-triangle-exclamation mr-1"></i> 重点关注 (4)
+          </span>
+          <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-amber-100 text-amber-800 border border-amber-200">
+            <i class="fa-solid fa-circle-exclamation mr-1"></i> 随访观察 (7)
+          </span>
+          <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-800 border border-emerald-200">
+            <i class="fa-solid fa-circle-info mr-1"></i> 良性/常规 (3)
+          </span>
+        </div>
+      </div>
+
+      <!-- Quick Department Breakdown -->
+      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+        <div class="bg-white p-3 rounded-xl border border-slate-200 text-center shadow-sm hover:border-blue-300 transition">
+          <div class="text-xs text-slate-500 font-medium" data-i18n="dept_renal">肾功与代谢</div>
+          <div class="text-lg font-bold text-red-600 mt-1">4 <span class="text-xs font-normal text-slate-400">项</span></div>
+          <div class="text-[11px] text-slate-500 mt-0.5">肌酐/eGFR/尿酸/代谢</div>
+        </div>
+        <div class="bg-white p-3 rounded-xl border border-slate-200 text-center shadow-sm hover:border-blue-300 transition">
+          <div class="text-xs text-slate-500 font-medium" data-i18n="dept_cardio">心脑血管</div>
+          <div class="text-lg font-bold text-amber-600 mt-1">3 <span class="text-xs font-normal text-slate-400">项</span></div>
+          <div class="text-[11px] text-slate-500 mt-0.5">高血压/颈动脉IMT/PWV</div>
+        </div>
+        <div class="bg-white p-3 rounded-xl border border-slate-200 text-center shadow-sm hover:border-blue-300 transition">
+          <div class="text-xs text-slate-500 font-medium" data-i18n="dept_gi">肝胆与结石</div>
+          <div class="text-lg font-bold text-amber-600 mt-1">3 <span class="text-xs font-normal text-slate-400">项</span></div>
+          <div class="text-[11px] text-slate-500 mt-0.5">脂肪肝/肾结石/胆囊术后</div>
+        </div>
+        <div class="bg-white p-3 rounded-xl border border-slate-200 text-center shadow-sm hover:border-blue-300 transition">
+          <div class="text-xs text-slate-500 font-medium" data-i18n="dept_endocrine">内分泌与甲状腺</div>
+          <div class="text-lg font-bold text-amber-600 mt-1">2 <span class="text-xs font-normal text-slate-400">项</span></div>
+          <div class="text-[11px] text-slate-500 mt-0.5">甲状腺结节/糖尿病前期?</div>
+        </div>
+        <div class="bg-white p-3 rounded-xl border border-slate-200 text-center shadow-sm hover:border-blue-300 transition">
+          <div class="text-xs text-slate-500 font-medium" data-i18n="dept_eye">眼科与视网膜</div>
+          <div class="text-lg font-bold text-blue-600 mt-1">1 <span class="text-xs font-normal text-slate-400">项</span></div>
+          <div class="text-[11px] text-slate-500 mt-0.5">豹纹状眼底/动脉反光</div>
+        </div>
+        <div class="bg-white p-3 rounded-xl border border-slate-200 text-center shadow-sm hover:border-blue-300 transition">
+          <div class="text-xs text-slate-500 font-medium" data-i18n="dept_radiology">胸部与脊柱</div>
+          <div class="text-lg font-bold text-slate-700 mt-1">2 <span class="text-xs font-normal text-slate-400">项</span></div>
+          <div class="text-[11px] text-slate-500 mt-0.5">肺钙化灶/颈椎退变</div>
+        </div>
+      </div>
+
+      <!-- Page 2: Initial Overview of Abnormalities (您本次检查、化验有以下异常) -->
+      <div class="bg-white rounded-2xl border border-slate-200 shadow-xs overflow-hidden">
+        <div class="p-4 bg-slate-50 border-b border-slate-200 flex items-center justify-between cursor-pointer" onclick="toggleAbnormalitiesOverview()">
+          <div class="flex items-center space-x-3">
+            <div class="w-8 h-8 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center font-bold shrink-0">
+              <i class="fa-solid fa-clipboard-list"></i>
+            </div>
+            <div>
+              <h3 class="text-sm sm:text-base font-bold text-slate-900" data-i18n="abnormalities_title">您本次检查、化验有以下异常 (初检异常分类汇总)</h3>
+              <p class="text-xs text-slate-500" data-i18n="abnormalities_subtitle">浙江大学医学院附属第二医院 • 体检报告表第2页异常汇总 (共9大临床科室/检验)</p>
+            </div>
+          </div>
+          <div class="flex items-center space-x-2 shrink-0">
+            <span class="text-xs text-blue-600 font-medium hidden sm:inline" data-i18n="btn_view_abnormalities">查阅初检异常汇总</span>
+            <i id="abnormalities-chevron" class="fa-solid fa-chevron-down text-slate-400 text-xs transition-transform duration-200"></i>
+          </div>
+        </div>
+        <div id="abnormalities-overview-body" class="p-5 hidden space-y-4">
+          <div id="abnormalities-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+            <!-- Populated by JS -->
+          </div>
+        </div>
+      </div>
+
+      <!-- 14 Detailed Clinical Cards -->
+      <div>
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="text-lg font-bold text-slate-900 flex items-center" id="lbl-findings-title">
+            <i class="fa-solid fa-list-check text-blue-600 mr-2"></i>
+            <span data-i18n="sum_findings_list_title">14项检出异常医学分析与随诊建议</span>
+          </h3>
+          <div class="flex items-center space-x-2">
+            <button onclick="toggleAllFindings(true)" class="text-xs text-blue-600 hover:text-blue-800 font-medium" data-i18n="btn_expand_all">全部展开</button>
+            <span class="text-slate-300">|</span>
+            <button onclick="toggleAllFindings(false)" class="text-xs text-slate-500 hover:text-slate-800 font-medium" data-i18n="btn_collapse_all">全部折叠</button>
+          </div>
+        </div>
+
+        <div id="findings-container" class="space-y-4">
+          <!-- Populated by JavaScript -->
+        </div>
+      </div>
+
+      <!-- Page 4: Hospital Prompts 1-6 (温馨提示 1-6) -->
+      <div class="bg-white rounded-2xl border border-blue-100 shadow-xs overflow-hidden">
+        <div class="p-4 bg-gradient-to-r from-blue-50/80 to-slate-50 border-b border-blue-100 flex items-center justify-between cursor-pointer" onclick="toggleHospitalPrompts()">
+          <div class="flex items-center space-x-3">
+            <div class="w-8 h-8 rounded-xl bg-blue-600 text-white flex items-center justify-center font-bold shrink-0">
+              <i class="fa-solid fa-circle-info"></i>
+            </div>
+            <div>
+              <h3 class="text-sm sm:text-base font-bold text-blue-950" data-i18n="prompts_title">浙二国际保健中心 • 专家就医与健康管理温馨提示 (6项)</h3>
+              <p class="text-xs text-blue-700" data-i18n="prompts_subtitle">浙江大学医学院附属第二医院 • 临床质量与就医合规指南 (原报告第4页)</p>
+            </div>
+          </div>
+          <div class="flex items-center space-x-2 shrink-0">
+            <span class="text-xs text-blue-600 font-medium hidden sm:inline" data-i18n="btn_view_prompts">查阅温馨提示</span>
+            <i id="prompts-chevron" class="fa-solid fa-chevron-down text-blue-400 text-xs transition-transform duration-200"></i>
+          </div>
+        </div>
+        <div id="prompts-body" class="p-5 hidden">
+          <div id="prompts-grid" class="grid grid-cols-1 md:grid-cols-2 gap-3.5">
+            <!-- Populated by JS -->
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ================================================================= -->
+    <!-- TAB 2: LABORATORY PANELS (12 SECTIONS, 76 TESTS)                  -->
+    <!-- ================================================================= -->
+    <div id="tab-content-labs" class="tab-pane hidden space-y-6">
+      
+      <!-- Control Bar: Search & Category Filter -->
+      <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex flex-col md:flex-row items-center justify-between gap-4">
+        
+        <!-- Search Input -->
+        <div class="relative w-full md:w-96">
+          <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+            <i class="fa-solid fa-magnifying-glass"></i>
+          </div>
+          <input type="text" id="lab-search-input" oninput="renderLabs()" placeholder="搜索化验项目 (如: 肌酐, 尿酸, Glucose, LDL, PSA...)" class="block w-full pl-10 pr-4 py-2 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-slate-50/50">
+        </div>
+
+        <!-- Filter Badges -->
+        <div class="flex items-center space-x-2 overflow-x-auto max-w-full pb-1 text-xs">
+          <button onclick="filterLabSection('all')" class="lab-filter-btn active px-3 py-1.5 rounded-lg bg-blue-600 text-white font-medium" data-section="all" data-i18n="filter_all">全部 (All)</button>
+          <button onclick="filterLabSection('glycemic')" class="lab-filter-btn px-3 py-1.5 rounded-lg bg-slate-100 text-slate-600 hover:bg-slate-200 font-medium" data-section="glycemic" data-i18n="filter_glycemic">糖化/血糖</button>
+          <button onclick="filterLabSection('comprehensive_metabolic')" class="lab-filter-btn px-3 py-1.5 rounded-lg bg-slate-100 text-slate-600 hover:bg-slate-200 font-medium" data-section="comprehensive_metabolic" data-i18n="filter_cmp">体检生化/血脂/肾功</button>
+          <button onclick="filterLabSection('urinary_renal')" class="lab-filter-btn px-3 py-1.5 rounded-lg bg-slate-100 text-slate-600 hover:bg-slate-200 font-medium" data-section="urinary_renal" data-i18n="filter_early_renal">尿早期肾功</button>
+          <button onclick="filterLabSection('thyroid_hormones')" class="lab-filter-btn px-3 py-1.5 rounded-lg bg-slate-100 text-slate-600 hover:bg-slate-200 font-medium" data-section="thyroid_hormones" data-i18n="filter_thyroid">甲状腺</button>
+          <button onclick="filterLabSection('vitamins')" class="lab-filter-btn px-3 py-1.5 rounded-lg bg-slate-100 text-slate-600 hover:bg-slate-200 font-medium" data-section="vitamins" data-i18n="filter_vitamins">维生素</button>
+          <button onclick="filterLabSection('cbc')" class="lab-filter-btn px-3 py-1.5 rounded-lg bg-slate-100 text-slate-600 hover:bg-slate-200 font-medium" data-section="cbc" data-i18n="filter_cbc">血常规</button>
+          <button onclick="filterLabSection('tumor_markers')" class="lab-filter-btn px-3 py-1.5 rounded-lg bg-slate-100 text-slate-600 hover:bg-slate-200 font-medium" data-section="tumor_markers" data-i18n="filter_tumor">肿瘤标志物</button>
+          <button onclick="filterLabSection('urinalysis')" class="lab-filter-btn px-3 py-1.5 rounded-lg bg-slate-100 text-slate-600 hover:bg-slate-200 font-medium" data-section="urinalysis" data-i18n="filter_urine">尿常规</button>
+          <button onclick="filterLabSection('abnormal_only')" class="lab-filter-btn px-3 py-1.5 rounded-lg bg-red-50 text-red-600 hover:bg-red-100 font-semibold border border-red-200" data-section="abnormal_only">
+            <i class="fa-solid fa-triangle-exclamation mr-1"></i><span data-i18n="filter_abnormal_only">仅看异常</span>
+          </button>
+        </div>
+
+      </div>
+
+      <!-- Laboratory Tables Container -->
+      <div id="lab-tables-container" class="space-y-6">
+        <!-- Populated by JavaScript -->
+      </div>
+
+    </div>
+
+    <!-- ================================================================= -->
+    <!-- TAB 3: IMAGING & ULTRASOUND                                       -->
+    <!-- ================================================================= -->
+    <div id="tab-content-imaging" class="tab-pane hidden space-y-8">
+      
+      <!-- Ultrasound Section -->
+      <div>
+        <div class="flex items-center justify-between mb-4">
+          <div>
+            <h3 class="text-lg font-bold text-slate-900 flex items-center">
+              <i class="fa-solid fa-wave-square text-teal-600 mr-2"></i>
+              <span data-i18n="img_us_title">多器官高分辨率彩色多普勒超声检查报告</span>
+            </h3>
+            <p class="text-xs text-slate-500 mt-0.5" data-i18n="img_us_subtitle">检查医生：许俊 ｜ 医师助理：彭军艳 ｜ 报告时间：2025-07-18 08:52 ｜ 报告单号：US19666507</p>
+          </div>
+        </div>
+
+        <div id="ultrasound-organs-grid" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <!-- Populated by JavaScript -->
+        </div>
+      </div>
+
+      <!-- Radiology: Chest CT & Cervical Spine CR -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4 border-t border-slate-200">
+        
+        <!-- Chest CT -->
+        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col">
+          <div class="bg-slate-900 text-white px-5 py-3.5 flex items-center justify-between">
+            <div class="flex items-center space-x-2">
+              <i class="fa-solid fa-lungs text-blue-400 text-lg"></i>
+              <span class="font-bold text-sm" data-i18n="rad_ct_title">胸部CT低剂量平扫 (体检)</span>
+            </div>
+            <span class="text-xs text-slate-400">周佳萍 医师 ｜ 2025-07-18</span>
+          </div>
+          <div class="p-5 flex-1 flex flex-col justify-between space-y-4">
+            <div>
+              <div class="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1" data-i18n="lbl_img_findings">影像所见 (Image Findings)</div>
+              <p class="text-sm text-slate-700 leading-relaxed bg-slate-50 p-3 rounded-xl border border-slate-100" id="ct-findings-text">
+                肺窗显示两肺支气管血管束清晰，走向分布无异常。<strong>左肺下叶少许小钙化结节，直径约3-4mm</strong>，余肺实质未见明显渗出或实质性占位性病变。附见：胆囊术后改变。
+              </p>
+            </div>
+            <div>
+              <div class="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1" data-i18n="lbl_diagnosis">诊断结论 (Diagnosis)</div>
+              <div class="p-3 bg-blue-50 border border-blue-200 rounded-xl flex items-center justify-between">
+                <span class="font-bold text-sm text-blue-950" id="ct-conclusion-text">左肺下叶少许小钙化灶，请随诊。</span>
+                <span class="px-2 py-0.5 rounded text-[11px] font-semibold bg-emerald-100 text-emerald-800 border border-emerald-200" data-i18n="badge_benign">良性格局</span>
+              </div>
+            </div>
+            <div class="text-xs text-slate-400 italic">
+              * 提示：根据浙二放射科数字影像查阅系统，可凭微信扫码查看DICOM薄层CT重建影像。
+            </div>
+          </div>
+        </div>
+
+        <!-- Cervical Spine CR -->
+        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col">
+          <div class="bg-slate-900 text-white px-5 py-3.5 flex items-center justify-between">
+            <div class="flex items-center space-x-2">
+              <i class="fa-solid fa-bone text-indigo-400 text-lg"></i>
+              <span class="font-bold text-sm" data-i18n="rad_cr_title">颈椎侧位普放CR片 (体检)</span>
+            </div>
+            <span class="text-xs text-slate-400">钱微 医师 ｜ 2025-07-18</span>
+          </div>
+          <div class="p-5 flex-1 flex flex-col justify-between space-y-4">
+            <div>
+              <div class="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1" data-i18n="lbl_img_findings">影像所见 (Image Findings)</div>
+              <p class="text-sm text-slate-700 leading-relaxed bg-slate-50 p-3 rounded-xl border border-slate-100" id="cr-findings-text">
+                <strong>颈椎生理性曲度变直</strong>。颈椎前、后缘<strong>骨质增生（骨赘形成）</strong>。椎体附件未见明显异常。椎间隙未见明显狭窄。
+              </p>
+            </div>
+            <div>
+              <div class="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1" data-i18n="lbl_diagnosis">诊断结论 (Diagnosis)</div>
+              <div class="p-3 bg-amber-50 border border-amber-200 rounded-xl flex items-center justify-between">
+                <span class="font-bold text-sm text-amber-950" id="cr-conclusion-text">颈椎退行性改变 (颈椎病早期)。</span>
+                <span class="px-2 py-0.5 rounded text-[11px] font-semibold bg-amber-100 text-amber-800 border border-amber-200" data-i18n="badge_degenerative">姿势退变</span>
+              </div>
+            </div>
+            <div class="text-xs text-slate-400 italic">
+              * 建议：避免长期低头看手机或伏案，适当进行颈肌抗阻活动与生理曲度拉伸。
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- ================================================================= -->
+    <!-- TAB 4: CARDIOVASCULAR, ECG & ARTERIAL STIFFNESS                   -->
+    <!-- ================================================================= -->
+    <div id="tab-content-cardio" class="tab-pane hidden space-y-8">
+      
+      <!-- 12-Lead ECG Viewer -->
+      <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+        <div class="bg-gradient-to-r from-rose-900 to-slate-900 text-white px-6 py-4 flex flex-wrap items-center justify-between gap-4">
+          <div>
+            <div class="flex items-center space-x-2">
+              <i class="fa-solid fa-heart-pulse text-rose-400 text-xl"></i>
+              <h3 class="text-base font-bold" data-i18n="ecg_title">常规12导联心电图诊断报告 (Standard 12-Lead ECG)</h3>
+            </div>
+            <p class="text-xs text-rose-200 mt-0.5" data-i18n="ecg_subtitle">采集时间: 2025-07-18 09:42 ｜ 纸速: 25mm/s ｜ 增益灵敏度: 10mm/mV ｜ 滤波: 150Hz</p>
+          </div>
+          <span class="px-3 py-1 bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 rounded-full text-xs font-semibold flex items-center">
+            <i class="fa-solid fa-circle-check mr-1.5"></i> <span data-i18n="ecg_conclusion_badge">窦性心律 • 正常范围心电图</span>
+          </span>
+        </div>
+
+        <!-- ECG Digital Parameters Strip -->
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 p-5 bg-slate-50 border-b border-slate-200 text-center">
+          <div class="bg-white p-3 rounded-xl border border-slate-200 shadow-xs">
+            <span class="text-xs text-slate-500 block" data-i18n="ecg_hr">心率 (HR)</span>
+            <span class="text-xl font-bold text-slate-900">70</span>
+            <span class="text-xs text-slate-400 ml-1">bpm</span>
+          </div>
+          <div class="bg-white p-3 rounded-xl border border-slate-200 shadow-xs">
+            <span class="text-xs text-slate-500 block" data-i18n="ecg_pr">P-R 间期</span>
+            <span class="text-xl font-bold text-slate-900">148</span>
+            <span class="text-xs text-slate-400 ml-1">ms</span>
+          </div>
+          <div class="bg-white p-3 rounded-xl border border-slate-200 shadow-xs">
+            <span class="text-xs text-slate-500 block" data-i18n="ecg_qrs">QRS 时限</span>
+            <span class="text-xl font-bold text-slate-900">110</span>
+            <span class="text-xs text-slate-400 ml-1">ms</span>
+          </div>
+          <div class="bg-white p-3 rounded-xl border border-slate-200 shadow-xs">
+            <span class="text-xs text-slate-500 block" data-i18n="ecg_qt">QT / QTc</span>
+            <span class="text-lg font-bold text-slate-900">368 / 397</span>
+            <span class="text-xs text-slate-400 ml-1">ms</span>
+          </div>
+          <div class="bg-white p-3 rounded-xl border border-slate-200 shadow-xs">
+            <span class="text-xs text-slate-500 block" data-i18n="ecg_axis">QRS 电轴</span>
+            <span class="text-xl font-bold text-slate-900">+76°</span>
+          </div>
+          <div class="bg-white p-3 rounded-xl border border-slate-200 shadow-xs">
+            <span class="text-xs text-slate-500 block" data-i18n="ecg_voltage">Rv5 / Sv1</span>
+            <span class="text-lg font-bold text-slate-900">1.18 / 0.28</span>
+            <span class="text-xs text-slate-400 ml-1">mV</span>
+          </div>
+        </div>
+
+        <!-- High-Res ECG Graphic Strip -->
+        <div class="p-6 bg-slate-100 flex flex-col items-center">
+          <div class="bg-white p-2 rounded-xl shadow border border-slate-300 max-w-full overflow-x-auto cursor-pointer hover:opacity-95 transition" onclick="openImageModal('assets/ecg_strip.jpg', '12导联常规心电图节律波形')">
+            <img src="assets/ecg_strip.jpg" alt="12-Lead ECG Strip" class="max-h-[500px] w-auto object-contain rounded">
+          </div>
+          <p class="text-xs text-slate-500 mt-2 flex items-center">
+            <i class="fa-solid fa-magnifying-glass-plus mr-1"></i> 点击波形可放大全屏查阅高精度12导联心电波形及肢体/胸前导联
+          </p>
+        </div>
+      </div>
+
+      <!-- Arteriosclerosis PWV / ABI Analysis -->
+      <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+        <div class="bg-gradient-to-r from-indigo-900 to-slate-900 text-white px-6 py-4 flex flex-wrap items-center justify-between gap-4">
+          <div>
+            <div class="flex items-center space-x-2">
+              <i class="fa-solid fa-gauge-high text-indigo-400 text-xl"></i>
+              <h3 class="text-base font-bold" data-i18n="pwv_title">动脉硬化检测与血管弹性分析报告 (baPWV / ABI)</h3>
+            </div>
+            <p class="text-xs text-indigo-200 mt-0.5" data-i18n="pwv_subtitle">检测仪器: BAP-1000 ｜ 检查者: 赵娜 ｜ 时间: 2025-07-18 08:22 ｜ 发病风险度评估: 10年心血管风险 2.5%</p>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 p-6">
+          
+          <!-- Key Metrics Column -->
+          <div class="lg:col-span-6 space-y-4">
+            
+            <!-- PWV Cards -->
+            <div class="grid grid-cols-2 gap-3">
+              <div class="p-4 bg-amber-50 border border-amber-200 rounded-xl">
+                <div class="text-xs text-amber-800 font-semibold uppercase" data-i18n="pwv_right">右侧 baPWV (Right)</div>
+                <div class="text-2xl font-bold text-amber-950 mt-1">1477 <span class="text-xs font-normal text-amber-700">cm/s</span></div>
+                <div class="text-xs text-amber-700 mt-1 font-medium">比同龄预测值(1228) 高 +20%</div>
+                <div class="mt-2 text-[11px] bg-amber-200/60 text-amber-900 px-2 py-0.5 rounded font-semibold inline-block" data-i18n="pwv_right_badge">轻度偏高 • 弹性轻度下降</div>
+              </div>
+
+              <div class="p-4 bg-emerald-50 border border-emerald-200 rounded-xl">
+                <div class="text-xs text-emerald-800 font-semibold uppercase" data-i18n="pwv_left">左侧 baPWV (Left)</div>
+                <div class="text-2xl font-bold text-emerald-950 mt-1">1425 <span class="text-xs font-normal text-emerald-700">cm/s</span></div>
+                <div class="text-xs text-emerald-700 mt-1 font-medium">比同龄预测值(1228) 高 +16%</div>
+                <div class="mt-2 text-[11px] bg-emerald-200/60 text-emerald-900 px-2 py-0.5 rounded font-semibold inline-block" data-i18n="pwv_left_badge">正常范围内 • 弹性良好</div>
+              </div>
+            </div>
+
+            <!-- ABI Cards -->
+            <div class="grid grid-cols-2 gap-3">
+              <div class="p-3.5 bg-slate-50 border border-slate-200 rounded-xl">
+                <div class="text-xs text-slate-500 font-medium" data-i18n="abi_right">右下肢踝肱指数 (Right ABI)</div>
+                <div class="text-xl font-bold text-slate-900 mt-0.5">1.12</div>
+                <div class="text-[11px] text-slate-500">正常范围 (0.90 ~ 1.40)</div>
+              </div>
+              <div class="p-3.5 bg-slate-50 border border-slate-200 rounded-xl">
+                <div class="text-xs text-slate-500 font-medium" data-i18n="abi_left">左下肢踝肱指数 (Left ABI)</div>
+                <div class="text-xl font-bold text-slate-900 mt-0.5">1.10</div>
+                <div class="text-[11px] text-slate-500">正常范围 (0.90 ~ 1.40)</div>
+              </div>
+            </div>
+
+            <!-- Four Limb Blood Pressures Table -->
+            <div class="border border-slate-200 rounded-xl overflow-hidden">
+              <div class="bg-slate-100 px-3 py-2 text-xs font-bold text-slate-700" data-i18n="pwv_bp_table_title">四肢血压实时同步测量值 (mmHg)</div>
+              <table class="w-full text-xs text-left">
+                <thead class="bg-slate-50 text-slate-500 border-b border-slate-200">
+                  <tr>
+                    <th class="py-2 px-3">测定肢体</th>
+                    <th class="py-2 px-3">收缩压</th>
+                    <th class="py-2 px-3">舒张压</th>
+                    <th class="py-2 px-3">平均压</th>
+                    <th class="py-2 px-3">脉压差</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-200 text-slate-700">
+                  <tr><td class="py-2 px-3 font-medium">右上臂 (Right Arm)</td><td class="py-2 px-3 font-bold">142</td><td class="py-2 px-3">86</td><td class="py-2 px-3">103</td><td class="py-2 px-3">56</td></tr>
+                  <tr><td class="py-2 px-3 font-medium">左上臂 (Left Arm)</td><td class="py-2 px-3 font-bold">143</td><td class="py-2 px-3">88</td><td class="py-2 px-3">105</td><td class="py-2 px-3">55</td></tr>
+                  <tr><td class="py-2 px-3 font-medium">右脚踝 (Right Ankle)</td><td class="py-2 px-3 font-bold">160</td><td class="py-2 px-3">88</td><td class="py-2 px-3">111</td><td class="py-2 px-3">72</td></tr>
+                  <tr><td class="py-2 px-3 font-medium">左脚踝 (Left Ankle)</td><td class="py-2 px-3 font-bold">157</td><td class="py-2 px-3">88</td><td class="py-2 px-3">109</td><td class="py-2 px-3">69</td></tr>
+                </tbody>
+              </table>
+            </div>
+
+          </div>
+
+          <!-- Graphic Asset Column -->
+          <div class="lg:col-span-6 flex flex-col items-center justify-center bg-slate-50 p-4 rounded-xl border border-slate-200">
+            <div class="cursor-pointer hover:opacity-95 transition" onclick="openImageModal('assets/arteriosclerosis_report.jpg', '动脉硬化与脉搏波形检测报告')">
+              <img src="assets/arteriosclerosis_report.jpg" alt="PWV Analysis Report" class="max-h-[420px] w-auto object-contain rounded-lg shadow-sm border border-slate-300">
+            </div>
+            <p class="text-xs text-slate-500 mt-2 flex items-center">
+              <i class="fa-solid fa-magnifying-glass-plus mr-1"></i> 点击可查看原始脉波波形、脉压及年龄对应相关曲线
+            </p>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Transcranial Doppler (TCD) Cerebrovascular Hemodynamics Table -->
+      <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+        <div class="bg-slate-900 text-white px-6 py-4 flex items-center justify-between">
+          <div>
+            <div class="flex items-center space-x-2">
+              <i class="fa-solid fa-brain text-blue-400 text-lg"></i>
+              <h3 class="text-base font-bold" data-i18n="tcd_title">经颅多普勒脑血流分析 (TCD Transcranial Doppler)</h3>
+            </div>
+            <p class="text-xs text-slate-400 mt-0.5" data-i18n="tcd_subtitle">检查医生: 钟国栋 ｜ 签名: 张雪梅 ｜ 诊断结论: 双侧大脑中动脉、椎基底动脉、颈动脉颅外段流速与频谱正常</p>
+          </div>
+          <span class="px-3 py-1 bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 rounded-full text-xs font-semibold">
+            <i class="fa-solid fa-circle-check mr-1"></i> 未见明显狭窄
+          </span>
+        </div>
+
+        <div class="p-4 overflow-x-auto">
+          <table class="w-full text-xs text-left" id="tcd-table">
+            <thead class="bg-slate-100 text-slate-600 font-bold border-b border-slate-200">
+              <tr>
+                <th class="py-2.5 px-3">探及血管名称 (Vessel)</th>
+                <th class="py-2.5 px-3">深度 (Depth mm)</th>
+                <th class="py-2.5 px-3">收缩峰速 (Peak cm/s)</th>
+                <th class="py-2.5 px-3">平均流速 (Mean cm/s)</th>
+                <th class="py-2.5 px-3">舒张末速 (Dias cm/s)</th>
+                <th class="py-2.5 px-3">搏动指数 (PI)</th>
+                <th class="py-2.5 px-3">阻力指数 (RI)</th>
+                <th class="py-2.5 px-3">SBI</th>
+                <th class="py-2.5 px-3">S/D 比值</th>
+                <th class="py-2.5 px-3">心率 (HR)</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-200 text-slate-700" id="tcd-tbody">
+              <!-- Populated by JavaScript -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ================================================================= -->
+    <!-- TAB 5: CLINICAL SPECIALTIES, BMD & BREATH TEST                    -->
+    <!-- ================================================================= -->
+    <div id="tab-content-specialties" class="tab-pane hidden space-y-8">
+      
+      <!-- Bone Mineral Density (BMD) -->
+      <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+        <div class="bg-gradient-to-r from-amber-900 to-slate-900 text-white px-6 py-4 flex flex-wrap items-center justify-between gap-4">
+          <div>
+            <div class="flex items-center space-x-2">
+              <i class="fa-solid fa-bone text-amber-400 text-xl"></i>
+              <h3 class="text-base font-bold" data-i18n="bmd_title">超声骨密度检测结果报告 (BMD Calcaneus)</h3>
+            </div>
+            <p class="text-xs text-amber-200 mt-0.5" data-i18n="bmd_subtitle">检测部位: 右足跟骨 ｜ 检查者: 刘珊 ｜ 仪器: B.M.Tech ｜ 数据库: Asia</p>
+          </div>
+          <span class="px-3 py-1 bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 rounded-full text-xs font-semibold">
+            <i class="fa-solid fa-circle-check mr-1.5"></i> <span data-i18n="bmd_badge">骨质正常 (Normal Bone Density)</span>
+          </span>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 p-6">
+          
+          <!-- BMD Metrics -->
+          <div class="lg:col-span-5 space-y-4">
+            
+            <div class="grid grid-cols-2 gap-3">
+              <div class="p-4 bg-emerald-50 border border-emerald-200 rounded-xl text-center">
+                <span class="text-xs font-semibold text-emerald-800 uppercase block">T 值 (T-Score)</span>
+                <span class="text-3xl font-bold text-emerald-950 mt-1 block">+0.15</span>
+                <span class="text-xs text-emerald-700">世界卫生组织标准 &gt; -1.0 为正常</span>
+              </div>
+              <div class="p-4 bg-blue-50 border border-blue-200 rounded-xl text-center">
+                <span class="text-xs font-semibold text-blue-800 uppercase block">Z 值 (Z-Score)</span>
+                <span class="text-3xl font-bold text-blue-950 mt-1 block">+1.05</span>
+                <span class="text-xs text-blue-700">同龄同性别均值偏优</span>
+              </div>
+            </div>
+
+            <div class="space-y-2 text-xs">
+              <div class="flex justify-between p-2.5 bg-slate-50 rounded-lg border border-slate-100">
+                <span class="text-slate-500" data-i18n="bmd_adult_ratio">青年成人峰值对比 (Adult Ratio):</span>
+                <span class="font-bold text-slate-800">101.4%</span>
+              </div>
+              <div class="flex justify-between p-2.5 bg-slate-50 rounded-lg border border-slate-100">
+                <span class="text-slate-500" data-i18n="bmd_age_ratio">同龄人参考值对比 (Age Matched):</span>
+                <span class="font-bold text-slate-800">110.6%</span>
+              </div>
+              <div class="flex justify-between p-2.5 bg-slate-50 rounded-lg border border-slate-100">
+                <span class="text-slate-500">超声声速 (SOS):</span>
+                <span class="font-mono text-slate-800">1357.4 m/s</span>
+              </div>
+              <div class="flex justify-between p-2.5 bg-slate-50 rounded-lg border border-slate-100">
+                <span class="text-slate-500">宽带超声衰减 (BUA):</span>
+                <span class="font-mono text-slate-800">47.5</span>
+              </div>
+              <div class="flex justify-between p-2.5 bg-slate-50 rounded-lg border border-slate-100">
+                <span class="text-slate-500">骨质指数 (OI):</span>
+                <span class="font-mono text-slate-800">54.6</span>
+              </div>
+            </div>
+
+            <div class="p-3 bg-emerald-50 rounded-xl border border-emerald-200 text-xs text-emerald-900 leading-relaxed">
+              <i class="fa-solid fa-circle-check text-emerald-600 mr-1"></i>
+              <strong>骨健康评估：</strong>目前骨钙含量充足，骨小梁微结构致密，无骨量减少或骨质疏松风险。建议继续保持适度户外活动及均衡钙与维生素D摄入（目前血清25-OH Vit D为37.87 ng/mL，处于理想充足范围）。
+            </div>
+
+          </div>
+
+          <!-- BMD Chart Graphic -->
+          <div class="lg:col-span-7 flex flex-col items-center justify-center bg-slate-50 p-4 rounded-xl border border-slate-200">
+            <div class="cursor-pointer hover:opacity-95 transition" onclick="openImageModal('assets/bone_density_chart.jpg', '超声骨密度年龄曲线与柱状图')">
+              <img src="assets/bone_density_chart.jpg" alt="Bone Density Chart" class="max-h-[380px] w-auto object-contain rounded-lg shadow-sm border border-slate-300">
+            </div>
+            <p class="text-xs text-slate-500 mt-2 flex items-center">
+              <i class="fa-solid fa-magnifying-glass-plus mr-1"></i> 点击可查阅骨密度曲线定位及骨小梁显微结构对照图
+            </p>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- C13 Urea Breath Test & Ophthalmology & Clinical Department Cards -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        
+        <!-- H. Pylori 13C Breath Test -->
+        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <div class="flex items-center space-x-2">
+                <i class="fa-solid fa-bacterium text-indigo-600 text-lg"></i>
+                <h4 class="font-bold text-slate-900 text-sm" data-i18n="c13_title">幽门螺杆菌 13C 尿素呼气试验</h4>
+              </div>
+              <span class="px-2 py-0.5 rounded text-[11px] font-semibold bg-emerald-100 text-emerald-800 border border-emerald-200" data-i18n="badge_negative">阴性 (未感染)</span>
+            </div>
+            <p class="text-xs text-slate-500 mb-3" data-i18n="c13_doc">检验者: 徐国萍 ｜ 审核者: 朱永良 ｜ 2025-07-18</p>
+            <div class="bg-slate-50 p-3 rounded-xl border border-slate-100 flex items-center justify-between">
+              <div>
+                <span class="text-xs text-slate-500" data-i18n="lbl_c13_val">HP尿素呼气试验 (DOB值):</span>
+                <span class="text-lg font-bold text-slate-900 ml-2">0.82</span>
+              </div>
+              <div class="text-xs text-slate-500">
+                参考临界值: &lt; 4.00 DOB
+              </div>
+            </div>
+            <p class="text-xs text-slate-600 mt-3 leading-relaxed" data-i18n="c13_desc">
+              DOB值为0.82，远低于4.0阳性界值，表明目前胃内无幽门螺杆菌现症感染，胃黏膜无HP引起的活动性炎症损伤。
+            </p>
+          </div>
+        </div>
+
+        <!-- Ophthalmology Detailed -->
+        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <div class="flex items-center space-x-2">
+                <i class="fa-solid fa-eye text-blue-600 text-lg"></i>
+                <h4 class="font-bold text-slate-900 text-sm" data-i18n="oph_title">眼科常规、裂隙灯与眼底检查</h4>
+              </div>
+              <span class="px-2 py-0.5 rounded text-[11px] font-semibold bg-amber-100 text-amber-800 border border-amber-200" data-i18n="badge_attention">需定期眼底随访</span>
+            </div>
+            <p class="text-xs text-slate-500 mb-3" data-i18n="oph_doc">检查医生: 孙桂珍 ｜ 2025-07-18</p>
+            <div class="space-y-2 text-xs">
+              <div class="p-2 bg-slate-50 rounded-lg border border-slate-100">
+                <span class="font-semibold text-slate-700">矫正视力:</span> 右眼 0.8 (20/25)，左眼 0.8 (20/25) ｜ 双眼屈光不正
+              </div>
+              <div class="p-2 bg-slate-50 rounded-lg border border-slate-100">
+                <span class="font-semibold text-slate-700">眼底表现:</span> 双眼豹纹状近视眼底，视网膜小动脉细，中轴反光增强 (I级高血压微血管改变)
+              </div>
+              <div class="p-2 bg-slate-50 rounded-lg border border-slate-100">
+                <span class="font-semibold text-slate-700">裂隙灯与既往:</span> 双眼晶状体密度增高 ｜ 既往右眼视网膜激光光凝术后
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Internal Medicine & Surgery -->
+        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
+          <div class="flex items-center space-x-2 mb-2">
+            <i class="fa-solid fa-stethoscope text-emerald-600 text-lg"></i>
+            <h4 class="font-bold text-slate-900 text-sm" data-i18n="im_surg_title">内科与外科查体</h4>
+          </div>
+          <p class="text-xs text-slate-500 mb-3">检查医生: 内科 陈美娟 ｜ 外科 邵凯阳</p>
+          <div class="space-y-2 text-xs text-slate-700">
+            <p><strong class="text-slate-800">内科：</strong>体质健，营养状况佳，心律齐无杂音，双肺听诊呼吸音清晰，腹软无压痛，肝脾肋下未及。高血压病及高脂血症正规范服药控制。</p>
+            <p><strong class="text-slate-800">外科：</strong>外科手术史：胆囊切除术后；甲状腺触诊无结节；肛门直肠指诊距肛缘4cm未见异常；浅表淋巴结未及肿大；脊柱四肢关节活动度良好。</p>
+          </div>
+        </div>
+
+        <!-- ENT & Stomatology -->
+        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
+          <div class="flex items-center space-x-2 mb-2">
+            <i class="fa-solid fa-head-side-cough text-teal-600 text-lg"></i>
+            <h4 class="font-bold text-slate-900 text-sm" data-i18n="ent_dental_title">耳鼻咽喉科与口腔科</h4>
+          </div>
+          <p class="text-xs text-slate-500 mb-3">检查医生: 耳鼻喉 严荣强 ｜ 口腔 吴莉莉</p>
+          <div class="space-y-2 text-xs text-slate-700">
+            <p><strong class="text-slate-800">耳鼻咽喉：</strong>听力粗测正常；双耳外耳道通畅，鼓膜标志清；鼻腔黏膜正常，中隔居中；咽部无充血，扁桃体无肿大；喉部未见异常。</p>
+            <p><strong class="text-slate-800">口腔科：</strong>保健口腔内科检查，牙龈及牙周组织保持良好，未见严重牙周袋或明显龋坏，建议保持刷牙卫生，定期洁治。</p>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- Modal Lightbox for Image Zooming -->
+  <div id="image-modal" class="fixed inset-0 z-50 bg-black/80 hidden flex items-center justify-center p-4 backdrop-blur-xs no-print" onclick="closeImageModal()">
+    <div class="relative max-w-5xl max-h-[90vh] bg-white rounded-2xl overflow-hidden shadow-2xl flex flex-col" onclick="event.stopPropagation()">
+      <div class="flex items-center justify-between px-5 py-3 bg-slate-900 text-white">
+        <h4 id="modal-image-title" class="text-sm font-bold">医疗报告影像查阅</h4>
+        <button onclick="closeImageModal()" class="text-slate-400 hover:text-white p-1">
+          <i class="fa-solid fa-xmark text-lg"></i>
+        </button>
+      </div>
+      <div class="p-3 bg-slate-100 overflow-auto flex items-center justify-center">
+        <img id="modal-image-src" src="" alt="Enlarged Medical View" class="max-h-[80vh] max-w-full object-contain rounded">
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="bg-white border-t border-slate-200 py-6 text-center text-xs text-slate-500 mt-12 no-print">
+    <div class="max-w-7xl mx-auto px-4 space-y-2">
+      <p>© 2025 浙江大学医学院附属第二医院（浙二国际保健中心） 体检报告数字化综合管理系统</p>
+      <p class="text-[11px] text-slate-400">本仪表盘数据均来自体检报告扫描原件并经过高精度双盲核验与中美临床单位标准化换算，仅供受检者健康档案管理与临床医生参考。</p>
+      <div class="pt-2 text-[10px] text-slate-400 flex flex-wrap justify-center gap-x-4 gap-y-1">
+        <span>检验质控：本报告仅对所检测样本负责</span>
+        <span>•</span>
+        <span>超声声明：本报告仅供临床医师参考</span>
+        <span>•</span>
+        <span>影像声明：此单仅供临床医师参考，不作证明用</span>
+        <span>•</span>
+        <span>骨密度基准：骨密度正常人参照值数据库 (Asia)</span>
+        <span>•</span>
+        <span>心电图质控：定标10mm/mV 纸速25mm/s 滤波150Hz</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Application Logic -->
+  <script>
+    const EXAM_DATA = __EXAM_DATA_JSON__;
+
+    let currentLang = 'zh'; // 'zh' or 'en'
+    let currentUnit = 'us'; // 'us' (mg/dL) or 'si' (mmol/L)
+    let activeTab = 'summary';
+    let currentLabFilter = 'all';
+
+    // Translations Dictionary
+    const I18N = {
+      zh: {
+        lbl_med_id: "病案号:",
+        lbl_card_id: "体检号:",
+        lbl_ht_wt: "身长/体重:",
+        badge_obese: "肥胖 (BMI 29.9)",
+        lbl_waist: "腰围:",
+        badge_central_obese: "腹型",
+        lbl_bp: "诊室血压:",
+        tab_summary: "主检总结与14项异常",
+        tab_labs: "实验室检验全套 (12大类)",
+        tab_imaging: "超声与放射影像 (CT/CR)",
+        tab_cardio: "心电图与动脉硬化 (ECG/PWV/TCD)",
+        tab_specialties: "专科检查与骨密度 (BMD/C13)",
+        sum_banner_title: "浙二国际保健中心 • 专家总检医师审核结论",
+        sum_banner_desc: "总检医生：颜杨杨 / 徐媛英 ｜ 审核医生：贺肖洁 ｜ 终审日期：2025-07-31 ｜ 本次体检共检出 14 项临床阳性指标与病理异常，请参阅下方详细医学解释与专科就诊随访建议。",
+        dept_renal: "肾功与代谢",
+        dept_cardio: "心脑血管",
+        dept_gi: "肝胆与结石",
+        dept_endocrine: "内分泌与甲状腺",
+        dept_eye: "眼科与视网膜",
+        dept_radiology: "胸部与脊柱",
+        sum_findings_list_title: "14项检出异常医学分析与随诊建议",
+        abnormalities_title: "您本次检查、化验有以下异常 (初检异常分类汇总)",
+        abnormalities_subtitle: "浙江大学医学院附属第二医院 • 体检报告表第2页异常汇总 (共9大临床科室/检验)",
+        prompts_title: "浙二国际保健中心 • 专家就医与健康管理温馨提示 (6项)",
+        prompts_subtitle: "浙江大学医学院附属第二医院 • 临床质量与就医合规指南 (原报告第4页)",
+        verbatim_label: "医院体检报告原版文字 (Verbatim Hospital Text)",
+        body_comp_title: "人体成分检测 (体感诱发电位)",
+        body_comp_status: "未检 (未开展此项检查)",
+        btn_view_abnormalities: "查阅初检异常汇总",
+        btn_view_prompts: "查阅温馨提示",
+        btn_expand_all: "全部展开",
+        btn_collapse_all: "全部折叠",
+        filter_all: "全部 (All)",
+        filter_glycemic: "糖化/血糖",
+        filter_cmp: "体检生化/血脂/肾功",
+        filter_early_renal: "尿早期肾功",
+        filter_thyroid: "甲状腺",
+        filter_vitamins: "维生素",
+        filter_cbc: "血常规",
+        filter_tumor: "肿瘤标志物",
+        filter_urine: "尿常规",
+        filter_abnormal_only: "仅看异常",
+        img_us_title: "多器官高分辨率彩色多普勒超声检查报告",
+        img_us_subtitle: "检查医生：许俊 ｜ 医师助理：彭军艳 ｜ 报告时间：2025-07-18 08:52 ｜ 报告单号：US19666507",
+        lbl_img_findings: "影像所见 (Image Findings)",
+        lbl_diagnosis: "诊断结论 (Diagnosis)",
+        badge_benign: "良性格局",
+        badge_degenerative: "姿势退变",
+        rad_ct_title: "胸部CT低剂量平扫 (体检)",
+        rad_cr_title: "颈椎侧位普放CR片 (体检)",
+        ecg_title: "常规12导联心电图诊断报告 (Standard 12-Lead ECG)",
+        ecg_subtitle: "采集时间: 2025-07-18 09:42 ｜ 纸速: 25mm/s ｜ 增益灵敏度: 10mm/mV ｜ 滤波: 150Hz",
+        ecg_conclusion_badge: "窦性心律 • 正常范围心电图",
+        ecg_hr: "心率 (HR)",
+        ecg_pr: "P-R 间期",
+        ecg_qrs: "QRS 时限",
+        ecg_qt: "QT / QTc",
+        ecg_axis: "QRS 电轴",
+        ecg_voltage: "Rv5 / Sv1",
+        pwv_title: "动脉硬化检测与血管弹性分析报告 (baPWV / ABI)",
+        pwv_subtitle: "检测仪器: BAP-1000 ｜ 检查者: 赵娜 ｜ 时间: 2025-07-18 08:22 ｜ 发病风险度评估: 10年心血管风险 2.5%",
+        pwv_right: "右侧 baPWV (Right)",
+        pwv_left: "左侧 baPWV (Left)",
+        pwv_right_badge: "轻度偏高 • 弹性轻度下降",
+        pwv_left_badge: "正常范围内 • 弹性良好",
+        abi_right: "右下肢踝肱指数 (Right ABI)",
+        abi_left: "左下肢踝肱指数 (Left ABI)",
+        pwv_bp_table_title: "四肢血压实时同步测量值 (mmHg)",
+        tcd_title: "经颅多普勒脑血流分析 (TCD Transcranial Doppler)",
+        tcd_subtitle: "检查医生: 钟国栋 ｜ 签名: 张雪梅 ｜ 诊断结论: 双侧大脑中动脉、椎基底动脉、颈动脉颅外段流速与频谱正常",
+        bmd_title: "超声骨密度检测结果报告 (BMD Calcaneus)",
+        bmd_subtitle: "检测部位: 右足跟骨 ｜ 检查者: 刘珊 ｜ 仪器: B.M.Tech ｜ 数据库: Asia",
+        bmd_badge: "骨质正常 (Normal Bone Density)",
+        bmd_adult_ratio: "青年成人峰值对比 (Adult Ratio):",
+        bmd_age_ratio: "同龄人参考值对比 (Age Matched):",
+        c13_title: "幽门螺杆菌 13C 尿素呼气试验",
+        badge_negative: "阴性 (未感染)",
+        c13_doc: "检验者: 徐国萍 ｜ 审核者: 朱永良 ｜ 2025-07-18",
+        lbl_c13_val: "HP尿素呼气试验 (DOB值):",
+        c13_desc: "DOB值为0.82，远低于4.0阳性界值，表明目前胃内无幽门螺杆菌现症感染，胃黏膜无HP引起的活动性炎症损伤。",
+        oph_title: "眼科常规、裂隙灯与眼底检查",
+        badge_attention: "需定期眼底随访",
+        oph_doc: "检查医生: 孙桂珍 ｜ 2025-07-18",
+        im_surg_title: "内科与外科查体",
+        ent_dental_title: "耳鼻咽喉科与口腔科"
+      },
+      en: {
+        lbl_med_id: "MRN:",
+        lbl_card_id: "Card ID:",
+        lbl_ht_wt: "Height / Weight:",
+        badge_obese: "Obese (BMI 29.9)",
+        lbl_waist: "Waist:",
+        badge_central_obese: "Central",
+        lbl_bp: "Clinic BP:",
+        tab_summary: "Executive Summary & 14 Findings",
+        tab_labs: "Laboratory Panels (12 Categories)",
+        tab_imaging: "Ultrasound & Radiology (CT/CR)",
+        tab_cardio: "ECG, PWV & Cerebrovascular (TCD)",
+        tab_specialties: "Specialties & Bone Density (BMD/C13)",
+        sum_banner_title: "Zhejiang University 2nd Hospital • Chief Medical Audit",
+        sum_banner_desc: "Chief Doctors: Dr. Yangyang Yan / Dr. Yuanying Xu | Auditor: Dr. Xiaojie He | Approved: 2025-07-31 | Identified 14 clinical positive findings & pathology abnormalities. See detailed medical rationale and specialty follow-up plans below.",
+        dept_renal: "Renal & Metabolic",
+        dept_cardio: "Cardiovascular",
+        dept_gi: "Hepatobiliary & Stones",
+        dept_endocrine: "Endocrine & Thyroid",
+        dept_eye: "Eye & Retina",
+        dept_radiology: "Chest & Spine",
+        sum_findings_list_title: "14 Identified Abnormalities: Clinical Analysis & Recommendations",
+        btn_expand_all: "Expand All",
+        btn_collapse_all: "Collapse All",
+        filter_all: "All Panels",
+        filter_glycemic: "HbA1c / Glucose",
+        filter_cmp: "Metabolic / Lipids / CMP",
+        filter_early_renal: "Urinary Renal",
+        filter_thyroid: "Thyroid Panel",
+        filter_vitamins: "Vitamins",
+        filter_cbc: "CBC Differential",
+        filter_tumor: "Tumor Markers",
+        filter_urine: "Urinalysis",
+        filter_abnormal_only: "Abnormal Only",
+        img_us_title: "Multi-Organ Color Doppler Ultrasound Diagnostic Report",
+        img_us_subtitle: "Sonographer: Jun Xu | Assistant: Junyan Peng | Date: 2025-07-18 08:52 | Report ID: US19666507",
+        lbl_img_findings: "Image Findings",
+        lbl_diagnosis: "Diagnosis",
+        badge_benign: "Benign Sequelae",
+        badge_degenerative: "Degenerative",
+        rad_ct_title: "Low-Dose Chest CT (Non-Contrast)",
+        rad_cr_title: "Cervical Spine Radiography (Lateral)",
+        ecg_title: "Standard 12-Lead Electrocardiogram (ECG)",
+        ecg_subtitle: "Recorded: 2025-07-18 09:42 | Speed: 25mm/s | Voltage: 10mm/mV | Filter: 150Hz",
+        ecg_conclusion_badge: "Normal Sinus Rhythm • Normal ECG",
+        ecg_hr: "Heart Rate",
+        ecg_pr: "P-R Interval",
+        ecg_qrs: "QRS Duration",
+        ecg_qt: "QT / QTc",
+        ecg_axis: "QRS Axis",
+        ecg_voltage: "Rv5 / Sv1",
+        pwv_title: "Arterial Stiffness & ABI Waveform Analysis (baPWV / ABI)",
+        pwv_subtitle: "Analyzer: BAP-1000 | Examiner: Na Zhao | Date: 2025-07-18 08:22 | 10-Year ASCVD Risk Score: 2.5%",
+        pwv_right: "Right baPWV",
+        pwv_left: "Left baPWV",
+        pwv_right_badge: "Mildly Elevated • Mild Stiffness",
+        pwv_left_badge: "Within Normal Limits",
+        abi_right: "Right Ankle-Brachial Index (ABI)",
+        abi_left: "Left Ankle-Brachial Index (ABI)",
+        pwv_bp_table_title: "Simultaneous 4-Limb Blood Pressure Measurements (mmHg)",
+        tcd_title: "Transcranial Doppler Cerebrovascular Hemodynamics (TCD)",
+        tcd_subtitle: "Physician: Guodong Zhong | Sign: Xuemei Zhang | Conclusion: Normal MCA, VA-BA and carotid flow velocity & waveform",
+        bmd_title: "Ultrasound Bone Mineral Densitometry (BMD)",
+        bmd_subtitle: "Site: Right Calcaneus | Examiner: Shan Liu | Device: B.M.Tech | Database: Asia",
+        bmd_badge: "Normal Bone Density",
+        bmd_adult_ratio: "Adult Peak BMD Ratio:",
+        bmd_age_ratio: "Age-Matched BMD Ratio:",
+        c13_title: "Helicobacter Pylori 13C-Urea Breath Test",
+        badge_negative: "Negative (No Infection)",
+        c13_doc: "Examiner: Guoping Xu | Auditor: Yongliang Zhu | 2025-07-18",
+        lbl_c13_val: "HP Urea Breath Test (DOB Value):",
+        c13_desc: "DOB value is 0.82, well below the 4.0 threshold. Demonstrates absence of active gastric H. pylori colonization.",
+        oph_title: "Ophthalmology, Slit Lamp & Dilated Funduscopy",
+        badge_attention: "Periodic Eye Exam",
+        oph_doc: "Examiner: Guizhen Sun | 2025-07-18",
+        im_surg_title: "Internal Medicine & General Surgery Physical Exam",
+        ent_dental_title: "ENT & Preventive Dentistry"
+      }
+    };
+
+    // Single Toggle Language Function
+    function toggleLanguage() {
+      const nextLang = currentLang === 'zh' ? 'en' : 'zh';
+      setLanguage(nextLang);
+    }
+
+    // Switch Language Implementation
+    function setLanguage(lang) {
+      currentLang = lang;
+      
+      // Update single toggle button appearance: if currently Chinese, prompt to switch to English, and vice versa!
+      const flagEl = document.getElementById('btn-lang-flag');
+      const textEl = document.getElementById('btn-lang-text');
+      if (lang === 'zh') {
+        flagEl.innerText = "🇺🇸";
+        textEl.innerText = "English";
+      } else {
+        flagEl.innerText = "🇨🇳";
+        textEl.innerText = "中文";
+      }
+
+      // Update static i18n text
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (I18N[lang] && I18N[lang][key]) {
+          el.innerHTML = I18N[lang][key];
+        }
+      });
+
+      // Update header titles cleanly without line breaks
+      if (lang === 'zh') {
+        document.getElementById('hdr-hospital-title').innerText = "浙江大学医学院附属第二医院";
+        document.getElementById('hdr-badge').innerText = "浙二国际保健中心";
+        document.getElementById('hdr-subtitle').innerText = "全面健康体检报告综合分析仪表盘 (Exam Date: 2025-07-18)";
+        document.getElementById('pt-name').innerText = EXAM_DATA.metadata.patient_name_zh;
+        document.getElementById('pt-gender-age').innerText = `${EXAM_DATA.metadata.gender_zh} / ${EXAM_DATA.metadata.age}岁 (1976-01-25)`;
+      } else {
+        document.getElementById('hdr-hospital-title').innerText = "Zhejiang University 2nd Hospital";
+        document.getElementById('hdr-badge').innerText = "International Healthcare Center";
+        document.getElementById('hdr-subtitle').innerText = "Comprehensive Physical Examination Dashboard (Exam Date: 2025-07-18)";
+        document.getElementById('pt-name').innerText = EXAM_DATA.metadata.patient_name_en;
+        document.getElementById('pt-gender-age').innerText = `${EXAM_DATA.metadata.gender_en} / ${EXAM_DATA.metadata.age} yo (1976-01-25)`;
+      }
+
+      renderFindings();
+      renderLabs();
+      renderUltrasound();
+      renderTCD();
+    }
+
+    // Single Toggle Unit Mode Function
+    function toggleUnitMode() {
+      const nextUnit = currentUnit === 'us' ? 'si' : 'us';
+      setUnitMode(nextUnit);
+    }
+
+    function setUnitMode(unit) {
+      currentUnit = unit;
+      const unitText = document.getElementById('btn-unit-text');
+      
+      if (unit === 'us') {
+        unitText.innerText = currentLang === 'zh' ? "美标 (US)" : "US Units";
+        document.getElementById('vital-ht-wt').innerText = "5 ft 9.3 in / 204.4 lbs";
+        document.getElementById('vital-waist').innerText = "38.6 in (98 cm)";
+      } else {
+        unitText.innerText = currentLang === 'zh' ? "国际 (SI)" : "SI Units";
+        document.getElementById('vital-ht-wt').innerText = "176 cm / 92.7 kg";
+        document.getElementById('vital-waist').innerText = "98 cm";
+      }
+
+      renderFindings();
+      renderLabs();
+    }
+
+    // Switch Tab
+    function switchTab(tabId) {
+      activeTab = tabId;
+      document.querySelectorAll('.tab-pane').forEach(el => el.classList.add('hidden'));
+      document.querySelectorAll('.nav-tab-btn').forEach(el => {
+        el.classList.remove('active', 'bg-blue-600', 'text-white');
+        el.classList.add('bg-white/70', 'text-slate-700');
+      });
+
+      const targetPane = document.getElementById('tab-content-' + tabId);
+      const targetBtn = document.getElementById('tab-btn-' + tabId);
+      if (targetPane) targetPane.classList.remove('hidden');
+      if (targetBtn) {
+        targetBtn.classList.add('active');
+        targetBtn.classList.remove('bg-white/70', 'text-slate-700');
+      }
+    }
+
+    // Render Findings List
+    
+    function toggleAbnormalitiesOverview() {
+      const body = document.getElementById('abnormalities-overview-body');
+      const chevron = document.getElementById('abnormalities-chevron');
+      if (body) {
+        body.classList.toggle('hidden');
+        if (chevron) chevron.classList.toggle('rotate-180');
+      }
+    }
+
+    function toggleHospitalPrompts() {
+      const body = document.getElementById('prompts-body');
+      const chevron = document.getElementById('prompts-chevron');
+      if (body) {
+        body.classList.toggle('hidden');
+        if (chevron) chevron.classList.toggle('rotate-180');
+      }
+    }
+
+    function renderAbnormalitiesOverview() {
+      const grid = document.getElementById('abnormalities-grid');
+      if (!grid || !EXAM_DATA.abnormalities_summary) return;
+      grid.innerHTML = '';
+
+      EXAM_DATA.abnormalities_summary.categories.forEach(cat => {
+        const secName = currentLang === 'zh' ? cat.section_zh : cat.section_en;
+        let itemsHtml = '';
+        cat.items.forEach(it => {
+          const itName = currentLang === 'zh' ? it.name_zh : it.name_en;
+          itemsHtml += `
+            <div class="p-2 bg-slate-50 rounded-lg border border-slate-100 text-xs">
+              <span class="font-bold text-slate-800">${itName}:</span>
+              <span class="text-slate-700 ml-1">${it.value}</span>
+              ${it.note ? `<span class="block text-[10px] text-slate-400 mt-0.5">${it.note}</span>` : ''}
+            </div>
+          `;
+        });
+
+        const catCard = `
+          <div class="p-3.5 bg-white rounded-xl border border-slate-200 shadow-2xs space-y-2">
+            <div class="flex items-center justify-between pb-1.5 border-b border-slate-100">
+              <span class="font-bold text-xs text-blue-900">${cat.id}. ${secName}</span>
+              <span class="text-[10px] text-slate-400">${cat.items.length} 项</span>
+            </div>
+            <div class="space-y-1.5">
+              ${itemsHtml}
+            </div>
+          </div>
+        `;
+        grid.insertAdjacentHTML('beforeend', catCard);
+      });
+    }
+
+    function renderHospitalPrompts() {
+      const grid = document.getElementById('prompts-grid');
+      if (!grid || !EXAM_DATA.hospital_prompts) return;
+      grid.innerHTML = '';
+
+      EXAM_DATA.hospital_prompts.forEach(p => {
+        const title = currentLang === 'zh' ? p.title_zh : p.title_en;
+        const content = currentLang === 'zh' ? p.content_zh : p.content_en;
+        const card = `
+          <div class="p-3.5 bg-blue-50/40 rounded-xl border border-blue-100 flex items-start space-x-3">
+            <span class="w-6 h-6 rounded-full bg-blue-100 text-blue-800 text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">${p.id}</span>
+            <div class="flex-1">
+              <h5 class="text-xs font-bold text-blue-950 mb-0.5">${title}</h5>
+              <p class="text-xs text-slate-700 leading-relaxed">${content}</p>
+            </div>
+          </div>
+        `;
+        grid.insertAdjacentHTML('beforeend', card);
+      });
+    }
+
+    function renderFindings() {
+      const container = document.getElementById('findings-container');
+      if (!container) return;
+      container.innerHTML = '';
+
+      EXAM_DATA.findings_14.forEach(f => {
+        const title = currentLang === 'zh' ? f.title_zh : f.title_en;
+        const category = currentLang === 'zh' ? f.category_zh : f.category_en;
+        const explanation = currentLang === 'zh' ? f.explanation_zh : f.explanation_en;
+        const recommendation = currentLang === 'zh' ? f.recommendation_zh : f.recommendation_en;
+        
+        let borderClass = 'border-slate-200';
+        let badgeBg = 'bg-slate-100 text-slate-700';
+        let iconClass = 'fa-solid fa-circle-exclamation text-amber-500';
+
+        if (f.severity === 'warning') {
+          borderClass = 'border-red-200';
+          badgeBg = 'bg-red-50 text-red-700 border border-red-200';
+          iconClass = 'fa-solid fa-triangle-exclamation text-red-600';
+        } else if (f.severity === 'attention') {
+          borderClass = 'border-amber-200';
+          badgeBg = 'bg-amber-50 text-amber-800 border border-amber-200';
+          iconClass = 'fa-solid fa-circle-exclamation text-amber-600';
+        } else {
+          borderClass = 'border-blue-200';
+          badgeBg = 'bg-blue-50 text-blue-700 border border-blue-200';
+          iconClass = 'fa-solid fa-circle-info text-blue-600';
+        }
+
+        // Build key metrics pills
+        let metricsHtml = '';
+        if (f.key_metrics && f.key_metrics.length > 0) {
+          metricsHtml = '<div class="mt-3 flex flex-wrap gap-2">';
+          f.key_metrics.forEach(m => {
+            const mName = currentLang === 'zh' ? m.name_zh : m.name_en;
+            let mVal = m.value;
+            if (!mVal) {
+              mVal = currentUnit === 'us' && m.value_us ? m.value_us : m.value_si;
+            }
+            let refStr = '';
+            if (m.ref_zh || m.ref_us) {
+              refStr = currentUnit === 'us' && m.ref_us ? `(Ref: ${m.ref_us})` : (m.ref_zh ? `(参考: ${m.ref_zh})` : '');
+            }
+            metricsHtml += `
+              <div class="px-2.5 py-1 bg-slate-50 border border-slate-200 rounded-lg text-xs flex items-center space-x-1.5">
+                <span class="text-slate-500 font-medium">${mName}:</span>
+                <span class="font-bold text-slate-800">${mVal}</span>
+                <span class="text-[10px] text-slate-400">${refStr}</span>
+              </div>
+            `;
+          });
+          metricsHtml += '</div>';
+        }
+
+        const cardHtml = `
+          <div class="bg-white rounded-2xl border ${borderClass} shadow-xs overflow-hidden transition-all hover:shadow-md">
+            <div class="p-4 cursor-pointer flex items-center justify-between" onclick="toggleFindingDetails(${f.id})">
+              <div class="flex items-center space-x-3.5 flex-1 pr-4">
+                <div class="w-8 h-8 rounded-xl bg-slate-50 flex items-center justify-center shrink-0">
+                  <i class="${iconClass} text-base"></i>
+                </div>
+                <div>
+                  <div class="flex items-center space-x-2">
+                    <span class="text-xs font-bold text-slate-400">#${f.id}</span>
+                    <span class="px-2 py-0.5 rounded text-[11px] font-semibold ${badgeBg}">${category}</span>
+                  </div>
+                  <h4 class="text-sm sm:text-base font-bold text-slate-900 mt-0.5">${title}</h4>
+                </div>
+              </div>
+              <div class="flex items-center space-x-2 shrink-0">
+                <i id="finding-chevron-${f.id}" class="fa-solid fa-chevron-down text-slate-400 text-xs transition-transform duration-200"></i>
+              </div>
+            </div>
+
+            <!-- Expandable Content -->
+            <div id="finding-body-${f.id}" class="px-5 pb-5 pt-1 border-t border-slate-100 hidden space-y-3.5">
+              ${metricsHtml}
+
+              <div class="space-y-3 text-xs leading-relaxed">
+                <div class="p-3.5 bg-slate-50/80 rounded-xl border border-slate-100">
+                  <div class="font-bold text-slate-700 flex items-center mb-1">
+                    <i class="fa-solid fa-book-medical text-blue-600 mr-1.5"></i>
+                    ${currentLang === 'zh' ? '【医学解释】' : 'Medical Rationale'}
+                  </div>
+                  <p class="text-slate-600">${explanation}</p>
+                </div>
+
+                <div class="p-3.5 bg-blue-50/60 rounded-xl border border-blue-100">
+                  <div class="font-bold text-blue-900 flex items-center mb-1">
+                    <i class="fa-solid fa-user-doctor text-blue-600 mr-1.5"></i>
+                    ${currentLang === 'zh' ? '【医生建议】' : 'Physician Recommendations'}
+                  </div>
+                  <p class="text-blue-950">${recommendation}</p>
+                </div>
+
+                ${f.verbatim_hospital_explanation_zh ? `
+                <div class="p-3.5 bg-slate-100/80 rounded-xl border border-slate-200">
+                  <div class="font-bold text-slate-800 flex items-center mb-1 text-[11px]">
+                    <i class="fa-solid fa-hospital text-blue-700 mr-1.5"></i>
+                    ${currentLang === "zh" ? "浙二医院主检报告原版小结与建议" : "Verbatim Hospital Examination Findings & Advice"}
+                  </div>
+                  <p class="text-slate-700 text-[11px] leading-relaxed mb-1.5"><strong>${currentLang === "zh" ? "原版医学解释：" : "Verbatim Rationale: "}</strong>${currentLang === "zh" ? f.verbatim_hospital_explanation_zh : (f.verbatim_hospital_explanation_en || f.explanation_en)}</p>
+                  <p class="text-blue-900 text-[11px] leading-relaxed"><strong>${currentLang === "zh" ? "原版主检建议：" : "Verbatim Recommendation: "}</strong>${currentLang === "zh" ? f.verbatim_hospital_recommendation_zh : (f.verbatim_hospital_recommendation_en || f.recommendation_en)}</p>
+                </div>
+                ` : ""}
+              </div>
+            </div>
+          </div>
+        `;
+        container.insertAdjacentHTML('beforeend', cardHtml);
+      });
+    }
+
+    function toggleFindingDetails(id) {
+      const body = document.getElementById(`finding-body-${id}`);
+      const chevron = document.getElementById(`finding-chevron-${id}`);
+      if (body.classList.contains('hidden')) {
+        body.classList.remove('hidden');
+        chevron.style.transform = 'rotate(180deg)';
+      } else {
+        body.classList.add('hidden');
+        chevron.style.transform = 'rotate(0deg)';
+      }
+    }
+
+    function toggleAllFindings(expand) {
+      EXAM_DATA.findings_14.forEach(f => {
+        const body = document.getElementById(`finding-body-${f.id}`);
+        const chevron = document.getElementById(`finding-chevron-${f.id}`);
+        if (body && chevron) {
+          if (expand) {
+            body.classList.remove('hidden');
+            chevron.style.transform = 'rotate(180deg)';
+          } else {
+            body.classList.add('hidden');
+            chevron.style.transform = 'rotate(0deg)';
+          }
+        }
+      });
+    }
+
+    // Filter Lab Section
+    function filterLabSection(sec) {
+      currentLabFilter = sec;
+      document.querySelectorAll('.lab-filter-btn').forEach(btn => {
+        if (btn.getAttribute('data-section') === sec) {
+          btn.classList.add('active', 'bg-blue-600', 'text-white');
+          btn.classList.remove('bg-slate-100', 'text-slate-600', 'bg-red-50', 'text-red-600');
+        } else {
+          btn.classList.remove('active', 'bg-blue-600', 'text-white');
+          if (btn.getAttribute('data-section') === 'abnormal_only') {
+            btn.classList.add('bg-red-50', 'text-red-600');
+          } else {
+            btn.classList.add('bg-slate-100', 'text-slate-600');
+          }
+        }
+      });
+      renderLabs();
+    }
+
+    // Render Laboratory Tables
+    function renderLabs() {
+      const container = document.getElementById('lab-tables-container');
+      if (!container) return;
+      container.innerHTML = '';
+
+      const searchKeyword = (document.getElementById('lab-search-input')?.value || '').toLowerCase().trim();
+
+      EXAM_DATA.lab_sections.forEach(sec => {
+        if (currentLabFilter !== 'all' && currentLabFilter !== 'abnormal_only' && sec.section_id !== currentLabFilter) {
+          return;
+        }
+
+        const filteredItems = sec.items.filter(item => {
+          if (currentLabFilter === 'abnormal_only' && item.status === 'normal') {
+            return false;
+          }
+          if (!searchKeyword) return true;
+          const nameZh = (item.name_zh || '').toLowerCase();
+          const nameEn = (item.name_en || '').toLowerCase();
+          return nameZh.includes(searchKeyword) || nameEn.includes(searchKeyword);
+        });
+
+        if (filteredItems.length === 0) return;
+
+        const secTitle = currentLang === 'zh' ? sec.title_zh : sec.title_en;
+        
+        let rowsHtml = '';
+        filteredItems.forEach(item => {
+          const itemName = currentLang === 'zh' ? item.name_zh : item.name_en;
+          
+          let val = currentUnit === 'us' && item.val_us !== undefined ? item.val_us : item.val_si;
+          let unit = currentUnit === 'us' && item.unit_us !== undefined ? item.unit_us : item.unit_si;
+          let ref = currentUnit === 'us' && item.ref_us !== undefined ? item.ref_us : item.ref_si;
+
+          let badgeHtml = '';
+          if (item.status === 'high') {
+            badgeHtml = `<span class="px-2 py-0.5 rounded text-[11px] font-bold badge-high"><i class="fa-solid fa-arrow-up mr-1"></i>${currentLang === 'zh' ? '偏高' : 'High'}</span>`;
+          } else if (item.status === 'low') {
+            badgeHtml = `<span class="px-2 py-0.5 rounded text-[11px] font-bold badge-low"><i class="fa-solid fa-arrow-down mr-1"></i>${currentLang === 'zh' ? '偏低' : 'Low'}</span>`;
+          } else if (item.status === 'borderline') {
+            badgeHtml = `<span class="px-2 py-0.5 rounded text-[11px] font-bold badge-warning">${currentLang === 'zh' ? '临界' : 'Borderline'}</span>`;
+          } else if (item.status === 'normal_high') {
+            badgeHtml = `<span class="px-2 py-0.5 rounded text-[11px] font-medium bg-amber-50 text-amber-700">${currentLang === 'zh' ? '近上限' : 'Near High'}</span>`;
+          } else {
+            badgeHtml = `<span class="px-2 py-0.5 rounded text-[11px] font-normal badge-normal">${currentLang === 'zh' ? '正常' : 'Normal'}</span>`;
+          }
+
+          // Alternate unit secondary label
+          let altUnitNote = '';
+          if (currentUnit === 'us' && item.val_si !== item.val_us) {
+            altUnitNote = `<span class="text-[10px] text-slate-400 block font-mono">SI: ${item.val_si} ${item.unit_si}</span>`;
+          } else if (currentUnit === 'si' && item.val_us !== item.val_si) {
+            altUnitNote = `<span class="text-[10px] text-slate-400 block font-mono">US: ${item.val_us} ${item.unit_us}</span>`;
+          }
+
+          rowsHtml += `
+            <tr class="hover:bg-slate-50 transition-colors">
+              <td class="py-3 px-4 font-medium text-slate-900">${itemName}</td>
+              <td class="py-3 px-4 font-bold text-slate-900 whitespace-nowrap">
+                ${val}
+                ${altUnitNote}
+              </td>
+              <td class="py-3 px-4 text-xs font-mono text-slate-500 whitespace-nowrap">${unit || '--'}</td>
+              <td class="py-3 px-4 text-xs text-slate-500 whitespace-nowrap">${ref || '--'}</td>
+              <td class="py-3 px-4 whitespace-nowrap">${badgeHtml}</td>
+            </tr>
+          `;
+        });
+
+        const tableCardHtml = `
+          <div class="bg-white rounded-2xl border border-slate-200 shadow-xs overflow-hidden">
+            <div class="bg-slate-50 px-5 py-3 border-b border-slate-200 flex items-center justify-between">
+              <div class="flex items-center space-x-2">
+                <i class="fa-solid fa-vial text-blue-600"></i>
+                <h4 class="font-bold text-slate-800 text-sm">${secTitle}</h4>
+              </div>
+              <span class="text-xs text-slate-400">${sec.date || ''} ｜ 检验: ${sec.examiner || ''} 审: ${sec.auditor || ''}</span>
+            </div>
+            <div class="overflow-x-auto">
+              <table class="w-full text-left text-sm">
+                <thead class="bg-slate-100/70 text-slate-500 text-xs uppercase tracking-wider border-b border-slate-200">
+                  <tr>
+                    <th class="py-2.5 px-4">${currentLang === 'zh' ? '检测项目' : 'Test Parameter'}</th>
+                    <th class="py-2.5 px-4">${currentLang === 'zh' ? '检查结果' : 'Result'}</th>
+                    <th class="py-2.5 px-4">${currentLang === 'zh' ? '单位' : 'Unit'}</th>
+                    <th class="py-2.5 px-4">${currentLang === 'zh' ? '参考范围' : 'Reference Range'}</th>
+                    <th class="py-2.5 px-4">${currentLang === 'zh' ? '状态' : 'Status'}</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100">
+                  ${rowsHtml}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        `;
+        container.insertAdjacentHTML('beforeend', tableCardHtml);
+      });
+
+      if (container.children.length === 0) {
+        container.innerHTML = `
+          <div class="bg-white rounded-2xl border border-slate-200 p-12 text-center text-slate-400">
+            <i class="fa-solid fa-magnifying-glass text-3xl mb-3"></i>
+            <p class="text-sm">未找到匹配的化验项目 (No matching laboratory items found)</p>
+          </div>
+        `;
+      }
+    }
+
+    // Render Ultrasound Organ Cards
+    function renderUltrasound() {
+      const grid = document.getElementById('ultrasound-organs-grid');
+      if (!grid) return;
+      grid.innerHTML = '';
+
+      EXAM_DATA.specialized_diagnostics.ultrasound.organs.forEach(org => {
+        const name = currentLang === 'zh' ? org.organ_zh : org.organ_en;
+        const findings = currentLang === 'zh' ? org.findings_zh : org.findings_en;
+        const conclusion = currentLang === 'zh' ? org.conclusion_zh : org.conclusion_en;
+        
+        let badgeBg = org.status === 'attention' 
+          ? 'bg-amber-100 text-amber-800 border border-amber-200'
+          : 'bg-emerald-100 text-emerald-800 border border-emerald-200';
+        let badgeText = org.status === 'attention' 
+          ? (currentLang === 'zh' ? '阳性异常' : 'Positive Finding')
+          : (currentLang === 'zh' ? '未见异常' : 'Normal');
+
+        const card = `
+          <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs flex flex-col justify-between hover:border-slate-300 transition">
+            <div>
+              <div class="flex items-center justify-between mb-2">
+                <h4 class="font-bold text-slate-900 text-sm flex items-center">
+                  <i class="fa-solid fa-shield-halved text-teal-600 mr-2"></i>
+                  ${name}
+                </h4>
+                <span class="px-2 py-0.5 rounded text-[11px] font-semibold ${badgeBg}">${badgeText}</span>
+              </div>
+              <p class="text-xs text-slate-600 leading-relaxed bg-slate-50 p-3 rounded-xl border border-slate-100 mb-3">
+                ${findings}
+              </p>
+            </div>
+            <div class="pt-2 border-t border-slate-100 flex items-center justify-between">
+              <span class="text-xs font-bold text-slate-800">${conclusion}</span>
+            </div>
+          </div>
+        `;
+        grid.insertAdjacentHTML('beforeend', card);
+      });
+    }
+
+    // Render TCD Table
+    function renderTCD() {
+      const tbody = document.getElementById('tcd-tbody');
+      if (!tbody) return;
+      tbody.innerHTML = '';
+
+      EXAM_DATA.specialized_diagnostics.tcd.table.forEach(r => {
+        const row = `
+          <tr class="hover:bg-slate-50">
+            <td class="py-2 px-3 font-semibold text-slate-900">${r.vessel}</td>
+            <td class="py-2 px-3 font-mono">${r.depth}</td>
+            <td class="py-2 px-3 font-mono font-bold">${r.peak}</td>
+            <td class="py-2 px-3 font-mono">${r.mean}</td>
+            <td class="py-2 px-3 font-mono">${r.dias}</td>
+            <td class="py-2 px-3 font-mono">${r.pi}</td>
+            <td class="py-2 px-3 font-mono">${r.ri}</td>
+            <td class="py-2 px-3 font-mono">${r.sbi}</td>
+            <td class="py-2 px-3 font-mono">${r.sd}</td>
+            <td class="py-2 px-3 font-mono">${r.hr}</td>
+          </tr>
+        `;
+        tbody.insertAdjacentHTML('beforeend', row);
+      });
+    }
+
+    // Image Modal Control
+    function openImageModal(src, title) {
+      document.getElementById('modal-image-src').src = src;
+      document.getElementById('modal-image-title').innerText = title;
+      document.getElementById('image-modal').classList.remove('hidden');
+    }
+
+    function closeImageModal() {
+      document.getElementById('image-modal').classList.add('hidden');
+    }
+
+    // Initialize on page load
+    document.addEventListener('DOMContentLoaded', () => {
+      setLanguage('zh');
+      setUnitMode('us');
+    });
+  </script>
+</body>
+</html>

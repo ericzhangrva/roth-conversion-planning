@@ -1,0 +1,1225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Financial Asset Picture & Portfolio Summary</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <style>
+        :root {
+            --bg: #090d16;
+            --panel-bg: #131b2e;
+            --panel-border: #1f2d47;
+            --text-white: #f8fafc;
+            --text-sub: #94a3b8;
+            --blue: #3b82f6;
+            --purple: #8b5cf6;
+            --green: #10b981;
+            --amber: #f59e0b;
+            --pink: #ec4899;
+            --gray: #64748b;
+        }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        }
+        body {
+            background-color: var(--bg);
+            color: var(--text-white);
+            padding: 24px;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 1440px;
+            margin: 0 auto;
+        }
+        header {
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            border: 1px solid var(--panel-border);
+            border-radius: 16px;
+            padding: 24px 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        .header-left h1 {
+            font-size: 26px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            margin-bottom: 6px;
+            color: #ffffff;
+        }
+        .header-left p {
+            color: var(--text-sub);
+            font-size: 13.5px;
+        }
+        .header-right {
+            text-align: right;
+        }
+        .header-right .label {
+            font-size: 11px;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--text-sub);
+            margin-bottom: 4px;
+        }
+        .header-right .amount {
+            font-size: 40px;
+            font-weight: 800;
+            color: var(--green);
+            letter-spacing: -1px;
+            line-height: 1;
+        }
+        .debt-free-badge {
+            display: inline-block;
+            background: rgba(16, 185, 129, 0.15);
+            color: #34d399;
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            padding: 4px 12px;
+            border-radius: 9999px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-top: 8px;
+        }
+        .kpi-row {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        .kpi-card {
+            background: var(--panel-bg);
+            border: 1px solid var(--panel-border);
+            border-radius: 14px;
+            padding: 18px 20px;
+            position: relative;
+            overflow: hidden;
+        }
+        .kpi-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+        }
+        .kpi-purple::before { background: var(--purple); }
+        .kpi-blue::before { background: var(--blue); }
+        .kpi-green::before { background: var(--green); }
+        .kpi-amber::before { background: var(--amber); }
+        .kpi-gray::before { background: var(--gray); }
+
+        .kpi-title {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+        .kpi-num {
+            font-size: 28px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            margin-bottom: 4px;
+        }
+        .kpi-share {
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        .kpi-detail {
+            font-size: 11px;
+            color: var(--text-sub);
+            line-height: 1.3;
+        }
+        .chart-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 24px;
+        }
+        .chart-panel {
+            background: var(--panel-bg);
+            border: 1px solid var(--panel-border);
+            border-radius: 16px;
+            padding: 22px;
+            display: flex;
+            flex-direction: column;
+        }
+        .chart-header {
+            margin-bottom: 16px;
+        }
+        .chart-header h2 {
+            font-size: 16px;
+            font-weight: 700;
+            color: #f1f5f9;
+            margin-bottom: 4px;
+        }
+        .chart-header span {
+            font-size: 12px;
+            color: var(--text-sub);
+        }
+        .donut-svg-box {
+            position: relative;
+            height: 220px;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 16px;
+        }
+        .donut-slice {
+            cursor: pointer;
+            transition: opacity 0.2s ease, filter 0.2s ease, transform 0.2s ease;
+        }
+        .donut-slice:hover {
+            opacity: 0.85;
+            filter: brightness(1.18);
+            transform: scale(1.05);
+        }
+        .chart-legend-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 12px;
+            margin-top: auto;
+        }
+        .chart-legend-table td {
+            padding: 6px 4px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+        .dot {
+            height: 10px;
+            width: 10px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 6px;
+        }
+        .bottom-grid {
+            display: grid;
+            grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+            gap: 20px;
+        }
+        .panel {
+            background: var(--panel-bg);
+            border: 1px solid var(--panel-border);
+            border-radius: 16px;
+            padding: 24px;
+        }
+        .panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--panel-border);
+        }
+        .panel-header h2 {
+            font-size: 16.5px;
+            font-weight: 700;
+        }
+        table.summary-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+        table.summary-table th {
+            text-align: left;
+            padding: 8px 10px;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-sub);
+            border-bottom: 1px solid var(--panel-border);
+            white-space: nowrap;
+        }
+        table.summary-table td {
+            padding: 10px 10px;
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+            white-space: nowrap;
+        }
+        .category-row td {
+            background: rgba(30, 41, 59, 0.4);
+            font-weight: 700;
+            color: #cbd5e1;
+            padding: 8px 10px;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 6px;
+            font-size: 10.5px;
+            font-weight: 600;
+        }
+        .b-purple { background: rgba(139, 92, 246, 0.15); color: #a78bfa; }
+        .b-blue { background: rgba(59, 130, 246, 0.15); color: #60a5fa; }
+        .b-green { background: rgba(16, 185, 129, 0.15); color: #34d399; }
+        .b-amber { background: rgba(245, 158, 11, 0.15); color: #fbbf24; }
+        .b-pink { background: rgba(236, 72, 153, 0.15); color: #f472b6; }
+        .b-gray { background: rgba(148, 163, 184, 0.15); color: #cbd5e1; }
+
+        .callout-box {
+            background: rgba(15, 23, 42, 0.7);
+            border: 1px solid var(--panel-border);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+        .callout-box:last-child {
+            margin-bottom: 0;
+        }
+        .callout-box h3 {
+            font-size: 13.5px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: #38bdf8;
+        }
+        .callout-box ul {
+            padding-left: 18px;
+            font-size: 12px;
+            color: #cbd5e1;
+            line-height: 1.6;
+        }
+        .btn-action {
+            background: var(--blue);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 12px;
+            cursor: pointer;
+        }
+        .btn-action:hover { background: #2563eb; }
+
+        @media (max-width: 1024px) {
+            body { padding: 16px; }
+            .container { max-width: 100%; }
+            .kpi-row { grid-template-columns: repeat(3, 1fr); }
+            .chart-grid { grid-template-columns: repeat(3, 1fr); }
+            .bottom-grid { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 768px) {
+            body { padding: 12px; }
+            .kpi-row { grid-template-columns: repeat(2, 1fr); }
+            .chart-grid { grid-template-columns: 1fr; }
+            .bottom-grid { grid-template-columns: 1fr; }
+            header { flex-direction: column; text-align: center; gap: 14px; }
+            .header-right { text-align: center; }
+        }
+
+        @media print {
+            body { background: white; color: black; padding: 0; }
+            .panel, header, .kpi-card, .chart-panel, .callout-box {
+                background: white;
+                border: 1px solid #ccc;
+                color: black;
+                box-shadow: none;
+            }
+            .header-left h1 { -webkit-text-fill-color: black; }
+            .btn-action { display: none; }
+            #custom-tooltip { display: none; }
+        }
+
+        #custom-tooltip {
+            position: absolute;
+            background: rgba(15, 23, 42, 0.95);
+            border: 1px solid var(--panel-border);
+            border-radius: 8px;
+            padding: 12px 16px;
+            color: var(--text-white);
+            font-size: 13px;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.15s ease;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.6);
+            z-index: 1000;
+            transform: translate(-50%, -100%);
+            margin-top: -16px;
+            min-width: 160px;
+        }
+        .tooltip-name {
+            font-weight: 700;
+            margin-bottom: 6px;
+            font-size: 14px;
+        }
+        .tooltip-data {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .tooltip-val {
+            font-weight: 800;
+            font-size: 16px;
+        }
+        .tooltip-pct {
+            color: var(--text-sub);
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+
+<div id="custom-tooltip">
+    <div class="tooltip-name" id="tt-name"></div>
+    <div class="tooltip-data">
+        <span class="tooltip-val" id="tt-val"></span>
+        <span class="tooltip-pct" id="tt-pct"></span>
+    </div>
+</div>
+
+<div style="max-width: 1440px; margin: 0 auto; padding-bottom: 16px; display: flex; gap: 8px; justify-content: flex-end;">
+    <button class="btn-action" onclick="exportToJPG()">Export to JPG</button>
+    <button class="btn-action" onclick="exportToPDF()">Export to PDF</button>
+</div>
+
+<div class="container">
+
+    <header>
+        <div class="header-left">
+            <h1>FINANCIAL ASSET & PORTFOLIO SUMMARY</h1>
+            <p>High-Level Balance Sheet & Sector Allocation for Advisory Review • As of the close of market September 22, 2026</p>
+        </div>
+        <div class="header-right">
+            <div class="label">Total Estimated Net Worth</div>
+            <div class="amount">$6,710K</div>
+        </div>
+    </header>
+
+    <div class="kpi-row">
+        <div class="kpi-card kpi-purple">
+            <div class="kpi-title" style="color: #a78bfa;">Retirement Accounts</div>
+            <div class="kpi-num">$4,953K</div>
+            <div class="kpi-share" style="color: #c4b5fd;">73.8% of Net Worth</div>
+            <div class="kpi-detail">Pre-Tax: $4,836K (98%)<br>Roth: $117K (2%)</div>
+        </div>
+        <div class="kpi-card kpi-blue">
+            <div class="kpi-title" style="color: #60a5fa;">Real Estate Equity</div>
+            <div class="kpi-num">$960K</div>
+            <div class="kpi-share" style="color: #93c5fd;">14.3% of Net Worth</div>
+            <div class="kpi-detail">Primary ($660K) + Vacation ($300K)<br>100% Paid in Full</div>
+        </div>
+        <div class="kpi-card kpi-green">
+            <div class="kpi-title" style="color: #34d399;">Cash & Bank Reserves</div>
+            <div class="kpi-num">$420K</div>
+            <div class="kpi-share" style="color: #6ee7b7;">6.3% of Net Worth</div>
+            <div class="kpi-detail">High-Yield Liquid Savings<br>(Total Liquid Cash: $610K)</div>
+        </div>
+        <div class="kpi-card kpi-amber">
+            <div class="kpi-title" style="color: #fbbf24;">Taxable Brokerage</div>
+            <div class="kpi-num">$278K</div>
+            <div class="kpi-share" style="color: #fde68a;">4.1% of Net Worth</div>
+            <div class="kpi-detail">Fidelity TOD ($185K)<br>E*TRADE Brokerage ($93K)</div>
+        </div>
+        <div class="kpi-card kpi-gray">
+            <div class="kpi-title" style="color: #cbd5e1;">Personal Property</div>
+            <div class="kpi-num">$100K</div>
+            <div class="kpi-share" style="color: #e2e8f0;">1.5% of Net Worth</div>
+            <div class="kpi-detail">Tangible Assets & Vehicles<br>100% Paid in Full</div>
+        </div>
+    </div>
+
+    <div class="chart-grid">
+        
+        <!-- Chart 1: Total Net Worth -->
+        <div class="chart-panel">
+            <div class="chart-header">
+                <h2>1. Total Net Worth Allocation</h2>
+                <span>Macro balance sheet ($6,710K total)</span>
+            </div>
+            <div class="donut-svg-box">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" width="100%" height="100%" style="max-height: 220px; display: block; margin: 0 auto;">
+    <path d="M 120.00 28.00 A 92 92 0 1 1 28.25 126.84 L 58.17 124.61 A 62 62 0 1 0 120.00 58.00 Z" fill="#8b5cf6" stroke="#8b5cf6" stroke-width="1" class="donut-slice" data-name="Retirement Accounts" data-value="$4,953K" data-percent="73.8%" style="transform-origin: 120.0px 120.0px; transform-box: view-box;"></path><path d="M 28.25 126.84 A 92 92 0 0 1 57.54 52.45 L 77.91 74.48 A 62 62 0 0 0 58.17 124.61 Z" fill="#3b82f6" stroke="#3b82f6" stroke-width="1" class="donut-slice" data-name="Primary / Vacation Property" data-value="$960K" data-percent="14.3%" style="transform-origin: 120.0px 120.0px; transform-box: view-box;"></path><path d="M 57.54 52.45 A 92 92 0 0 1 88.19 33.67 L 98.56 61.82 A 62 62 0 0 0 77.91 74.48 Z" fill="#10b981" stroke="#10b981" stroke-width="1" class="donut-slice" data-name="Bank Cash & Savings" data-value="$420K" data-percent="6.3%" style="transform-origin: 120.0px 120.0px; transform-box: view-box;"></path><path d="M 88.19 33.67 A 92 92 0 0 1 111.48 28.40 L 114.26 58.27 A 62 62 0 0 0 98.56 61.82 Z" fill="#f59e0b" stroke="#f59e0b" stroke-width="1" class="donut-slice" data-name="Taxable Brokerage" data-value="$278K" data-percent="4.1%" style="transform-origin: 120.0px 120.0px; transform-box: view-box;"></path><path d="M 111.48 28.40 A 92 92 0 0 1 120.09 28.00 L 120.06 58.00 A 62 62 0 0 0 114.26 58.27 Z" fill="#64748b" stroke="#64748b" stroke-width="1" class="donut-slice" data-name="Personal Property" data-value="$100K" data-percent="1.5%" style="transform-origin: 120.0px 120.0px; transform-box: view-box;"></path>
+    
+    <circle cx="120.0" cy="120.0" r="60" fill="#131b2e" />
+    <text x="120.0" y="117.0" text-anchor="middle" fill="#ffffff" font-size="19" font-weight="800" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif">$6,710K</text>
+    <text x="120.0" y="137.0" text-anchor="middle" fill="#94a3b8" font-size="10" font-weight="700" letter-spacing="1" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif">NET WORTH</text>
+    
+    </svg>
+            </div>
+            <table class="chart-legend-table">
+                <tr><td><span class="dot" style="background:#8b5cf6;"></span>Retirement Accounts</td><td style="text-align:right; font-weight:700;">$4,953K</td><td style="text-align:right; color:#a78bfa;">73.8%</td></tr>
+                <tr><td><span class="dot" style="background:#3b82f6;"></span>Real Estate Equity</td><td style="text-align:right; font-weight:700;">$960K</td><td style="text-align:right; color:#60a5fa;">14.3%</td></tr>
+                <tr><td><span class="dot" style="background:#10b981;"></span>Bank Cash & Savings</td><td style="text-align:right; font-weight:700;">$420K</td><td style="text-align:right; color:#34d399;">6.3%</td></tr>
+                <tr><td><span class="dot" style="background:#f59e0b;"></span>Taxable Brokerage</td><td style="text-align:right; font-weight:700;">$278K</td><td style="text-align:right; color:#fbbf24;">4.1%</td></tr>
+                <tr><td><span class="dot" style="background:#64748b;"></span>Personal Property</td><td style="text-align:right; font-weight:700;">$100K</td><td style="text-align:right; color:#cbd5e1;">1.5%</td></tr>
+            </table>
+        </div>
+
+        <!-- Chart 3: Tax Structure -->
+        <div class="chart-panel">
+            <div class="chart-header">
+                <h2>2. Tax Bucket & Location Profile</h2>
+                <span>Tax classification of all assets ($6,710K total)</span>
+            </div>
+            <div class="donut-svg-box">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" width="100%" height="100%" style="max-height: 220px; display: block; margin: 0 auto;">
+    <path d="M 120.00 28.00 A 92 92 0 1 1 29.55 136.83 L 59.05 131.34 A 62 62 0 1 0 120.00 58.00 Z" fill="#8b5cf6" stroke="#8b5cf6" stroke-width="1" class="donut-slice" data-name="Pre-Tax Qualified (401k/DB)" data-value="$4,836K" data-percent="72.1%" style="transform-origin: 120.0px 120.0px; transform-box: view-box;"></path><path d="M 29.55 136.83 A 92 92 0 0 1 50.53 59.69 L 73.18 79.35 A 62 62 0 0 0 59.05 131.34 Z" fill="#3b82f6" stroke="#3b82f6" stroke-width="1" class="donut-slice" data-name="Primary / Vacation Property" data-value="$960K" data-percent="14.3%" style="transform-origin: 120.0px 120.0px; transform-box: view-box;"></path><path d="M 50.53 59.69 A 92 92 0 0 1 101.52 29.88 L 107.55 59.26 A 62 62 0 0 0 73.18 79.35 Z" fill="#10b981" stroke="#10b981" stroke-width="1" class="donut-slice" data-name="Taxable Accounts & Cash" data-value="$698K" data-percent="10.4%" style="transform-origin: 120.0px 120.0px; transform-box: view-box;"></path><path d="M 101.52 29.88 A 92 92 0 0 1 111.48 28.40 L 114.26 58.27 A 62 62 0 0 0 107.55 59.26 Z" fill="#f59e0b" stroke="#f59e0b" stroke-width="1" class="donut-slice" data-name="Roth (After-Tax Tax-Free)" data-value="$117K" data-percent="1.7%" style="transform-origin: 120.0px 120.0px; transform-box: view-box;"></path><path d="M 111.48 28.40 A 92 92 0 0 1 120.09 28.00 L 120.06 58.00 A 62 62 0 0 0 114.26 58.27 Z" fill="#64748b" stroke="#64748b" stroke-width="1" class="donut-slice" data-name="Personal Property" data-value="$100K" data-percent="1.5%" style="transform-origin: 120.0px 120.0px; transform-box: view-box;"></path>
+    
+    <circle cx="120.0" cy="120.0" r="60" fill="#131b2e" />
+    <text x="120.0" y="117.0" text-anchor="middle" fill="#ffffff" font-size="19" font-weight="800" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif">$6,710K</text>
+    <text x="120.0" y="137.0" text-anchor="middle" fill="#94a3b8" font-size="10" font-weight="700" letter-spacing="1" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif">TAX PROFILE</text>
+    
+    </svg>
+            </div>
+            <table class="chart-legend-table">
+                <tr><td><span class="dot" style="background:#8b5cf6;"></span>Pre-Tax Qualified (401k/DB)</td><td style="text-align:right; font-weight:700;">$4,836K</td><td style="text-align:right; color:#a78bfa;">72.1%</td></tr>
+                <tr><td><span class="dot" style="background:#3b82f6;"></span>Primary / Vacation Property</td><td style="text-align:right; font-weight:700;">$960K</td><td style="text-align:right; color:#60a5fa;">14.3%</td></tr>
+                <tr><td><span class="dot" style="background:#10b981;"></span>Taxable Accounts & Cash</td><td style="text-align:right; font-weight:700;">$698K</td><td style="text-align:right; color:#34d399;">10.4%</td></tr>
+                <tr><td><span class="dot" style="background:#f59e0b;"></span>Roth ($25K in principal)</td><td style="text-align:right; font-weight:700;">$117K</td><td style="text-align:right; color:#fbbf24;">1.7%</td></tr>
+                <tr><td><span class="dot" style="background:#64748b;"></span>Personal Property</td><td style="text-align:right; font-weight:700;">$100K</td><td style="text-align:right; color:#cbd5e1;">1.5%</td></tr>
+            </table>
+        </div>
+
+<!-- Chart 2: Investable Sectors -->
+        <div class="chart-panel">
+            <div class="chart-header">
+                <h2>3. Investment Sector Breakdown</h2>
+                <span>Exposure across all securities ($5,230K total)</span>
+            </div>
+            <div class="donut-svg-box">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" width="100%" height="100%" style="max-height: 220px; display: block; margin: 0 auto;">
+    <path d="M 120.00 28.00 A 92 92 0 1 1 86.32 205.61 L 97.30 177.70 A 62 62 0 1 0 120.00 58.00 Z" fill="#8b5cf6" stroke="#8b5cf6" stroke-width="1" class="donut-slice" data-name="S&P 500" data-value="$2,927K" data-percent="56.0%" style="transform-origin: 120.0px 120.0px; transform-box: view-box;"></path><path d="M 86.32 205.61 A 92 92 0 0 1 28.92 107.06 L 58.62 111.28 A 62 62 0 0 0 97.30 177.70 Z" fill="#3b82f6" stroke="#3b82f6" stroke-width="1" class="donut-slice" data-name="Tech Stocks" data-value="$1,113K" data-percent="21.3%" style="transform-origin: 120.0px 120.0px; transform-box: view-box;"></path><path d="M 28.92 107.06 A 92 92 0 0 1 82.24 36.10 L 94.56 63.46 A 62 62 0 0 0 58.62 111.28 Z" fill="#10b981" stroke="#10b981" stroke-width="1" class="donut-slice" data-name="Tech & Semi ETFs" data-value="$838K" data-percent="16.0%" style="transform-origin: 120.0px 120.0px; transform-box: view-box;"></path><path d="M 82.24 36.10 A 92 92 0 0 1 102.21 29.74 L 108.01 59.17 A 62 62 0 0 0 94.56 63.46 Z" fill="#f59e0b" stroke="#f59e0b" stroke-width="1" class="donut-slice" data-name="Brokerage & Plan Cash" data-value="$190K" data-percent="3.6%" style="transform-origin: 120.0px 120.0px; transform-box: view-box;"></path><path d="M 102.21 29.74 A 92 92 0 0 1 119.89 28.00 L 119.93 58.00 A 62 62 0 0 0 108.01 59.17 Z" fill="#64748b" stroke="#64748b" stroke-width="1" class="donut-slice" data-name="Other / Financials" data-value="$161K" data-percent="3.1%" style="transform-origin: 120.0px 120.0px; transform-box: view-box;"></path>
+    
+    <circle cx="120.0" cy="120.0" r="60" fill="#131b2e" />
+    <text x="120.0" y="117.0" text-anchor="middle" fill="#ffffff" font-size="19" font-weight="800" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif">$5,230K</text>
+    <text x="120.0" y="137.0" text-anchor="middle" fill="#94a3b8" font-size="10" font-weight="700" letter-spacing="1" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif">INVESTABLE</text>
+    
+    </svg>
+            </div>
+            <table class="chart-legend-table">
+                <tr><td><span class="dot" style="background:#8b5cf6;"></span>S&P 500</td><td style="text-align:right; font-weight:700;">$2,927K</td><td style="text-align:right; color:#a78bfa;">56.0%</td></tr>
+                <tr><td><span class="dot" style="background:#3b82f6;"></span>Tech Stocks</td><td style="text-align:right; font-weight:700;">$1,113K</td><td style="text-align:right; color:#60a5fa;">21.3%</td></tr>
+                <tr><td><span class="dot" style="background:#10b981;"></span>Tech & Semi ETFs</td><td style="text-align:right; font-weight:700;">$838K</td><td style="text-align:right; color:#34d399;">16.0%</td></tr>
+                <tr><td><span class="dot" style="background:#f59e0b;"></span>Brokerage & Plan Cash</td><td style="text-align:right; font-weight:700;">$190K</td><td style="text-align:right; color:#fbbf24;">3.6%</td></tr>
+                <tr><td><span class="dot" style="background:#64748b;"></span>Other / Financials</td><td style="text-align:right; font-weight:700;">$161K</td><td style="text-align:right; color:#cbd5e1;">3.1%</td></tr>
+            </table>
+        </div>
+
+            </div>
+
+    <div class="bottom-grid">
+
+        <div class="left-column-group" style="display: flex; flex-direction: column; gap: 20px;">
+            <div class="panel">
+            <div class="panel-header">
+                <h2>Account Balances & Tax Status</h2>
+            </div>
+            <table class="summary-table">
+                <thead>
+                    <tr>
+                        <th>Account / Category</th>
+                        <th>Tax Status</th>
+                        <th style="text-align:right;">Amount</th>
+                        <th style="text-align:right;">% NW</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="category-row"><td colspan="4">A. Real Estate Equity (Unencumbered)</td></tr>
+                    <tr>
+                        <td>Primary Home</td>
+                        <td><span class="badge b-blue">Primary Equity</span></td>
+                        <td style="text-align:right; font-weight:700;">$660K</td>
+                        <td style="text-align:right;">9.8%</td>
+                    </tr>
+                    <tr>
+                        <td>Vacation Home</td>
+                        <td><span class="badge b-blue">Secondary Equity</span></td>
+                        <td style="text-align:right; font-weight:700;">$300K</td>
+                        <td style="text-align:right;">4.5%</td>
+                    </tr>
+
+                    <tr class="category-row"><td colspan="4">B. Bank Cash & Reserves</td></tr>
+                    <tr>
+                        <td>HYSA / Bank Cash</td>
+                        <td><span class="badge b-green">Liquid Cash</span></td>
+                        <td style="text-align:right; font-weight:700;">$420K</td>
+                        <td style="text-align:right;">6.3%</td>
+                    </tr>
+
+                    <tr class="category-row"><td colspan="4">C. Taxable Brokerage ($278K)</td></tr>
+                    <tr>
+                        <td>Fidelity TOD</td>
+                        <td><span class="badge b-amber">Taxable Regular</span></td>
+                        <td style="text-align:right; font-weight:700;">$185K</td>
+                        <td style="text-align:right;">2.8%</td>
+                    </tr>
+                    <tr>
+                        <td>E*TRADE</td>
+                        <td><span class="badge b-amber">Taxable Regular</span></td>
+                        <td style="text-align:right; font-weight:700;">$93K</td>
+                        <td style="text-align:right;">1.4%</td>
+                    </tr>
+
+                    <tr class="category-row"><td colspan="4">D. Qualified Retirement ($4,953K)</td></tr>
+                    <tr>
+                        <td>CapOne 401(k) Pre-Tax</td>
+                        <td><span class="badge b-purple">Pre-Tax Qualified</span></td>
+                        <td style="text-align:right; font-weight:700;">$1,956K</td>
+                        <td style="text-align:right;">29.2%</td>
+                    </tr>
+                    <tr>
+                        <td>CapOne 401(k) Roth</td>
+                        <td><span class="badge b-pink">Roth After-Tax</span></td>
+                        <td style="text-align:right; font-weight:700;">$117K</td>
+                        <td style="text-align:right;">1.7%</td>
+                    </tr>
+                    <tr>
+                        <td>Cash Balance DB</td>
+                        <td><span class="badge b-purple">Pre-Tax Qualified</span></td>
+                        <td style="text-align:right; font-weight:700;">$1,302K</td>
+                        <td style="text-align:right;">19.4%</td>
+                    </tr>
+                    <tr>
+                        <td>Solo 401(k)</td>
+                        <td><span class="badge b-purple">Pre-Tax Qualified</span></td>
+                        <td style="text-align:right; font-weight:700;">$913K</td>
+                        <td style="text-align:right;">13.6%</td>
+                    </tr>
+                    <tr>
+                        <td>BSMH 403(b)</td>
+                        <td><span class="badge b-purple">Pre-Tax Qualified</span></td>
+                        <td style="text-align:right; font-weight:700;">$664K</td>
+                        <td style="text-align:right;">9.9%</td>
+                    </tr>
+
+                    <tr class="category-row"><td colspan="4">E. Tangible Assets</td></tr>
+                    <tr>
+                        <td>Vehicles & Property</td>
+                        <td><span class="badge b-gray">Unencumbered</span></td>
+                        <td style="text-align:right; font-weight:700;">$100K</td>
+                        <td style="text-align:right;">1.5%</td>
+                    </tr>
+
+                    <tr style="background: rgba(16, 185, 129, 0.1); font-weight:800;">
+                        <td>TOTAL ESTIMATED NET WORTH</td>
+                        <td><span class="badge b-green">100% Equity</span></td>
+                        <td style="text-align:right; color:#34d399; font-size:15px;">$6,710K</td>
+                        <td style="text-align:right; color:#34d399;">100.0%</td>
+                    </tr>
+                    <tr>
+                        <td>TOTAL LIABILITIES / DEBT</td>
+                        <td><span class="badge b-green">Zero Debt</span></td>
+                        <td style="text-align:right; color:#94a3b8;">$0K</td>
+                        <td style="text-align:right; color:#94a3b8;">0.0%</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            </div>
+
+            
+        </div>
+
+        <div class="panel" style="flex-grow: 1; display: flex; flex-direction: column;">
+                <div class="panel-header" style="border-bottom: none; padding-bottom: 0;">
+                    <h2>Advisor Notes / Next Steps</h2>
+                    <span id="save-status" style="font-size: 11px; color: #10b981; opacity: 0; transition: opacity 0.3s;">Saved!</span>
+                </div>
+                <textarea id="advisor-notes" placeholder="Type your notes here... They will auto-save to your browser." style="flex-grow: 1; width: 100%; margin-top: 10px; background: rgba(15, 23, 42, 0.5); border: 1px solid var(--panel-border); border-radius: 8px; color: #e2e8f0; padding: 12px; font-family: inherit; font-size: 13px; resize: none; outline: none; box-sizing: border-box;"></textarea>
+            </div>
+
+    </div>
+
+</div>
+
+<script>
+    const tooltip = document.getElementById('custom-tooltip');
+    const ttName = document.getElementById('tt-name');
+    const ttVal = document.getElementById('tt-val');
+    const ttPct = document.getElementById('tt-pct');
+
+    document.querySelectorAll('.donut-slice').forEach(slice => {
+        slice.addEventListener('mouseover', (e) => {
+            ttName.textContent = slice.getAttribute('data-name');
+            ttVal.textContent = slice.getAttribute('data-value');
+            ttPct.textContent = slice.getAttribute('data-percent');
+            ttName.style.color = slice.getAttribute('fill');
+            tooltip.style.opacity = '1';
+        });
+        
+        slice.addEventListener('mousemove', (e) => {
+            tooltip.style.left = e.pageX + 'px';
+            tooltip.style.top = e.pageY + 'px';
+        });
+
+        slice.addEventListener('mouseout', () => {
+            tooltip.style.opacity = '0';
+        });
+    });
+
+    function exportToJPG() {
+        const buttons = document.querySelector('.header-actions');
+        if(buttons) buttons.style.display = 'none';
+        html2canvas(document.querySelector(".container"), { scale: 2, useCORS: true, backgroundColor: '#090d16' }).then(canvas => {
+            const link = document.createElement("a");
+            link.download = "portfolio_summary.jpg";
+            link.href = canvas.toDataURL("image/jpeg", 0.98);
+            link.click();
+            if(buttons) buttons.style.display = 'flex';
+        });
+    }
+
+    function exportToPDF() {
+        const buttons = document.querySelector('.header-actions');
+        if(buttons) buttons.style.display = 'none';
+        html2canvas(document.querySelector(".container"), { scale: 2, useCORS: true, backgroundColor: '#090d16' }).then(canvas => {
+            const imgData = canvas.toDataURL("image/jpeg", 0.98);
+            const { jsPDF } = window.jspdf;
+            
+            const pdf = new jsPDF('p', 'pt', 'letter');
+            const pdfWidth = pdf.internal.pageSize.getWidth();
+            const pdfHeight = pdf.internal.pageSize.getHeight();
+            
+            const margin = 20;
+            const availableWidth = pdfWidth - margin * 2;
+            const availableHeight = pdfHeight - margin * 2;
+            
+            const ratio = Math.min(availableWidth / canvas.width, availableHeight / canvas.height);
+            const imgWidth = canvas.width * ratio;
+            const imgHeight = canvas.height * ratio;
+            const marginX = (pdfWidth - imgWidth) / 2;
+            const marginY = (pdfHeight - imgHeight) / 2;
+            
+            pdf.addImage(imgData, 'JPEG', marginX, marginY, imgWidth, imgHeight);
+            pdf.save("portfolio_summary.pdf");
+            
+            if(buttons) buttons.style.display = 'flex';
+        });
+    }
+
+    const notesArea = document.getElementById('advisor-notes');
+    const saveStatus = document.getElementById('save-status');
+    let saveTimeout;
+
+    if (notesArea) {
+        try {
+            const savedNotes = localStorage.getItem('advisorNotes');
+            if (savedNotes) {
+                notesArea.value = savedNotes;
+            }
+        } catch (e) {
+            console.warn("localStorage not available:", e);
+        }
+
+        notesArea.addEventListener('input', () => {
+            clearTimeout(saveTimeout);
+            saveStatus.style.opacity = '0';
+            
+            saveTimeout = setTimeout(() => {
+                try {
+                    localStorage.setItem('advisorNotes', notesArea.value);
+                } catch (e) {}
+                saveStatus.style.opacity = '1';
+                setTimeout(() => { saveStatus.style.opacity = '0'; }, 2000);
+            }, 500);
+        });
+    }
+
+    let rothConvCheckboxes = {};
+    for (let y = 2027; y <= 2036; y++) rothConvCheckboxes[y] = true;
+
+    window.isAutoRoth = true;
+    window.enableAutoRoth = function() {
+        window.isAutoRoth = true;
+        document.getElementById('sim-roth-label').innerText = "Roth Conv/Yr ($K) (Optimal)";
+        document.getElementById('optimal-roth-display').style.display = "none";
+        updateSimulation();
+    };
+
+    function calcFedTax(income_k) {
+        let taxable = Math.max(0, (income_k * 1000) - 29200);
+        let tax = 0;
+        if (taxable > 731200) { tax += (taxable - 731200) * 0.37; taxable = 731200; }
+        if (taxable > 487450) { tax += (taxable - 487450) * 0.35; taxable = 487450; }
+        if (taxable > 383900) { tax += (taxable - 383900) * 0.32; taxable = 383900; }
+        if (taxable > 201050) { tax += (taxable - 201050) * 0.24; taxable = 201050; }
+        if (taxable > 94300) { tax += (taxable - 94300) * 0.22; taxable = 94300; }
+        if (taxable > 23200) { tax += (taxable - 23200) * 0.12; taxable = 23200; }
+        if (taxable > 0) { tax += taxable * 0.10; }
+        return tax / 1000;
+    }
+
+    function getMarginalFedRate(income_k) {
+        let taxable = Math.max(0, (income_k * 1000) - 29200);
+        if (taxable > 731200) return 0.37;
+        if (taxable > 487450) return 0.35;
+        if (taxable > 383900) return 0.32;
+        if (taxable > 201050) return 0.24;
+        if (taxable > 94300) return 0.22;
+        if (taxable > 23200) return 0.12;
+        if (taxable > 0) return 0.10;
+        return 0;
+    }
+
+
+        const rmdDivisors = { 75:24.6, 76:23.7, 77:22.9, 78:22.0, 79:21.1, 80:20.2, 81:19.4, 82:18.5, 83:17.7, 84:16.8, 85:16.0, 86:15.2, 87:14.4, 88:13.7, 89:12.9, 90:12.2, 91:11.5, 92:10.8, 93:10.1, 94:9.5, 95:8.9, 96:8.4, 97:7.8, 98:7.3, 99:6.8, 100:6.4 };
+        
+        function simRMDPath(testConvB, startPretax, growth, acaSub, endYear) {
+            let endAge = 60 + (endYear - 2036);
+            let pathA = { pretax: startPretax, roth: 0, sub: 0, tax: 0, tvmTax2036: 0, tvmTax2060: 0 };
+            let pathB = { pretax: startPretax, roth: 0, sub: 0, tax: 0, tvmTax2036: 0, tvmTax2060: 0 };
+            let convA = testConvB;
+            let maxConvRateB = 0;
+            let maxRmdRateB = 0;
+            
+            for (let age = 60; age <= endAge; age++) {
+                let year = 2036 + (age - 60);
+                
+                let cA = 0; let sA = 0; let rmdA = 0; let tA = 0;
+                if (age < 65) { sA = acaSub; }
+                else if (age <= 74) { cA = Math.min(convA * 1.5, pathA.pretax); }
+                else { let div = rmdDivisors[age] || 6.4; rmdA = pathA.pretax / div; }
+                tA = calcFedTax(cA + rmdA) + ((cA + rmdA) * 0.0575);
+                
+                pathA.pretax -= (cA + rmdA);
+                pathA.roth += cA;
+                pathA.roth += (rmdA - tA);
+                
+                pathA.pretax *= (1 + growth);
+                pathA.roth *= (1 + growth);
+                pathA.sub = (pathA.sub + sA) * (1 + growth);
+                pathA.tax = (pathA.tax + tA) * (1 + growth);
+                
+                pathA.tvmTax2036 += tA / Math.pow(1 + growth, year - 2036);
+                pathA.tvmTax2060 += tA * Math.pow(1 + growth, 2060 - year);
+                
+                let cB = 0; let sB = 0; let rmdB = 0; let tB = 0;
+                if (age <= 74) {
+                    cB = Math.min(testConvB, pathB.pretax);
+                    let currentRate = getMarginalFedRate(cB) + 0.0575;
+                    if (currentRate > maxConvRateB) maxConvRateB = currentRate;
+                } else {
+                    let div = rmdDivisors[age] || 6.4;
+                    rmdB = pathB.pretax / div;
+                    let currentRate = getMarginalFedRate(rmdB) + 0.0575;
+                    if (currentRate > maxRmdRateB) maxRmdRateB = currentRate;
+                }
+                tB = calcFedTax(cB + rmdB) + ((cB + rmdB) * 0.0575);
+                
+                pathB.pretax -= (cB + rmdB);
+                pathB.roth += cB;
+                pathB.roth += (rmdB - tB);
+                
+                pathB.pretax *= (1 + growth);
+                pathB.roth *= (1 + growth);
+                pathB.tax = (pathB.tax + tB) * (1 + growth);
+                
+                pathB.tvmTax2036 += tB / Math.pow(1 + growth, year - 2036);
+                pathB.tvmTax2060 += tB * Math.pow(1 + growth, 2060 - year);
+            }
+            
+            let kidBase = 150;
+            let inheritedPretaxA = pathA.pretax;
+            let inheritedPretaxB = pathB.pretax;
+            
+            for (let y = 1; y <= 10; y++) {
+                let year = endYear + y;
+                
+                let distA = inheritedPretaxA / (11 - y);
+                let perKidA = distA / 2;
+                let taxPerKidA = (calcFedTax(kidBase + perKidA) - calcFedTax(kidBase)) + (perKidA * 0.0575);
+                let totalTaxA = taxPerKidA * 2;
+                
+                inheritedPretaxA -= distA;
+                inheritedPretaxA *= (1 + growth);
+                pathA.tvmTax2036 += totalTaxA / Math.pow(1 + growth, year - 2036);
+                pathA.tvmTax2060 += totalTaxA * Math.pow(1 + growth, 2060 - year);
+                
+                let distB = inheritedPretaxB / (11 - y);
+                let perKidB = distB / 2;
+                let taxPerKidB = (calcFedTax(kidBase + perKidB) - calcFedTax(kidBase)) + (perKidB * 0.0575);
+                let totalTaxB = taxPerKidB * 2;
+                
+                inheritedPretaxB -= distB;
+                inheritedPretaxB *= (1 + growth);
+                pathB.tvmTax2036 += totalTaxB / Math.pow(1 + growth, year - 2036);
+                pathB.tvmTax2060 += totalTaxB * Math.pow(1 + growth, 2060 - year);
+            }
+            return { pathA, pathB, maxConvRateB, maxRmdRateB };
+        }
+        
+        function getOptimalRMDTax(startPretax) {
+            const growth = (parseFloat(document.getElementById('rmd-growth').value) || 9.0) / 100;
+            const acaSub = parseFloat(document.getElementById('rmd-aca').value) || 30;
+            const endYear = parseInt(document.getElementById('rmd-eol').value) || 2060;
+            
+            let minTaxB = Infinity;
+            for (let testRoth = 0; testRoth <= 1000; testRoth += 10) {
+                let res = simRMDPath(testRoth, startPretax, growth, acaSub, endYear);
+                if (res.pathB.tvmTax2036 < minTaxB) {
+                    minTaxB = res.pathB.tvmTax2036;
+                }
+            }
+            return minTaxB;
+        }
+
+    function updateSimulation() {
+        const retYear = parseInt(document.getElementById('sim-ret-year').value) || 2027;
+        const colExp = parseFloat(document.getElementById('sim-college').value) || 100;
+        const rateSave = (parseFloat(document.getElementById('sim-rate-save').value) || 4.0) / 100;
+        const rateInv = (parseFloat(document.getElementById('sim-rate-inv').value) || 9.0) / 100;
+        const baseExp = parseFloat(document.getElementById('sim-base-exp').value) || 60;
+        const healthSub = parseFloat(document.getElementById('sim-health-sub').value) || 5;
+        const healthNoSub = parseFloat(document.getElementById('sim-health-wosub').value) || 25;
+        let saveBal = parseFloat(document.getElementById('sim-start-save').value) || 420;
+        let invBal = parseFloat(document.getElementById('sim-start-inv').value) || 303;
+        const workIncome = parseFloat(document.getElementById('sim-work-income').value) || 250;
+        const taxBracket = (parseFloat(document.getElementById('sim-tax-bracket').value) || 29.75) / 100;
+        let rothConv = parseFloat(document.getElementById('sim-roth-conv').value) || 0;
+        
+        const tbody = document.getElementById('sim-table-body');
+        if(!tbody) return;
+        tbody.innerHTML = '';
+        
+        const f = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 1 });
+        const fmt = (val) => f.format(val) + 'K';
+        
+        function simulateCore(testRoth, renderMode = false) {
+            let tempSave = parseFloat(document.getElementById('sim-start-save').value) || 420;
+            let tempInv = parseFloat(document.getElementById('sim-start-inv').value) || 303;
+            let minBal = Math.min(tempSave, tempInv);
+            let maxSimBracket = 0;
+            let tvmTotalTaxes = 0;
+            let tvmTax2027 = 0;
+            
+            let tempPretax = 4836;
+            let tempRoth = 117;
+            
+            for (let year = 2027; year <= 2036; year++) {
+                let startSave = tempSave;
+                let startInv = tempInv;
+                
+                let isRetired = year >= retYear;
+                
+                let currentCollege = 0;
+                if (year === 2029 || year === 2033) currentCollege = colExp / 2;
+                else if (year > 2029 && year < 2033) currentCollege = colExp;
+                
+                let currentBase = baseExp;
+                
+                let isChecked = rothConvCheckboxes[year];
+                let currentRothConv = isChecked ? testRoth : 0;
+                
+                tempPretax -= currentRothConv;
+                tempRoth += currentRothConv;
+                
+                let maturedConv = (year - 5 >= 2027 && rothConvCheckboxes[year - 5]) ? testRoth : 0;
+                if (maturedConv > 0) {
+                    tempRoth -= maturedConv;
+                    if (tempSave >= 0 && tempInv >= 0) {
+                        let st = tempSave + tempInv;
+                        if (st > 0) {
+                            tempSave += maturedConv * (tempSave / st);
+                            tempInv += maturedConv * (tempInv / st);
+                        } else {
+                            tempSave += maturedConv / 2;
+                            tempInv += maturedConv / 2;
+                        }
+                    } else if (tempSave < 0 && tempInv < 0) {
+                        tempSave += maturedConv / 2;
+                        tempInv += maturedConv / 2;
+                    } else if (tempSave < 0) {
+                        tempSave += maturedConv;
+                    } else if (tempInv < 0) {
+                        tempInv += maturedConv;
+                    }
+                }
+                
+                let currentIncome = isRetired ? 0 : workIncome;
+                let expectedInterest = (tempSave > 0 ? tempSave * rateSave : 0) + (tempInv > 0 ? tempInv * rateInv : 0);
+                
+                let baseMagi = currentIncome + expectedInterest;
+                let totalMagi = baseMagi + currentRothConv;
+                
+                let currentMarginal = getMarginalFedRate(totalMagi) + 0.0575;
+                if (currentMarginal > maxSimBracket) maxSimBracket = currentMarginal;
+                
+                let fedTaxDiff = calcFedTax(totalMagi) - calcFedTax(baseMagi);
+                let vaTaxDiff = currentRothConv * 0.0575;
+                let currentTaxes = fedTaxDiff + vaTaxDiff;
+                
+                tvmTotalTaxes += currentTaxes * Math.pow(1 + rateInv, 2036 - year);
+                tvmTax2027 += currentTaxes / Math.pow(1 + rateInv, year - 2027);
+                
+                let currentHealth = !isRetired ? healthSub : (totalMagi > 90 ? healthNoSub : healthSub);
+                
+                let currentExpenses = currentBase + currentHealth + currentCollege + currentTaxes;
+                let surplus = currentIncome - currentExpenses;
+                
+                if (surplus > 0) {
+                    if (tempSave >= 0 && tempInv >= 0) {
+                        let tb = tempSave + tempInv;
+                        if (tb > 0) {
+                            tempSave += surplus * (tempSave / tb);
+                            tempInv += surplus * (tempInv / tb);
+                        } else {
+                            tempSave += surplus / 2;
+                            tempInv += surplus / 2;
+                        }
+                    } else if (tempSave < 0 && tempInv < 0) {
+                        tempSave += surplus / 2;
+                        tempInv += surplus / 2;
+                    } else if (tempSave < 0) {
+                        tempSave += surplus;
+                    } else if (tempInv < 0) {
+                        tempInv += surplus;
+                    }
+                } else if (surplus < 0) {
+                    if (tempSave >= 0 && tempInv >= 0) {
+                        let tb = tempSave + tempInv;
+                        if (tb > 0) {
+                            tempSave += surplus * (tempSave / tb);
+                            tempInv += surplus * (tempInv / tb);
+                        } else {
+                            tempSave += surplus / 2;
+                            tempInv += surplus / 2;
+                        }
+                    } else if (tempSave < 0 && tempInv < 0) {
+                        tempSave += surplus / 2;
+                        tempInv += surplus / 2;
+                    } else if (tempSave < 0) {
+                        tempInv += surplus;
+                    } else if (tempInv < 0) {
+                        tempSave += surplus;
+                    }
+                }
+                
+                if (tempSave > 0) tempSave *= (1 + rateSave);
+                if (tempInv > 0) tempInv *= (1 + rateInv);
+                if (tempPretax > 0) tempPretax *= (1 + rateInv);
+                if (tempRoth > 0) tempRoth *= (1 + rateInv);
+                
+                if (renderMode) {
+                    let displayBase = fmt(currentBase);
+                    let displayHealth = currentHealth > healthSub ? `<span style="color:#ef4444;font-weight:bold;">${fmt(currentHealth)}</span>` : fmt(currentHealth);
+                    let displayCollege = currentCollege > 0 ? `<span style="color:#fbbf24;">${fmt(currentCollege)}</span>` : `$0`;
+                    
+                    let rothHTML = `<label style="cursor:pointer; display:flex; align-items:center; gap:4px;"><input type="checkbox" class="roth-chk" data-year="${year}" ${isChecked ? 'checked' : ''}> ${fmt(currentRothConv)}</label>`;
+                    let displayTaxes = currentTaxes > 0 ? `${fmt(currentTaxes)}` : `$0`;
+                    
+                    let tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td>${year} ${isRetired ? '<span style="color:#fbbf24;font-size:10px;">(Ret)</span>' : ''}</td>
+                        <td style="color: ${startSave < 0 ? '#ef4444' : '#6ee7b7'}; font-weight: 700;">${fmt(startSave)}</td>
+                        <td style="color: ${startInv < 0 ? '#ef4444' : '#6ee7b7'}; font-weight: 700;">${fmt(startInv)}</td>
+                        <td style="color: #c4b5fd;">${rothHTML}</td>
+                        <td>${displayBase}</td>
+                        <td>${displayHealth}</td>
+                        <td>${displayCollege}</td>
+                        <td>${displayTaxes}</td>
+                    `;
+                    tbody.appendChild(tr);
+                }
+                
+                let currentMin = Math.min(tempSave, tempInv);
+                if (currentMin < minBal) minBal = currentMin;
+            }
+            
+            if (renderMode) {
+                document.getElementById('sim-tax-bracket').value = (maxSimBracket * 100).toFixed(2) + '% (Max)';
+                document.getElementById('end-cash').textContent = fmt(tempSave);
+                document.getElementById('end-inv').textContent = fmt(tempInv);
+                document.getElementById('end-pretax').textContent = fmt(tempPretax);
+                document.getElementById('end-roth').textContent = fmt(tempRoth);
+                
+                document.getElementById('end-tax-2027').textContent = fmt(tvmTax2027);
+                document.getElementById('end-tax-2036').textContent = fmt(tvmTotalTaxes);
+            }
+            
+            return { minBal, finalBal: tempSave + tempInv, tvmTotalTaxes, tvmTax2027, tempPretax };
+        }
+
+        let bestRoth = 0;
+        let maxMinBal = -Infinity;
+        let minTaxesForValid = Infinity;
+        let foundValid = false;
+        
+        for (let testRoth = 0; testRoth <= 1000; testRoth += 5) {
+            let res = simulateCore(testRoth, false);
+            
+            if (res.minBal >= 0) {
+                let futureTax = getOptimalRMDTax(res.tempPretax);
+                let totalLifetimeTax = res.tvmTotalTaxes + futureTax;
+                
+                if (!foundValid || totalLifetimeTax < minTaxesForValid) {
+                    minTaxesForValid = totalLifetimeTax;
+                    bestRoth = testRoth;
+                    maxMinBal = res.minBal;
+                    foundValid = true;
+                }
+            } else if (!foundValid) {
+                if (res.minBal > maxMinBal) {
+                    maxMinBal = res.minBal;
+                    bestRoth = testRoth;
+                }
+            }
+        }
+        
+        const optDisplay = document.getElementById('optimal-roth-display');
+        
+        if (window.isAutoRoth) {
+            rothConv = bestRoth;
+            document.getElementById('sim-roth-conv').value = bestRoth;
+            if (optDisplay) optDisplay.style.display = "none";
+        } else {
+            if (optDisplay) {
+                optDisplay.innerText = `Optimal: ${bestRoth}K (Click to apply)`;
+                optDisplay.style.display = "block";
+            }
+        }
+
+        let finalRes = simulateCore(rothConv, true);
+        
+        // Connect Agenda 1 ending Pre-Tax directly into Agenda 2
+        let rmdPretaxInput = document.getElementById('rmd-pretax');
+        if (rmdPretaxInput && finalRes.tempPretax !== undefined) {
+            rmdPretaxInput.value = (finalRes.tempPretax / 1000).toFixed(1);
+            if (typeof updateRMDSimulation === 'function') {
+                updateRMDSimulation();
+            }
+        }
+        
+        document.querySelectorAll('.roth-chk').forEach(chk => {
+            chk.addEventListener('change', (e) => {
+                rothConvCheckboxes[e.target.dataset.year] = e.target.checked;
+                updateSimulation();
+            });
+        });
+    }
+    
+    const simInputs = ['sim-ret-year', 'sim-college', 'sim-rate-save', 'sim-rate-inv', 'sim-base-exp', 'sim-health-sub', 'sim-health-wosub', 'sim-start-save', 'sim-start-inv', 'sim-work-income', 'sim-tax-bracket', 'sim-roth-conv'];
+    simInputs.forEach(id => {
+        let el = document.getElementById(id);
+        if(el) {
+            el.addEventListener('input', (e) => {
+                if (id === 'sim-roth-conv') {
+                    window.isAutoRoth = false;
+                    document.getElementById('sim-roth-label').innerText = "Roth Conv/Yr ($K) (Manual)";
+                }
+                updateSimulation();
+            });
+        }
+    });
+    
+    if(document.getElementById('sim-ret-year')) {
+        updateSimulation();
+    }
+    function updateRMDSimulation() {
+        const startPretaxM = parseFloat(document.getElementById('rmd-pretax').value) || 10.0;
+        const startPretax = startPretaxM * 1000;
+        const growth = (parseFloat(document.getElementById('rmd-growth').value) || 9.0) / 100;
+        const acaSub = parseFloat(document.getElementById('rmd-aca').value) || 30;
+        const endYear = parseInt(document.getElementById('rmd-eol').value) || 2060;
+        let convB = parseFloat(document.getElementById('rmd-conv-b').value) || 250;
+        
+        const fmt = (val) => '$' + Math.round(val).toLocaleString() + 'K';
+
+        
+        if (window.isAutoRMDRoth === undefined) window.isAutoRMDRoth = true;
+        
+        if (window.isAutoRMDRoth) {
+            let bestRoth = 0;
+            let minTaxB = Infinity;
+            for (let testRoth = 0; testRoth <= 1000; testRoth += 10) {
+                let res = simRMDPath(testRoth, startPretax, growth, acaSub, endYear);
+                if (res.pathB.tvmTax2036 < minTaxB) {
+                    minTaxB = res.pathB.tvmTax2036;
+                    bestRoth = testRoth;
+                }
+            }
+            convB = bestRoth;
+            document.getElementById('rmd-conv-b').value = bestRoth;
+            let optDisplay = document.getElementById('optimal-rmd-display');
+            if (optDisplay) optDisplay.style.display = "none";
+        } else {
+            let bestRoth = 0;
+            let minTaxB = Infinity;
+            for (let testRoth = 0; testRoth <= 1000; testRoth += 10) {
+                let res = simRMDPath(testRoth, startPretax, growth, acaSub, endYear);
+                if (res.pathB.tvmTax2036 < minTaxB) {
+                    minTaxB = res.pathB.tvmTax2036;
+                    bestRoth = testRoth;
+                }
+            }
+            let optDisplay = document.getElementById('optimal-rmd-display');
+            if (optDisplay) {
+                optDisplay.innerText = `Optimal: ${bestRoth}K (Click to apply)`;
+                optDisplay.style.display = "block";
+            }
+        }
+        
+        let finalRes = simRMDPath(convB, startPretax, growth, acaSub, endYear);
+        let pathA = finalRes.pathA;
+        let pathB = finalRes.pathB;
+        
+        document.getElementById('rmd-tax-now').value = (finalRes.maxConvRateB * 100).toFixed(2) + '% (Max)';
+        document.getElementById('rmd-tax-future').value = (finalRes.maxRmdRateB * 100).toFixed(2) + '% (Max)';
+        
+        let tbody = document.getElementById('rmd-table-body');
+        if(!tbody) return;
+        tbody.innerHTML = `
+            <tr>
+                <td style="font-weight: 500;">Final Pre-Tax Balance (End of Life)</td>
+                <td style="color: #94a3b8;">${fmt(pathA.pretax)}</td>
+                <td style="color: #94a3b8;">${fmt(pathB.pretax)}</td>
+            </tr>
+            <tr>
+                <td style="font-weight: 500;">Tax-Free Net Worth (Roth/Brokerage)</td>
+                <td style="color: #6ee7b7;">${fmt(pathA.roth)}</td>
+                <td style="color: #6ee7b7;">${fmt(pathB.roth)}</td>
+            </tr>
+            <tr>
+                <td style="font-weight: 500;">ACA Subsidies Claimed</td>
+                <td style="color: #38bdf8;">${fmt(pathA.sub)}</td>
+                <td style="color: #38bdf8;">${fmt(pathB.sub)}</td>
+            </tr>
+            <tr>
+                <td style="font-weight: 500; color: #ef4444;">Total Taxes (Adjusted to 2036 Value)</td>
+                <td style="color: #fca5a5;">${fmt(pathA.tvmTax2036)}</td>
+                <td style="color: #fca5a5; font-weight: bold;">${fmt(pathB.tvmTax2036)}</td>
+            </tr>
+            <tr>
+                <td style="font-weight: 500; color: #ef4444;">Total Taxes (Adjusted to 2060 Value)</td>
+                <td style="color: #fca5a5;">${fmt(pathA.tvmTax2060)}</td>
+                <td style="color: #fca5a5; font-weight: bold;">${fmt(pathB.tvmTax2060)}</td>
+            </tr>
+        `;
+    }
+    
+    const rmdInputs = ['rmd-pretax', 'rmd-growth', 'rmd-eol', 'rmd-aca', 'rmd-conv-b'];
+    rmdInputs.forEach(id => {
+        let el = document.getElementById(id);
+        if(el) el.addEventListener('input', (e) => {
+            if (id === 'rmd-conv-b') {
+                window.isAutoRMDRoth = false;
+                document.getElementById('rmd-roth-label').innerText = "Roth Conv/Yr (Age 60-74) ($K) (Manual)";
+            }
+            if (['rmd-growth', 'rmd-eol', 'rmd-aca'].includes(id)) {
+                updateSimulation();
+            } else {
+                updateRMDSimulation();
+            }
+        });
+    });
+    
+    window.enableAutoRMDRoth = function() {
+        window.isAutoRMDRoth = true;
+        document.getElementById('rmd-roth-label').innerText = "Roth Conv/Yr (Age 60-74) ($K) (Optimal)";
+        updateSimulation();
+    };
+    
+    if(document.getElementById('rmd-pretax')) {
+        updateRMDSimulation();
+    }
+</script>
+
+</body>
+</html>

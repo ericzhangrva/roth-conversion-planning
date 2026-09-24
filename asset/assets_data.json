@@ -1,0 +1,280 @@
+{
+  "as_of_date": "September 22, 2026",
+  "as_of_time": "4:20 PM EST (Official Market Close)",
+  "market_close_pending": false,
+  "real_estate": {
+    "primary_residence": {
+      "name": "Primary Residence",
+      "value": 660000.0,
+      "mortgage": 0.0,
+      "status": "Paid in Full (Unencumbered)"
+    },
+    "vacation_home": {
+      "name": "Vacation Home",
+      "value": 300000.0,
+      "mortgage": 0.0,
+      "status": "Paid in Full (Unencumbered)"
+    },
+    "total_value": 960000.0,
+    "total_mortgage": 0.0
+  },
+  "bank_cash": {
+    "high_yield_savings": {
+      "name": "High-Yield Savings & Liquid Reserves",
+      "value": 419846.0,
+      "breakdown": "Updated to 419,846.00",
+      "status": "Liquid Cash Reserves"
+    },
+    "total_value": 419846.0
+  },
+  "tangible_personal_property": {
+    "name": "Tangible Personal Property",
+    "value": 100000.0,
+    "status": "Paid in Full (Unencumbered)"
+  },
+  "taxable_brokerage": {
+    "etrade": {
+      "account_name": "E*TRADE Brokerage",
+      "symbol": "COF",
+      "shares": 463.8796115557291,
+      "share_breakdown": "453.832 + 10.0476115557291",
+      "price_per_share": 200.5502455432308,
+      "current_value": 93031.17,
+      "sector": "Financials",
+      "tax_status": "Taxable Regular"
+    },
+    "fidelity_individual_tod": {
+      "account_name": "Fidelity Individual - TOD",
+      "account_total": 184782.73,
+      "tax_status": "Taxable Regular",
+      "holdings": [
+        {
+          "symbol": "Cash",
+          "name": "Money Market Cash",
+          "value": 19426.83,
+          "sector": "Brokerage Cash"
+        },
+        {
+          "symbol": "META",
+          "name": "Meta Platforms Class A",
+          "value": 29491.05,
+          "sector": "Tech Stocks"
+        },
+        {
+          "symbol": "MSFT",
+          "name": "Microsoft Corp",
+          "value": 29992.54,
+          "sector": "Tech Stocks"
+        },
+        {
+          "symbol": "MU",
+          "name": "Micron Technology",
+          "value": 16444.59,
+          "sector": "Tech Stocks"
+        },
+        {
+          "symbol": "MUU",
+          "name": "Direxion Daily MU Bull 2X",
+          "value": 7800.34,
+          "sector": "Other / Financials"
+        },
+        {
+          "symbol": "QQQM",
+          "name": "Invesco Nasdaq 100 ETF",
+          "value": 18537.58,
+          "sector": "Tech & Semi ETFs"
+        },
+        {
+          "symbol": "SMH",
+          "name": "VanEck Semiconductor ETF",
+          "value": 36447.6,
+          "sector": "Tech & Semi ETFs"
+        },
+        {
+          "symbol": "SNXX",
+          "name": "Investment Managers Ser TR",
+          "value": 9900.0,
+          "sector": "Other / Financials"
+        },
+        {
+          "symbol": "SOXL",
+          "name": "Direxion Daily Semiconductor Bull 3X",
+          "value": 15195.0,
+          "sector": "Other / Financials"
+        },
+        {
+          "symbol": "SPCX",
+          "name": "Space Exploration Technologies",
+          "value": 1547.2,
+          "sector": "Other / Financials"
+        }
+      ]
+    },
+    "total_value": 277813.9
+  },
+  "retirement_accounts": {
+    "capital_one_401k": {
+      "account_name": "Capital One 401(k) ASP",
+      "account_total": 2073047.8,
+      "roth_pct": 0.0564,
+      "pretax_pct": 0.9436,
+      "roth_value": 116919.9,
+      "pretax_value": 1956127.9,
+      "holding": "State Street S&P 500 Index (59,978.41 shs)",
+      "sector": "S&P 500"
+    },
+    "self_employed_401k": {
+      "account_name": "Self-Employed 401(k)",
+      "account_total": 913068.61,
+      "tax_status": "100% Pre-Tax",
+      "holdings": [
+        {
+          "symbol": "Cash",
+          "name": "Money Market Cash",
+          "value": 11936.06,
+          "sector": "Brokerage Cash"
+        },
+        {
+          "symbol": "TSM",
+          "name": "Taiwan Semiconductor",
+          "value": 91357.33,
+          "sector": "Tech Stocks"
+        },
+        {
+          "symbol": "AAPL",
+          "name": "Apple Inc",
+          "value": 180694.33,
+          "sector": "Tech Stocks"
+        },
+        {
+          "symbol": "META",
+          "name": "Meta Platforms Class A",
+          "value": 256646.63,
+          "sector": "Tech Stocks"
+        },
+        {
+          "symbol": "SMH",
+          "name": "VanEck Semiconductor ETF",
+          "value": 121492.0,
+          "sector": "Tech & Semi ETFs"
+        },
+        {
+          "symbol": "NVDA",
+          "name": "NVIDIA Corp",
+          "value": 229162.26,
+          "sector": "Tech Stocks"
+        },
+        {
+          "symbol": "SNXX",
+          "name": "Investment Managers Ser TR",
+          "value": 21780.0,
+          "sector": "Other / Financials"
+        }
+      ]
+    },
+    "cash_balance_plan": {
+      "account_name": "Cash Balance Defined Benefit Plan",
+      "account_total": 1302138.66,
+      "tax_status": "100% Pre-Tax",
+      "holdings": [
+        {
+          "symbol": "Cash",
+          "name": "Money Market Cash",
+          "value": 158940.6,
+          "sector": "Brokerage Cash"
+        },
+        {
+          "symbol": "NVDA",
+          "name": "NVIDIA Corp",
+          "value": 229162.26,
+          "sector": "Tech Stocks"
+        },
+        {
+          "symbol": "MSFT",
+          "name": "Microsoft Corp",
+          "value": 50296.0,
+          "sector": "Tech Stocks"
+        },
+        {
+          "symbol": "QQQM",
+          "name": "Invesco Nasdaq 100 ETF",
+          "value": 308147.48,
+          "sector": "Tech & Semi ETFs"
+        },
+        {
+          "symbol": "VOO",
+          "name": "Vanguard S&P 500 ETF",
+          "value": 189703.54,
+          "sector": "S&P 500"
+        },
+        {
+          "symbol": "SCHD",
+          "name": "Schwab US Dividend Equity",
+          "value": 2176.33,
+          "sector": "Other / Financials"
+        },
+        {
+          "symbol": "SMH",
+          "name": "VanEck Semiconductor ETF",
+          "value": 50419.18,
+          "sector": "Tech & Semi ETFs"
+        },
+        {
+          "symbol": "SPCX",
+          "name": "Space Exploration Technologies",
+          "value": 10056.8,
+          "sector": "Other / Financials"
+        },
+        {
+          "symbol": "VGT",
+          "name": "Vanguard Info Tech ETF",
+          "value": 303236.47,
+          "sector": "Tech & Semi ETFs"
+        }
+      ]
+    },
+    "bsmh_403b": {
+      "account_name": "BSMH 403(b) Retirement Plan",
+      "account_total": 664346.08,
+      "tax_status": "100% Pre-Tax",
+      "holding": "BlackRock BTC Equity Index J (S&P 500)",
+      "sector": "S&P 500"
+    },
+    "total_value": 4952601.15,
+    "total_pretax": 4835681.25,
+    "total_roth": 116919.9,
+    "pretax_pct": 97.64,
+    "roth_pct": 2.36
+  },
+  "total_investable_securities": 5230415.05,
+  "total_net_worth": 6710261.05,
+  "total_liabilities": 0.0,
+  "debt_free": true,
+  "sector_breakdown": {
+    "S&P 500": {
+      "name": "S&P 500",
+      "value": 2927097.42,
+      "percentage": 55.96
+    },
+    "Other / Financials": {
+      "name": "Other / Financials",
+      "value": 161486.84,
+      "percentage": 3.09
+    },
+    "Tech Stocks": {
+      "name": "Tech Stocks",
+      "value": 1113246.99,
+      "percentage": 21.28
+    },
+    "Tech & Semi ETFs": {
+      "name": "Tech & Semi ETFs",
+      "value": 838280.31,
+      "percentage": 16.03
+    },
+    "Brokerage & Plan Cash": {
+      "name": "Brokerage & Plan Cash",
+      "value": 190303.49,
+      "percentage": 3.64
+    }
+  }
+}

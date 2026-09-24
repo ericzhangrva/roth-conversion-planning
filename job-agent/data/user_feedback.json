@@ -1,0 +1,23 @@
+{
+  "gh_affirm_7710178003": {
+    "status": "applied",
+    "updated_at": "2026-09-01 02:19 AM",
+    "applied_at": "2026-09-01 02:19 AM"
+  },
+  "gh_stripe_8113221": {
+    "status": "not_a_fit",
+    "updated_at": "2026-09-01 02:20 AM"
+  },
+  "ashby_plaid_ea30ff3f-327b-4030-9283-3d4763a84820": {
+    "status": "not_a_fit",
+    "updated_at": "2026-09-01 02:22 AM"
+  },
+  "gh_sofi_7679621003": {
+    "status": "not_a_fit",
+    "updated_at": "2026-09-01 02:23 AM"
+  },
+  "gh_coinbase_7606826": {
+    "status": "not_a_fit",
+    "updated_at": "2026-09-01 02:23 AM"
+  }
+}

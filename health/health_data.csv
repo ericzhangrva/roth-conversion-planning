@@ -1,0 +1,265 @@
+collection_date,date_display,category,test_name,value,numeric_value,ref_range,ref_min,ref_max,units,flag,file,provider,accession
+2022-01-26,01/26/2022,Comprehensive Metabolic Panel (CMP),ALT (SGPT),29,29.0,0-41,0.0,41.0,IU/L,,2335243535.html,46,46
+2022-01-26,01/26/2022,Comprehensive Metabolic Panel (CMP),AST (SGOT),24,24.0,0-36,0.0,36.0,IU/L,,2335243535.html,46,46
+2022-01-26,01/26/2022,Comprehensive Metabolic Panel (CMP),Albumin,4.6,4.6,3.5-5.5,3.5,5.5,g/dL,,2335243535.html,46,46
+2022-01-26,01/26/2022,Comprehensive Metabolic Panel (CMP),Alk Phosphatase,66,66.0,30-120,30.0,120.0,IU/L,,2335243535.html,46,46
+2022-01-26,01/26/2022,Comprehensive Metabolic Panel (CMP),BUN,17,17.0,7-21,7.0,21.0,mg/dL,,2335243535.html,46,46
+2022-01-26,01/26/2022,Comprehensive Metabolic Panel (CMP),CO2,24,24.0,20-32,20.0,32.0,mmol/L,,2335243535.html,46,46
+2022-01-26,01/26/2022,Comprehensive Metabolic Panel (CMP),Calcium,9.6,9.6,8.5-10.7,8.5,10.7,mg/dL,,2335243535.html,46,46
+2022-01-26,01/26/2022,Comprehensive Metabolic Panel (CMP),Chloride,101,101.0,95-113,95.0,113.0,mmol/L,,2335243535.html,46,46
+2022-01-26,01/26/2022,Lipid Panel (Cardiovascular),Chol/HDL Ratio,4.7,4.7,--,,,Ratio,,2335243535.html,46,46
+2022-01-26,01/26/2022,Lipid Panel (Cardiovascular),Cholesterol,230,230.0,140-200,140.0,200.0,mg/dL,H,2335243535.html,46,46
+2022-01-26,01/26/2022,Comprehensive Metabolic Panel (CMP),Creatinine,1.2,1.2,0.7-1.4,0.7,1.4,mg/dL,,2335243535.html,46,46
+2022-01-26,01/26/2022,Lipid Panel (Cardiovascular),Direct HDL,49,49.0,30-75,30.0,75.0,mg/dL,,2335243535.html,46,46
+2022-01-26,01/26/2022,"Hormones, Endocrine & Men's Health",Free Thyroxine,0.94,0.94,0.71-1.85,0.71,1.85,ng/dL,,2335243535.html,46,46
+2022-01-26,01/26/2022,Complete Blood Count (CBC),GRAN,4.0,4.0,2.0-7.8,2.0,7.8,K/uL,,2329899046.html,46,46
+2022-01-26,01/26/2022,Complete Blood Count (CBC),GRAN%,59.7,59.7,37.0-92.0,37.0,92.0,%,,2329899046.html,46,46
+2022-01-26,01/26/2022,Comprehensive Metabolic Panel (CMP),Glucose,95,95.0,64-110,64.0,110.0,mg/dL,,2335243535.html,46,46
+2022-01-26,01/26/2022,Complete Blood Count (CBC),HCT,51.7,51.7,37.0-51.0,37.0,51.0,%,H,2329899046.html,46,46
+2022-01-26,01/26/2022,Complete Blood Count (CBC),HGB,16.9,16.9,12.0-18.0,12.0,18.0,g/dL,,2329899046.html,46,46
+2022-01-26,01/26/2022,Lipid Panel (Cardiovascular),LDL-Direct,125,125.0,0-130,0.0,130.0,--,,2335243535.html,46,46
+2022-01-26,01/26/2022,Complete Blood Count (CBC),LYM,2.2,2.2,0.6-4.1,0.6,4.1,K/uL,,2329899046.html,46,46
+2022-01-26,01/26/2022,Complete Blood Count (CBC),LYM%,33.4,33.4,10.0-58.5,10.0,58.5,%,,2329899046.html,46,46
+2022-01-26,01/26/2022,Complete Blood Count (CBC),MCH,30.2,30.2,26.0-32.0,26.0,32.0,pg,,2329899046.html,46,46
+2022-01-26,01/26/2022,Complete Blood Count (CBC),MCHC,32.7,32.7,31.0-36.0,31.0,36.0,g/dL,,2329899046.html,46,46
+2022-01-26,01/26/2022,Complete Blood Count (CBC),MCV,92.4,92.4,80.0-97.0,80.0,97.0,fL,,2329899046.html,46,46
+2022-01-26,01/26/2022,Complete Blood Count (CBC),MID,0.5,0.5,0.0-1.8,0.0,1.8,K/uL,,2329899046.html,46,46
+2022-01-26,01/26/2022,Complete Blood Count (CBC),MID%,6.9,6.9,0.1-24.0,0.1,24.0,%,,2329899046.html,46,46
+2022-01-26,01/26/2022,Complete Blood Count (CBC),MPV,9.6,9.6,0.0-99.8,0.0,99.8,fL,,2329899046.html,46,46
+2022-01-26,01/26/2022,Complete Blood Count (CBC),PLT,173.0,173.0,140.0-440.0,140.0,440.0,K/uL,,2329899046.html,46,46
+2022-01-26,01/26/2022,Comprehensive Metabolic Panel (CMP),Potassium,4.0,4.0,3.7-5.2,3.7,5.2,mmol/L,,2335243535.html,46,46
+2022-01-26,01/26/2022,Complete Blood Count (CBC),RBC,5.6,5.6,4.2-6.3,4.2,6.3,M/uL,,2329899046.html,46,46
+2022-01-26,01/26/2022,Complete Blood Count (CBC),RDW,13.5,13.5,11.5-14.5,11.5,14.5,%,,2329899046.html,46,46
+2022-01-26,01/26/2022,"Vitamins, Inflammation & Specialty",Sed Rate,10,10.0,--,,,sec.,,2335243535.html,46,46
+2022-01-26,01/26/2022,Comprehensive Metabolic Panel (CMP),Sodium,137,137.0,134-151,134.0,151.0,mmol/L,,2335243535.html,46,46
+2022-01-26,01/26/2022,Comprehensive Metabolic Panel (CMP),Total Bili,0.40,0.4,0.30-1.10,0.3,1.1,mg/dL,,2335243535.html,46,46
+2022-01-26,01/26/2022,Comprehensive Metabolic Panel (CMP),Total Protein,6.8,6.8,6.0-8.2,6.0,8.2,g/dL,,2335243535.html,46,46
+2022-01-26,01/26/2022,Lipid Panel (Cardiovascular),Triglycerides,246,246.0,35-160,35.0,160.0,mg/dL,H,2335243535.html,46,46
+2022-01-26,01/26/2022,"Vitamins, Inflammation & Specialty","Vitamin D, 25-Hydroxy",19.7,19.7,30.0-100.0,30.0,100.0,ng/mL,L,2332183536.html,46,46
+2022-01-26,01/26/2022,Complete Blood Count (CBC),WBC,6.7,6.7,4.1-10.9,4.1,10.9,K/uL,,2329899046.html,46,46
+2022-01-26,01/26/2022,Comprehensive Metabolic Panel (CMP),eGFR African Amer.,83.5,83.5,>60.0,60.0,,--,,2335243535.html,46,46
+2022-01-26,01/26/2022,Comprehensive Metabolic Panel (CMP),eGFR Non-African Amer.,72.1,72.1,>60.0,60.0,,--,,2335243535.html,46,46
+2022-01-26,01/26/2022,"Hormones, Endocrine & Men's Health",uTSH,4.26,4.26,0.47-5.01,0.47,5.01,IU/mL,,2335243535.html,46,46
+2023-09-26,09/26/2023,Comprehensive Metabolic Panel (CMP),ALT (SGPT),29,29.0,0-41,0.0,41.0,IU/L,,3487308983.html,47,47
+2023-09-26,09/26/2023,Comprehensive Metabolic Panel (CMP),AST (SGOT),27,27.0,0-36,0.0,36.0,IU/L,,3487308983.html,47,47
+2023-09-26,09/26/2023,Comprehensive Metabolic Panel (CMP),Albumin,4.9,4.9,3.5-5.5,3.5,5.5,g/dL,,3487308983.html,47,47
+2023-09-26,09/26/2023,Comprehensive Metabolic Panel (CMP),Alk Phosphatase,60,60.0,30-120,30.0,120.0,IU/L,,3487308983.html,47,47
+2023-09-26,09/26/2023,Comprehensive Metabolic Panel (CMP),BUN,21,21.0,7-21,7.0,21.0,mg/dL,,3487308983.html,47,47
+2023-09-26,09/26/2023,Comprehensive Metabolic Panel (CMP),CO2,24,24.0,20-32,20.0,32.0,mmol/L,,3487308983.html,47,47
+2023-09-26,09/26/2023,Comprehensive Metabolic Panel (CMP),Calcium,9.4,9.4,8.5-10.7,8.5,10.7,mg/dL,,3487308983.html,47,47
+2023-09-26,09/26/2023,Comprehensive Metabolic Panel (CMP),Chloride,102,102.0,95-113,95.0,113.0,mmol/L,,3487308983.html,47,47
+2023-09-26,09/26/2023,Lipid Panel (Cardiovascular),Chol/HDL Ratio,5.4,5.4,--,,,Ratio,,3487308983.html,47,47
+2023-09-26,09/26/2023,Lipid Panel (Cardiovascular),Cholesterol,225,225.0,140-200,140.0,200.0,mg/dL,H,3487308983.html,47,47
+2023-09-26,09/26/2023,Comprehensive Metabolic Panel (CMP),Creatinine,1.3,1.3,0.7-1.4,0.7,1.4,mg/dL,,3487308983.html,47,47
+2023-09-26,09/26/2023,Lipid Panel (Cardiovascular),Direct HDL,42,42.0,30-75,30.0,75.0,mg/dL,,3487308983.html,47,47
+2023-09-26,09/26/2023,"Hormones, Endocrine & Men's Health",Free Testosterone(Direct),6.3,6.3,6.8-21.5,6.8,21.5,pg/mL,L,3493708062.html,47,47
+2023-09-26,09/26/2023,"Hormones, Endocrine & Men's Health",Free Thyroxine,1.02,1.02,0.71-1.85,0.71,1.85,ng/dL,,3487308983.html,47,47
+2023-09-26,09/26/2023,Complete Blood Count (CBC),GRAN,3.5,3.5,2.0-7.8,2.0,7.8,K/uL,,3478470524.html,47,47
+2023-09-26,09/26/2023,Complete Blood Count (CBC),GRAN%,59.3,59.3,37.0-92.0,37.0,92.0,%,,3478470524.html,47,47
+2023-09-26,09/26/2023,Comprehensive Metabolic Panel (CMP),Glucose,94,94.0,64-110,64.0,110.0,mg/dL,,3487308983.html,47,47
+2023-09-26,09/26/2023,Complete Blood Count (CBC),HCT,48.3,48.3,37.0-51.0,37.0,51.0,%,,3478470524.html,47,47
+2023-09-26,09/26/2023,Complete Blood Count (CBC),HGB,15.9,15.9,12.0-18.0,12.0,18.0,g/dL,,3478470524.html,47,47
+2023-09-26,09/26/2023,"Vitamins, Inflammation & Specialty",HgbA1c,5.40,5.4,4.40-6.40,4.4,6.4,%,,3487308983.html,47,47
+2023-09-26,09/26/2023,Lipid Panel (Cardiovascular),LDL-Calculated,145,145.0,0-130,0.0,130.0,mg/dL,H,3487308983.html,47,47
+2023-09-26,09/26/2023,Complete Blood Count (CBC),LYM,2.0,2.0,0.6-4.1,0.6,4.1,K/uL,,3478470524.html,47,47
+2023-09-26,09/26/2023,Complete Blood Count (CBC),LYM%,34.2,34.2,10.0-58.5,10.0,58.5,%,,3478470524.html,47,47
+2023-09-26,09/26/2023,Complete Blood Count (CBC),MCH,31.1,31.1,26.0-32.0,26.0,32.0,pg,,3478470524.html,47,47
+2023-09-26,09/26/2023,Complete Blood Count (CBC),MCHC,32.9,32.9,31.0-36.0,31.0,36.0,g/dL,,3478470524.html,47,47
+2023-09-26,09/26/2023,Complete Blood Count (CBC),MCV,94.3,94.3,80.0-97.0,80.0,97.0,fL,,3478470524.html,47,47
+2023-09-26,09/26/2023,Complete Blood Count (CBC),MID,0.4,0.4,0.0-1.8,0.0,1.8,K/uL,,3478470524.html,47,47
+2023-09-26,09/26/2023,Complete Blood Count (CBC),MID%,6.5,6.5,0.1-24.0,0.1,24.0,%,,3478470524.html,47,47
+2023-09-26,09/26/2023,Complete Blood Count (CBC),MPV,9.9,9.9,0.0-99.8,0.0,99.8,fL,,3478470524.html,47,47
+2023-09-26,09/26/2023,Complete Blood Count (CBC),PLT,172.0,172.0,140.0-440.0,140.0,440.0,K/uL,,3478470524.html,47,47
+2023-09-26,09/26/2023,Comprehensive Metabolic Panel (CMP),Potassium,3.8,3.8,3.7-5.2,3.7,5.2,mmol/L,,3487308983.html,47,47
+2023-09-26,09/26/2023,"Hormones, Endocrine & Men's Health",Prolactin,4.5,4.5,4.0-15.2,4.0,15.2,ng/mL,,3493708062.html,47,47
+2023-09-26,09/26/2023,Complete Blood Count (CBC),RBC,5.1,5.1,4.2-6.3,4.2,6.3,M/uL,,3478470524.html,47,47
+2023-09-26,09/26/2023,Complete Blood Count (CBC),RDW,14.0,14.0,11.5-14.5,11.5,14.5,%,,3478470524.html,47,47
+2023-09-26,09/26/2023,"Vitamins, Inflammation & Specialty",SARS-CoV-2 Semi-Quant Total Ab,See Dilution,,Negative<0.8,,0.8,U/mL,,3493708062.html,47,47
+2023-09-26,09/26/2023,"Vitamins, Inflammation & Specialty",SARS-CoV-2 Spike Ab Dilution,3526,3526.0,Negative<0.8,,0.8,U/mL,H,3493708062.html,47,47
+2023-09-26,09/26/2023,"Vitamins, Inflammation & Specialty",SARS-CoV-2 Spike Ab Interp,Positive,,--,,,--,,3493708062.html,47,47
+2023-09-26,09/26/2023,"Vitamins, Inflammation & Specialty",Sed Rate,5,5.0,0-15,0.0,15.0,sec.,,3487308983.html,47,47
+2023-09-26,09/26/2023,Comprehensive Metabolic Panel (CMP),Sodium,139,139.0,134-151,134.0,151.0,mmol/L,,3487308983.html,47,47
+2023-09-26,09/26/2023,"Hormones, Endocrine & Men's Health",Testosterone,375,375.0,264-916,264.0,916.0,ng/dL,,3493708062.html,47,47
+2023-09-26,09/26/2023,Comprehensive Metabolic Panel (CMP),Total Bili,0.70,0.7,0.30-1.10,0.3,1.1,mg/dL,,3487308983.html,47,47
+2023-09-26,09/26/2023,Comprehensive Metabolic Panel (CMP),Total Protein,7.0,7.0,6.0-8.2,6.0,8.2,g/dL,,3487308983.html,47,47
+2023-09-26,09/26/2023,Lipid Panel (Cardiovascular),Triglycerides,188,188.0,35-160,35.0,160.0,mg/dL,H,3487308983.html,47,47
+2023-09-26,09/26/2023,"Vitamins, Inflammation & Specialty","Vitamin D, 25-Hydroxy",23.7,23.7,30.0-100.0,30.0,100.0,ng/mL,L,3493708062.html,47,47
+2023-09-26,09/26/2023,Complete Blood Count (CBC),WBC,5.9,5.9,4.1-10.9,4.1,10.9,K/uL,,3478470524.html,47,47
+2023-09-26,09/26/2023,Lipid Panel (Cardiovascular),_VLDL,37.6,37.6,--,,,Calc,,3487308983.html,47,47
+2023-09-26,09/26/2023,Comprehensive Metabolic Panel (CMP),eGFR African Amer.,75.3,75.3,>60.0,60.0,,--,,3487308983.html,47,47
+2023-09-26,09/26/2023,Comprehensive Metabolic Panel (CMP),eGFR Non-African Amer.,65.0,65.0,>60.0,60.0,,--,,3487308983.html,47,47
+2023-09-26,09/26/2023,"Hormones, Endocrine & Men's Health",uTSH,4.01,4.01,0.47-5.01,0.47,5.01,IU/mL,,3487308983.html,47,47
+2023-12-21,12/21/2023,Comprehensive Metabolic Panel (CMP),ALT (SGPT),32,32.0,0-41,0.0,41.0,IU/L,,3659362636.html,47,47
+2023-12-21,12/21/2023,Comprehensive Metabolic Panel (CMP),AST (SGOT),27,27.0,0-36,0.0,36.0,IU/L,,3659362636.html,47,47
+2023-12-21,12/21/2023,Comprehensive Metabolic Panel (CMP),Albumin,4.6,4.6,3.5-5.5,3.5,5.5,g/dL,,3659362636.html,47,47
+2023-12-21,12/21/2023,Comprehensive Metabolic Panel (CMP),Alk Phosphatase,51,51.0,30-120,30.0,120.0,IU/L,,3659362636.html,47,47
+2023-12-21,12/21/2023,Comprehensive Metabolic Panel (CMP),BUN,22,22.0,7-21,7.0,21.0,mg/dL,H,3659362636.html,47,47
+2023-12-21,12/21/2023,Comprehensive Metabolic Panel (CMP),CO2,25,25.0,20-32,20.0,32.0,mmol/L,,3659362636.html,47,47
+2023-12-21,12/21/2023,Comprehensive Metabolic Panel (CMP),Calcium,9.1,9.1,8.5-10.7,8.5,10.7,mg/dL,,3659362636.html,47,47
+2023-12-21,12/21/2023,Comprehensive Metabolic Panel (CMP),Chloride,104,104.0,95-113,95.0,113.0,mmol/L,,3659362636.html,47,47
+2023-12-21,12/21/2023,Lipid Panel (Cardiovascular),Chol/HDL Ratio,3.4,3.4,--,,,Ratio,,3659362636.html,47,47
+2023-12-21,12/21/2023,Lipid Panel (Cardiovascular),Cholesterol,147,147.0,140-200,140.0,200.0,mg/dL,,3659362636.html,47,47
+2023-12-21,12/21/2023,Comprehensive Metabolic Panel (CMP),Creatinine,1.4,1.4,0.7-1.4,0.7,1.4,mg/dL,,3659362636.html,47,47
+2023-12-21,12/21/2023,Lipid Panel (Cardiovascular),Direct HDL,43,43.0,30-75,30.0,75.0,mg/dL,,3659362636.html,47,47
+2023-12-21,12/21/2023,Complete Blood Count (CBC),GRAN,4.2,4.2,2.0-7.8,2.0,7.8,K/uL,,3654590950.html,47,47
+2023-12-21,12/21/2023,Complete Blood Count (CBC),GRAN%,63.7,63.7,37.0-92.0,37.0,92.0,%,,3654590950.html,47,47
+2023-12-21,12/21/2023,Comprehensive Metabolic Panel (CMP),Glucose,104,104.0,64-110,64.0,110.0,mg/dL,,3659362636.html,47,47
+2023-12-21,12/21/2023,Complete Blood Count (CBC),HCT,45.8,45.8,37.0-51.0,37.0,51.0,%,,3654590950.html,47,47
+2023-12-21,12/21/2023,Complete Blood Count (CBC),HGB,15.2,15.2,12.0-18.0,12.0,18.0,g/dL,,3654590950.html,47,47
+2023-12-21,12/21/2023,Lipid Panel (Cardiovascular),LDL-Calculated,79,79.0,0-130,0.0,130.0,mg/dL,,3659362636.html,47,47
+2023-12-21,12/21/2023,Complete Blood Count (CBC),LYM,1.9,1.9,0.6-4.1,0.6,4.1,K/uL,,3654590950.html,47,47
+2023-12-21,12/21/2023,Complete Blood Count (CBC),LYM%,29.9,29.9,10.0-58.5,10.0,58.5,%,,3654590950.html,47,47
+2023-12-21,12/21/2023,Complete Blood Count (CBC),MCH,31.2,31.2,26.0-32.0,26.0,32.0,pg,,3654590950.html,47,47
+2023-12-21,12/21/2023,Complete Blood Count (CBC),MCHC,33.2,33.2,31.0-36.0,31.0,36.0,g/dL,,3654590950.html,47,47
+2023-12-21,12/21/2023,Complete Blood Count (CBC),MCV,93.8,93.8,80.0-97.0,80.0,97.0,fL,,3654590950.html,47,47
+2023-12-21,12/21/2023,Complete Blood Count (CBC),MID,0.5,0.5,0.0-1.8,0.0,1.8,K/uL,,3654590950.html,47,47
+2023-12-21,12/21/2023,Complete Blood Count (CBC),MID%,6.4,6.4,0.1-24.0,0.1,24.0,%,,3654590950.html,47,47
+2023-12-21,12/21/2023,Complete Blood Count (CBC),MPV,10.2,10.2,0.0-99.8,0.0,99.8,fL,,3654590950.html,47,47
+2023-12-21,12/21/2023,Complete Blood Count (CBC),PLT,159.0,159.0,140.0-440.0,140.0,440.0,K/uL,,3654590950.html,47,47
+2023-12-21,12/21/2023,Comprehensive Metabolic Panel (CMP),Potassium,3.9,3.9,3.7-5.2,3.7,5.2,mmol/L,,3659362636.html,47,47
+2023-12-21,12/21/2023,Complete Blood Count (CBC),RBC,4.9,4.9,4.2-6.3,4.2,6.3,M/uL,,3654590950.html,47,47
+2023-12-21,12/21/2023,Complete Blood Count (CBC),RDW,13.7,13.7,11.5-14.5,11.5,14.5,%,,3654590950.html,47,47
+2023-12-21,12/21/2023,"Vitamins, Inflammation & Specialty",SARS-CoV-2 Semi-Quant Spike Ab,See Dilution,,Negative<0.8,,0.8,U/mL,,3659811438.html,47,47
+2023-12-21,12/21/2023,"Vitamins, Inflammation & Specialty",SARS-CoV-2 Spike Ab Dilution,4118,4118.0,Negative<0.8,,0.8,U/mL,H,3659811438.html,47,47
+2023-12-21,12/21/2023,"Vitamins, Inflammation & Specialty",SARS-CoV-2 Spike Ab Interp,Positive,,--,,,--,,3659811438.html,47,47
+2023-12-21,12/21/2023,Comprehensive Metabolic Panel (CMP),Sodium,141,141.0,134-151,134.0,151.0,mmol/L,,3659362636.html,47,47
+2023-12-21,12/21/2023,Comprehensive Metabolic Panel (CMP),Total Bili,1.00,1.0,0.30-1.10,0.3,1.1,mg/dL,,3659362636.html,47,47
+2023-12-21,12/21/2023,Comprehensive Metabolic Panel (CMP),Total Protein,6.5,6.5,6.0-8.2,6.0,8.2,g/dL,,3659362636.html,47,47
+2023-12-21,12/21/2023,Lipid Panel (Cardiovascular),Triglycerides,127,127.0,35-160,35.0,160.0,mg/dL,,3659362636.html,47,47
+2023-12-21,12/21/2023,"Vitamins, Inflammation & Specialty","Vitamin D, 25-Hydroxy",52.3,52.3,30.0-100.0,30.0,100.0,ng/mL,,3659811438.html,47,47
+2023-12-21,12/21/2023,Complete Blood Count (CBC),WBC,6.6,6.6,4.1-10.9,4.1,10.9,K/uL,,3654590950.html,47,47
+2023-12-21,12/21/2023,Lipid Panel (Cardiovascular),_VLDL,25.4,25.4,--,,,Calc,,3659362636.html,47,47
+2023-12-21,12/21/2023,Comprehensive Metabolic Panel (CMP),eGFR African Amer.,68.9,68.9,>60.0,60.0,,--,,3659362636.html,47,47
+2023-12-21,12/21/2023,Comprehensive Metabolic Panel (CMP),eGFR Non-African Amer.,59.4,59.4,>60.0,60.0,,--,L,3659362636.html,47,47
+2024-10-28,10/28/2024,Comprehensive Metabolic Panel (CMP),ALT (SGPT),39,39.0,0-41,0.0,41.0,IU/L,,4340679971.html,48,48
+2024-10-28,10/28/2024,Comprehensive Metabolic Panel (CMP),AST (SGOT),21,21.0,0-36,0.0,36.0,IU/L,,4340679971.html,48,48
+2024-10-28,10/28/2024,Comprehensive Metabolic Panel (CMP),Albumin,4.5,4.5,3.5-5.5,3.5,5.5,g/dL,,4340679971.html,48,48
+2024-10-28,10/28/2024,Comprehensive Metabolic Panel (CMP),Alk Phosphatase,56,56.0,30-120,30.0,120.0,IU/L,,4340679971.html,48,48
+2024-10-28,10/28/2024,Comprehensive Metabolic Panel (CMP),BUN,22,22.0,7-21,7.0,21.0,mg/dL,H,4340679971.html,48,48
+2024-10-28,10/28/2024,Comprehensive Metabolic Panel (CMP),CO2,25,25.0,20-32,20.0,32.0,mmol/L,,4340679971.html,48,48
+2024-10-28,10/28/2024,Comprehensive Metabolic Panel (CMP),Calcium,9.0,9.0,8.5-10.7,8.5,10.7,mg/dL,,4340679971.html,48,48
+2024-10-28,10/28/2024,Comprehensive Metabolic Panel (CMP),Chloride,101,101.0,95-113,95.0,113.0,mmol/L,,4340679971.html,48,48
+2024-10-28,10/28/2024,Lipid Panel (Cardiovascular),Chol/HDL Ratio,3.3,3.3,--,,,Ratio,,4340679971.html,48,48
+2024-10-28,10/28/2024,Lipid Panel (Cardiovascular),Cholesterol,142,142.0,140-200,140.0,200.0,mg/dL,,4340679971.html,48,48
+2024-10-28,10/28/2024,Comprehensive Metabolic Panel (CMP),Creatinine,1.2,1.2,0.7-1.4,0.7,1.4,mg/dL,,4340679971.html,48,48
+2024-10-28,10/28/2024,Lipid Panel (Cardiovascular),Direct HDL,43,43.0,30-75,30.0,75.0,mg/dL,,4340679971.html,48,48
+2024-10-28,10/28/2024,"Hormones, Endocrine & Men's Health",Free Testosterone(Direct),8.0,8.0,6.8-21.5,6.8,21.5,pg/mL,,4352972347.html,48,48
+2024-10-28,10/28/2024,"Hormones, Endocrine & Men's Health",Free Thyroxine,1.03,1.03,0.71-1.85,0.71,1.85,ng/dL,,4340679971.html,48,48
+2024-10-28,10/28/2024,Complete Blood Count (CBC),GRAN,4.2,4.2,2.0-7.8,2.0,7.8,K/uL,,4339822351.html,48,48
+2024-10-28,10/28/2024,Complete Blood Count (CBC),GRAN%,66.5,66.5,37.0-92.0,37.0,92.0,%,,4339822351.html,48,48
+2024-10-28,10/28/2024,Comprehensive Metabolic Panel (CMP),Glucose,99,99.0,64-110,64.0,110.0,mg/dL,,4340679971.html,48,48
+2024-10-28,10/28/2024,Complete Blood Count (CBC),HCT,50.8,50.8,37.0-51.0,37.0,51.0,%,,4339822351.html,48,48
+2024-10-28,10/28/2024,Complete Blood Count (CBC),HGB,16.2,16.2,12.0-18.0,12.0,18.0,g/dL,,4339822351.html,48,48
+2024-10-28,10/28/2024,"Vitamins, Inflammation & Specialty",HgbA1c,5.50,5.5,4.40-6.40,4.4,6.4,%,,4340679971.html,48,48
+2024-10-28,10/28/2024,Lipid Panel (Cardiovascular),LDL-Calculated,82,82.0,0-130,0.0,130.0,mg/dL,,4340679971.html,48,48
+2024-10-28,10/28/2024,Complete Blood Count (CBC),LYM,1.6,1.6,0.6-4.1,0.6,4.1,K/uL,,4339822351.html,48,48
+2024-10-28,10/28/2024,Complete Blood Count (CBC),LYM%,26.4,26.4,10.0-58.5,10.0,58.5,%,,4339822351.html,48,48
+2024-10-28,10/28/2024,Complete Blood Count (CBC),MCH,30.4,30.4,26.0-32.0,26.0,32.0,pg,,4339822351.html,48,48
+2024-10-28,10/28/2024,Complete Blood Count (CBC),MCHC,32.0,32.0,31.0-36.0,31.0,36.0,g/dL,,4339822351.html,48,48
+2024-10-28,10/28/2024,Complete Blood Count (CBC),MCV,95.1,95.1,80.0-97.0,80.0,97.0,fL,,4339822351.html,48,48
+2024-10-28,10/28/2024,Complete Blood Count (CBC),MID,0.5,0.5,0.0-1.8,0.0,1.8,K/uL,,4339822351.html,48,48
+2024-10-28,10/28/2024,Complete Blood Count (CBC),MID%,7.1,7.1,0.1-24.0,0.1,24.0,%,,4339822351.html,48,48
+2024-10-28,10/28/2024,Complete Blood Count (CBC),MPV,10.1,10.1,0.0-99.8,0.0,99.8,fL,,4339822351.html,48,48
+2024-10-28,10/28/2024,Complete Blood Count (CBC),PLT,165.0,165.0,140.0-440.0,140.0,440.0,K/uL,,4339822351.html,48,48
+2024-10-28,10/28/2024,"Hormones, Endocrine & Men's Health",PSA,0.70,0.7,0.00-4.00,0.0,4.0,ng/mL,,4340679971.html,48,48
+2024-10-28,10/28/2024,Comprehensive Metabolic Panel (CMP),Potassium,4.2,4.2,3.7-5.2,3.7,5.2,mmol/L,,4340679971.html,48,48
+2024-10-28,10/28/2024,"Hormones, Endocrine & Men's Health",Prolactin,4.7,4.7,3.9-22.7,3.9,22.7,ng/mL,,4352972347.html,48,48
+2024-10-28,10/28/2024,Complete Blood Count (CBC),RBC,5.3,5.3,4.2-6.3,4.2,6.3,M/uL,,4339822351.html,48,48
+2024-10-28,10/28/2024,Complete Blood Count (CBC),RDW,13.5,13.5,11.5-14.5,11.5,14.5,%,,4339822351.html,48,48
+2024-10-28,10/28/2024,"Vitamins, Inflammation & Specialty",Sed Rate,0,0.0,0-15,0.0,15.0,sec.,,4340679971.html,48,48
+2024-10-28,10/28/2024,Comprehensive Metabolic Panel (CMP),Sodium,137,137.0,134-151,134.0,151.0,mmol/L,,4340679971.html,48,48
+2024-10-28,10/28/2024,"Hormones, Endocrine & Men's Health",Testosterone,394,394.0,264-916,264.0,916.0,ng/dL,,4352972347.html,48,48
+2024-10-28,10/28/2024,Comprehensive Metabolic Panel (CMP),Total Bili,0.90,0.9,0.30-1.10,0.3,1.1,mg/dL,,4340679971.html,48,48
+2024-10-28,10/28/2024,Comprehensive Metabolic Panel (CMP),Total Protein,6.8,6.8,6.0-8.2,6.0,8.2,g/dL,,4340679971.html,48,48
+2024-10-28,10/28/2024,Lipid Panel (Cardiovascular),Triglycerides,84,84.0,35-160,35.0,160.0,mg/dL,,4340679971.html,48,48
+2024-10-28,10/28/2024,"Vitamins, Inflammation & Specialty","Vitamin D, 25-Hydroxy",42.4,42.4,30.0-100.0,30.0,100.0,ng/mL,,4352972347.html,48,48
+2024-10-28,10/28/2024,Complete Blood Count (CBC),WBC,6.3,6.3,4.1-10.9,4.1,10.9,K/uL,,4339822351.html,48,48
+2024-10-28,10/28/2024,Lipid Panel (Cardiovascular),_VLDL,16.8,16.8,--,,,Calc,,4340679971.html,48,48
+2024-10-28,10/28/2024,Comprehensive Metabolic Panel (CMP),eGFR African Amer.,82.4,82.4,>60.0,60.0,,--,,4340679971.html,48,48
+2024-10-28,10/28/2024,Comprehensive Metabolic Panel (CMP),eGFR Non-African Amer.,71.1,71.1,>60.0,60.0,,--,,4340679971.html,48,48
+2024-10-28,10/28/2024,"Hormones, Endocrine & Men's Health",uTSH,4.37,4.37,0.47-5.01,0.47,5.01,IU/mL,,4340679971.html,48,48
+2025-12-02,12/02/2025,Comprehensive Metabolic Panel (CMP),ALT (SGPT),39,39.0,0-41,0.0,41.0,IU/L,,5277152049.html,49,49
+2025-12-02,12/02/2025,Comprehensive Metabolic Panel (CMP),AST (SGOT),21,21.0,0-36,0.0,36.0,IU/L,,5277152049.html,49,49
+2025-12-02,12/02/2025,Comprehensive Metabolic Panel (CMP),Albumin,4.6,4.6,3.5-5.5,3.5,5.5,g/dL,,5277152049.html,49,49
+2025-12-02,12/02/2025,Comprehensive Metabolic Panel (CMP),Alk Phosphatase,63,63.0,30-120,30.0,120.0,IU/L,,5277152049.html,49,49
+2025-12-02,12/02/2025,Comprehensive Metabolic Panel (CMP),BUN,20,20.0,7-21,7.0,21.0,mg/dL,,5277152049.html,49,49
+2025-12-02,12/02/2025,Comprehensive Metabolic Panel (CMP),CO2,21,21.0,20-32,20.0,32.0,mmol/L,,5277152049.html,49,49
+2025-12-02,12/02/2025,Comprehensive Metabolic Panel (CMP),Calcium,9.1,9.1,8.5-10.7,8.5,10.7,mg/dL,,5277152049.html,49,49
+2025-12-02,12/02/2025,Comprehensive Metabolic Panel (CMP),Chloride,102,102.0,95-113,95.0,113.0,mmol/L,,5277152049.html,49,49
+2025-12-02,12/02/2025,Lipid Panel (Cardiovascular),Chol/HDL Ratio,3.7,3.7,--,,,Ratio,,5277152049.html,49,49
+2025-12-02,12/02/2025,Lipid Panel (Cardiovascular),Cholesterol,180,180.0,140-200,140.0,200.0,mg/dL,,5277152049.html,49,49
+2025-12-02,12/02/2025,Comprehensive Metabolic Panel (CMP),Creatinine,1.2,1.2,0.7-1.4,0.7,1.4,mg/dL,,5277152049.html,49,49
+2025-12-02,12/02/2025,Lipid Panel (Cardiovascular),Direct HDL,49,49.0,30-75,30.0,75.0,mg/dL,,5277152049.html,49,49
+2025-12-02,12/02/2025,"Hormones, Endocrine & Men's Health",Free Testosterone(Direct),11.8,11.8,6.8-21.5,6.8,21.5,pg/mL,,5277152262.html,49,49
+2025-12-02,12/02/2025,"Hormones, Endocrine & Men's Health",Free Thyroxine,0.94,0.94,0.71-1.85,0.71,1.85,ng/dL,,5277152049.html,49,49
+2025-12-02,12/02/2025,Complete Blood Count (CBC),GRAN,4.7,4.7,2.0-7.8,2.0,7.8,K/uL,,5273185047.html,49,49
+2025-12-02,12/02/2025,Complete Blood Count (CBC),GRAN%,67.4,67.4,37.0-92.0,37.0,92.0,%,,5273185047.html,49,49
+2025-12-02,12/02/2025,Comprehensive Metabolic Panel (CMP),Glucose,98,98.0,64-110,64.0,110.0,mg/dL,,5277152049.html,49,49
+2025-12-02,12/02/2025,Complete Blood Count (CBC),HCT,53.4,53.4,37.0-51.0,37.0,51.0,%,H,5273185047.html,49,49
+2025-12-02,12/02/2025,Complete Blood Count (CBC),HGB,17.1,17.1,12.0-18.0,12.0,18.0,g/dL,,5273185047.html,49,49
+2025-12-02,12/02/2025,"Vitamins, Inflammation & Specialty",HgbA1c,5.60,5.6,4.40-6.40,4.4,6.4,%,,5277152049.html,49,49
+2025-12-02,12/02/2025,Lipid Panel (Cardiovascular),LDL-Calculated,102,102.0,0-130,0.0,130.0,mg/dL,,5277152049.html,49,49
+2025-12-02,12/02/2025,Complete Blood Count (CBC),LYM,1.8,1.8,0.6-4.1,0.6,4.1,K/uL,,5273185047.html,49,49
+2025-12-02,12/02/2025,Complete Blood Count (CBC),LYM%,26.1,26.1,10.0-58.5,10.0,58.5,%,,5273185047.html,49,49
+2025-12-02,12/02/2025,Complete Blood Count (CBC),MCH,30.9,30.9,26.0-32.0,26.0,32.0,pg,,5273185047.html,49,49
+2025-12-02,12/02/2025,Complete Blood Count (CBC),MCHC,32.1,32.1,31.0-36.0,31.0,36.0,g/dL,,5273185047.html,49,49
+2025-12-02,12/02/2025,Complete Blood Count (CBC),MCV,96.4,96.4,80.0-97.0,80.0,97.0,fL,,5273185047.html,49,49
+2025-12-02,12/02/2025,Complete Blood Count (CBC),MID,0.5,0.5,0.0-1.8,0.0,1.8,K/uL,,5273185047.html,49,49
+2025-12-02,12/02/2025,Complete Blood Count (CBC),MID%,6.5,6.5,0.1-24.0,0.1,24.0,%,,5273185047.html,49,49
+2025-12-02,12/02/2025,Complete Blood Count (CBC),MPV,10.6,10.6,0.0-99.8,0.0,99.8,fL,,5273185047.html,49,49
+2025-12-02,12/02/2025,"Vitamins, Inflammation & Specialty",Magnesium,2.0,2.0,1.6-2.6,1.6,2.6,mg/dL,,5277152049.html,49,49
+2025-12-02,12/02/2025,Complete Blood Count (CBC),PLT,189.0,189.0,140.0-440.0,140.0,440.0,K/uL,,5273185047.html,49,49
+2025-12-02,12/02/2025,"Hormones, Endocrine & Men's Health",PSA,0.69,0.69,0.00-4.00,0.0,4.0,ng/mL,,5277152049.html,49,49
+2025-12-02,12/02/2025,Comprehensive Metabolic Panel (CMP),Potassium,4.1,4.1,3.7-5.2,3.7,5.2,mmol/L,,5277152049.html,49,49
+2025-12-02,12/02/2025,"Hormones, Endocrine & Men's Health",Prolactin,5.7,5.7,3.9-22.7,3.9,22.7,ng/mL,,5277152262.html,49,49
+2025-12-02,12/02/2025,Complete Blood Count (CBC),RBC,5.5,5.5,4.2-6.3,4.2,6.3,M/uL,,5273185047.html,49,49
+2025-12-02,12/02/2025,Complete Blood Count (CBC),RDW,14.1,14.1,11.5-14.5,11.5,14.5,%,,5273185047.html,49,49
+2025-12-02,12/02/2025,Comprehensive Metabolic Panel (CMP),Sodium,135,135.0,134-151,134.0,151.0,mmol/L,,5277152049.html,49,49
+2025-12-02,12/02/2025,"Hormones, Endocrine & Men's Health",Testosterone,352,352.0,264-916,264.0,916.0,ng/dL,,5277152262.html,49,49
+2025-12-02,12/02/2025,Comprehensive Metabolic Panel (CMP),Total Bili,0.90,0.9,0.30-1.10,0.3,1.1,mg/dL,,5277152049.html,49,49
+2025-12-02,12/02/2025,Comprehensive Metabolic Panel (CMP),Total Protein,6.7,6.7,6.0-8.2,6.0,8.2,g/dL,,5277152049.html,49,49
+2025-12-02,12/02/2025,Lipid Panel (Cardiovascular),Triglycerides,145,145.0,35-160,35.0,160.0,mg/dL,,5277152049.html,49,49
+2025-12-02,12/02/2025,"Vitamins, Inflammation & Specialty","Vitamin D, 25-Hydroxy",39.6,39.6,30.0-100.0,30.0,100.0,ng/mL,,5277152262.html,49,49
+2025-12-02,12/02/2025,Complete Blood Count (CBC),WBC,7.0,7.0,4.1-10.9,4.1,10.9,K/uL,,5273185047.html,49,49
+2025-12-02,12/02/2025,Lipid Panel (Cardiovascular),_VLDL,29.0,29.0,--,,,Calc,,5277152049.html,49,49
+2025-12-02,12/02/2025,Comprehensive Metabolic Panel (CMP),eGFR African Amer.,81.8,81.8,>60.0,60.0,,--,,5277152049.html,49,49
+2025-12-02,12/02/2025,Comprehensive Metabolic Panel (CMP),eGFR Non-African Amer.,70.6,70.6,>60.0,60.0,,--,,5277152049.html,49,49
+2025-12-02,12/02/2025,"Hormones, Endocrine & Men's Health",uTSH,3.65,3.65,0.47-5.01,0.47,5.01,IU/mL,,5277152049.html,49,49
+2026-08-12,08/12/2026,Comprehensive Metabolic Panel (CMP),ALT (SGPT),34,34.0,0-41,0.0,41.0,IU/L,,5901027422.html,50,50
+2026-08-12,08/12/2026,Comprehensive Metabolic Panel (CMP),AST (SGOT),20,20.0,0-36,0.0,36.0,IU/L,,5901027422.html,50,50
+2026-08-12,08/12/2026,Comprehensive Metabolic Panel (CMP),Albumin,4.3,4.3,3.5-5.5,3.5,5.5,g/dL,,5901027422.html,50,50
+2026-08-12,08/12/2026,Comprehensive Metabolic Panel (CMP),Alk Phosphatase,69,69.0,30-120,30.0,120.0,IU/L,,5901027422.html,50,50
+2026-08-12,08/12/2026,Comprehensive Metabolic Panel (CMP),BUN,24,24.0,7-21,7.0,21.0,mg/dL,H,5901027422.html,50,50
+2026-08-12,08/12/2026,Comprehensive Metabolic Panel (CMP),CO2,24,24.0,20-32,20.0,32.0,mmol/L,,5901027422.html,50,50
+2026-08-12,08/12/2026,Comprehensive Metabolic Panel (CMP),Calcium,9.0,9.0,8.5-10.7,8.5,10.7,mg/dL,,5901027422.html,50,50
+2026-08-12,08/12/2026,Comprehensive Metabolic Panel (CMP),Chloride,103,103.0,95-113,95.0,113.0,mmol/L,,5901027422.html,50,50
+2026-08-12,08/12/2026,Lipid Panel (Cardiovascular),Chol/HDL Ratio,3.1,3.1,--,,,Ratio,,5901027422.html,50,50
+2026-08-12,08/12/2026,Lipid Panel (Cardiovascular),Cholesterol,132,132.0,140-200,140.0,200.0,mg/dL,L,5901027422.html,50,50
+2026-08-12,08/12/2026,Comprehensive Metabolic Panel (CMP),Creatinine,1.2,1.2,0.7-1.4,0.7,1.4,mg/dL,,5901027422.html,50,50
+2026-08-12,08/12/2026,Lipid Panel (Cardiovascular),Direct HDL,43,43.0,30-75,30.0,75.0,mg/dL,,5901027422.html,50,50
+2026-08-12,08/12/2026,Complete Blood Count (CBC),GRAN,6.0,6.0,2.0-7.8,2.0,7.8,K/uL,,5887856969.html,50,50
+2026-08-12,08/12/2026,Complete Blood Count (CBC),GRAN%,74.3,74.3,37.0-92.0,37.0,92.0,%,,5887856969.html,50,50
+2026-08-12,08/12/2026,Comprehensive Metabolic Panel (CMP),Glucose,98,98.0,64-110,64.0,110.0,mg/dL,,5901027422.html,50,50
+2026-08-12,08/12/2026,Complete Blood Count (CBC),HCT,49.6,49.6,37.0-51.0,37.0,51.0,%,,5887856969.html,50,50
+2026-08-12,08/12/2026,Complete Blood Count (CBC),HGB,15.9,15.9,12.0-18.0,12.0,18.0,g/dL,,5887856969.html,50,50
+2026-08-12,08/12/2026,Lipid Panel (Cardiovascular),LDL-Calculated,59,59.0,0-130,0.0,130.0,mg/dL,,5901027422.html,50,50
+2026-08-12,08/12/2026,Complete Blood Count (CBC),LYM,1.6,1.6,0.6-4.1,0.6,4.1,K/uL,,5887856969.html,50,50
+2026-08-12,08/12/2026,Complete Blood Count (CBC),LYM%,20.5,20.5,10.0-58.5,10.0,58.5,%,,5887856969.html,50,50
+2026-08-12,08/12/2026,Complete Blood Count (CBC),MCH,30.8,30.8,26.0-32.0,26.0,32.0,pg,,5887856969.html,50,50
+2026-08-12,08/12/2026,Complete Blood Count (CBC),MCHC,32.0,32.0,31.0-36.0,31.0,36.0,g/dL,,5887856969.html,50,50
+2026-08-12,08/12/2026,Complete Blood Count (CBC),MCV,96.0,96.0,80.0-97.0,80.0,97.0,fL,,5887856969.html,50,50
+2026-08-12,08/12/2026,Complete Blood Count (CBC),MID,0.5,0.5,0.0-1.8,0.0,1.8,K/uL,,5887856969.html,50,50
+2026-08-12,08/12/2026,Complete Blood Count (CBC),MID%,5.2,5.2,0.1-24.0,0.1,24.0,%,,5887856969.html,50,50
+2026-08-12,08/12/2026,Complete Blood Count (CBC),MPV,10.8,10.8,0.0-99.8,0.0,99.8,fL,,5887856969.html,50,50
+2026-08-12,08/12/2026,Complete Blood Count (CBC),PLT,186.0,186.0,140.0-440.0,140.0,440.0,K/uL,,5887856969.html,50,50
+2026-08-12,08/12/2026,Comprehensive Metabolic Panel (CMP),Potassium,4.1,4.1,3.7-5.2,3.7,5.2,mmol/L,,5901027422.html,50,50
+2026-08-12,08/12/2026,Complete Blood Count (CBC),RBC,5.2,5.2,4.2-6.3,4.2,6.3,M/uL,,5887856969.html,50,50
+2026-08-12,08/12/2026,Complete Blood Count (CBC),RDW,14.0,14.0,11.5-14.5,11.5,14.5,%,,5887856969.html,50,50
+2026-08-12,08/12/2026,Comprehensive Metabolic Panel (CMP),Sodium,136,136.0,134-151,134.0,151.0,mmol/L,,5901027422.html,50,50
+2026-08-12,08/12/2026,Comprehensive Metabolic Panel (CMP),Total Bili,0.90,0.9,0.30-1.10,0.3,1.1,mg/dL,,5901027422.html,50,50
+2026-08-12,08/12/2026,Comprehensive Metabolic Panel (CMP),Total Protein,6.7,6.7,6.0-8.2,6.0,8.2,g/dL,,5901027422.html,50,50
+2026-08-12,08/12/2026,Lipid Panel (Cardiovascular),Triglycerides,150,150.0,35-160,35.0,160.0,mg/dL,,5901027422.html,50,50
+2026-08-12,08/12/2026,Complete Blood Count (CBC),WBC,8.1,8.1,4.1-10.9,4.1,10.9,K/uL,,5887856969.html,50,50
+2026-08-12,08/12/2026,Lipid Panel (Cardiovascular),_VLDL,30.0,30.0,--,,,Calc,,5901027422.html,50,50
+2026-08-12,08/12/2026,Comprehensive Metabolic Panel (CMP),eGFR African Amer.,81.2,81.2,>60.0,60.0,,--,,5901027422.html,50,50
+2026-08-12,08/12/2026,Comprehensive Metabolic Panel (CMP),eGFR Non-African Amer.,70.1,70.1,>60.0,60.0,,--,,5901027422.html,50,50

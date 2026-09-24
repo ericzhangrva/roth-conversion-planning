@@ -1,0 +1,16 @@
+\contentsline {section}{\numberline {1}Introduction and Historical Framework}{2}{section.1}%
+\contentsline {section}{\numberline {2}Classical Reductions}{2}{section.2}%
+\contentsline {section}{\numberline {3}The Frey Elliptic Curve}{3}{section.3}%
+\contentsline {subsection}{\numberline {3.1}Discriminant and Invariants}{3}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}Reduction Type and Semistability}{3}{subsection.3.2}%
+\contentsline {section}{\numberline {4}Galois Representations and Serre's Conjectures}{4}{section.4}%
+\contentsline {section}{\numberline {5}The Landmark Theorems}{4}{section.5}%
+\contentsline {subsection}{\numberline {5.1}Wiles' Modularity Theorem}{4}{subsection.5.1}%
+\contentsline {subsection}{\numberline {5.2}Ribet's Level-Lowering Theorem}{5}{subsection.5.2}%
+\contentsline {section}{\numberline {6}The Deduction and Contradiction}{5}{section.6}%
+\contentsline {section}{\numberline {7}Summary of the Logical Chain}{6}{section.7}%
+\contentsline {subsection}{\numberline {7.1}Architectural Progression}{6}{subsection.7.1}%
+\contentsline {subsection}{\numberline {7.2}Flow of Deductions}{7}{subsection.7.2}%
+\contentsline {subsection}{\numberline {7.3}Synoptic Dependency Table}{7}{subsection.7.3}%
+\contentsline {subsection}{\numberline {7.4}The Five Foundational Pillars}{8}{subsection.7.4}%
+\contentsline {section}{\numberline {8}Conclusion}{8}{section.8}%
