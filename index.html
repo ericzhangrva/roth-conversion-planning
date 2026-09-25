@@ -644,7 +644,7 @@
 
   <!-- Application Header -->
   <div style="display: flex; justify-content: flex-end; gap: 12px; margin-bottom: 10px;">
-    <button class="btn-export" style="background: linear-gradient(135deg, #475569 0%, #334155 100%); box-shadow: 0 4px 14px rgba(71, 85, 105, 0.2);" onclick="window.print()">Export to PDF</button>
+    <button class="btn-export" style="background: linear-gradient(135deg, #475569 0%, #334155 100%); box-shadow: 0 4px 14px rgba(71, 85, 105, 0.2);" onclick="exportToPDF()">Export to PDF</button>
     <button class="btn-export" onclick="exportToJPG()">Export to JPG</button>
   </div>
   <header class="app-header">
@@ -843,13 +843,26 @@
           <!-- Phase 3 Card -->
           <div class="phase-card" id="box-phase-3">
             <div class="slider-header">
-              <span class="slider-title" id="title-phase-3">Phase 3: Age 59½–75 (2036–2051)</span>
+              <span class="slider-title" id="title-phase-3">Phase 3: Age 59½–74 (2036–2050)</span>
               <span class="slider-value" id="val-phase-3">$0K / yr</span>
             </div>
             <div class="slider-subtext" id="subtext-phase-3">100% Liquid & Penalty-Free</div>
             <div class="phase-input-row">
               <input type="range" class="slider-input" id="slider-phase-3" min="0" max="1000" step="5" value="0">
               <input type="number" class="phase-num-input" id="num-phase-3" min="0" max="1000" step="5" value="0">
+            </div>
+          </div>
+
+          <!-- Phase 4 Card -->
+          <div class="phase-card" id="box-phase-4">
+            <div class="slider-header">
+              <span class="slider-title" id="title-phase-4">Phase 4: Age 75+ (2051+)</span>
+              <span class="slider-value" id="val-phase-4">$0K / yr</span>
+            </div>
+            <div class="slider-subtext" id="subtext-phase-4">RMD Active</div>
+            <div class="phase-input-row">
+              <input type="range" class="slider-input" id="slider-phase-4" min="0" max="1000" step="5" value="0">
+              <input type="number" class="phase-num-input" id="num-phase-4" min="0" max="1000" step="5" value="0">
             </div>
           </div>
         </div>
@@ -861,108 +874,24 @@
         </div>
       </div>
 
-      <!-- Timeline & Rates (R1) -->
+      <!-- Life Timeline -->
       <div class="panel">
-        <div class="panel-title">Timeline & Rates</div>
+        <div class="panel-title">Life Timeline</div>
         <div class="form-group form-row">
           <label class="form-label" for="input-birthYear" data-tooltip="Year of birth for the primary individual">Birth Year</label>
-          <input type="number" class="form-input" id="input-birthYear" value="1977">
+          <input type="number" class="form-input" id="input-birthYear" value="">
+        </div>
+        <div class="form-group form-row">
+          <label class="form-label" for="input-birthMonth" data-tooltip="Month of birth (1-12)">Birth Month</label>
+          <input type="number" class="form-input" id="input-birthMonth" min="1" max="12" value="">
         </div>
         <div class="form-group form-row">
           <label class="form-label" for="input-retireYear" data-tooltip="Planned year of retirement">Retirement Year</label>
-          <input type="number" class="form-input" id="input-retireYear" value="2027">
+          <input type="number" class="form-input" id="input-retireYear" value="">
         </div>
         <div class="form-group form-row">
           <label class="form-label" for="input-eolYear" data-tooltip="Expected end of life year for planning purposes">End of Life (EOL) Year</label>
-          <input type="number" class="form-input" id="input-eolYear" value="2060">
-        </div>
-        <div class="form-group form-row">
-          <label class="form-label" for="input-heirs" data-tooltip="Number of heirs inheriting the remaining pre-tax balance"># of Heirs</label>
-          <input type="number" class="form-input" id="input-heirs" value="2" min="1">
-        </div>
-        <div class="form-group form-row">
-          <label class="form-label" for="input-inflationRate" data-tooltip="Assumed annual inflation rate for expenses and tax brackets">Inflation Rate (%)</label>
-          <input type="number" class="form-input" id="input-inflationRate" step="0.1" value="3.5">
-        </div>
-        <div class="form-group form-row">
-          <label class="form-label" for="input-cashInterestRate" data-tooltip="Annual interest yield on cash reserves">Cash Yield (%)</label>
-          <input type="number" class="form-input" id="input-cashInterestRate" step="0.1" value="4.0">
-        </div>
-        <div class="form-group form-row">
-          <label class="form-label" for="input-invReturnRate" data-tooltip="Expected annual return on taxable investments">Investment Return (%)</label>
-          <input type="number" class="form-input" id="input-invReturnRate" step="0.1" value="9.0">
-        </div>
-        <div class="form-group form-row">
-          <label class="form-label" for="input-safetyNet" data-tooltip="Minimum required liquidity buffer (Cash + Inv + Accessible Roth) to remain feasible">Min Liquidity Buffer (K$)</label>
-          <input type="number" class="form-input" id="input-safetyNet" step="10" value="50">
-        </div>
-      </div>
-
-      <!-- Assets (R1) -->
-      <div class="panel">
-        <div class="panel-title">Starting Asset Balances</div>
-        <div class="form-group form-row">
-          <label class="form-label" for="input-cashStart" data-tooltip="Starting balance of liquid cash reserves">Cash Reserves (K$)</label>
-          <input type="number" class="form-input" id="input-cashStart" step="10">
-        </div>
-        <div class="form-group form-row">
-          <label class="form-label" for="input-invStart" data-tooltip="Starting balance of taxable brokerage investments">Taxable Brokerage (K$)</label>
-          <input type="number" class="form-input" id="input-invStart" step="10">
-        </div>
-        <div class="form-group form-row">
-          <label class="form-label" for="input-pretaxStart" data-tooltip="Starting balance of traditional, pre-tax retirement accounts">Retirement Pre-Tax (K$)</label>
-          <input type="number" class="form-input" id="input-pretaxStart" step="50">
-        </div>
-        <div class="form-group form-row">
-          <label class="form-label" for="input-rothStart" data-tooltip="Starting balance of Roth retirement accounts">Retirement Roth (K$)</label>
-          <input type="number" class="form-input" id="input-rothStart" step="5">
-        </div>
-        <div class="form-group form-row">
-          <label class="form-label" for="input-rothPrincipalStart" data-tooltip="Accessible principal within the starting Roth balance">Roth Principal (K$)</label>
-          <input type="number" class="form-input" id="input-rothPrincipalStart" step="1">
-        </div>
-      </div>
-
-      <!-- Incomes (R1) -->
-      <div class="panel">
-        <div class="panel-title">Incomes</div>
-        <div class="form-group form-row">
-          <label class="form-label" for="input-earnedIncome" data-tooltip="Annual earned taxable income before retirement">Taxable Earned Income (K$)</label>
-          <input type="number" class="form-input" id="input-earnedIncome" step="5">
-        </div>
-        <div class="form-group form-row">
-          <label class="form-label" for="input-ssStartAge" data-tooltip="Age at which Social Security benefits begin">SS Start Age</label>
-          <input type="number" class="form-input" id="input-ssStartAge" min="62" max="70">
-        </div>
-        <div class="form-group form-row">
-          <label class="form-label" for="input-ssAmount" data-tooltip="Annual Social Security benefit estimate at Full Retirement Age (67) in today's dollars">SS Annual Benefit (K$)</label>
-          <input type="number" class="form-input" id="input-ssAmount" step="1">
-        </div>
-
-      </div>
-
-      <!-- Living & Major Expenses (R1) -->
-      <div class="panel">
-        <div class="panel-title">Living & Major Expenses</div>
-        <div class="form-group form-row">
-          <label class="form-label" for="input-livingExpensesStart" data-tooltip="Base annual living expenses (excluding healthcare and college) in today's dollars">Living Expenses (Yr 1) (K$)</label>
-          <input type="number" class="form-input" id="input-livingExpensesStart" step="5" value="100">
-        </div>
-        <div class="form-group form-row">
-          <label class="form-label" for="input-collegeTotal" data-tooltip="Total 5-year college expense (disbursed 12.5% / 25% / 25% / 25% / 12.5%)">College Annual Exp (K$)</label>
-          <input type="number" class="form-input" id="input-collegeTotal" step="5" value="100">
-        </div>
-        <div class="form-group form-row">
-          <label class="form-label" for="input-collegeStartYear" data-tooltip="Year college expenses begin">College Start Year</label>
-          <input type="number" class="form-input" id="input-collegeStartYear" value="2029">
-        </div>
-        <div class="form-group form-row">
-          <label class="form-label" for="input-healthSubsidized" data-tooltip="Annual healthcare cost with ACA subsidies (pre-Medicare)">Health Ins (w/ Subsidy) (K$)</label>
-          <input type="number" class="form-input" id="input-healthSubsidized" step="0.5" value="5">
-        </div>
-        <div class="form-group form-row">
-          <label class="form-label" for="input-healthUnsubsidized" data-tooltip="Annual healthcare cost without ACA subsidies (pre-Medicare)">Health Ins (w/o Subsidy) (K$)</label>
-          <input type="number" class="form-input" id="input-healthUnsubsidized" step="1" value="25">
+          <input type="number" class="form-input" id="input-eolYear" value="">
         </div>
         <div class="form-group form-row">
           <label class="form-label" for="input-state" data-tooltip="State of residence for tax purposes">State</label>
@@ -1019,6 +948,99 @@
             <option value="WY">Wyoming (WY)</option>
           </select>
         </div>
+        <div class="form-group form-row">
+          <label class="form-label" for="input-heirs" data-tooltip="Number of heirs inheriting the remaining pre-tax balance"># of Heirs</label>
+          <input type="number" class="form-input" id="input-heirs" value="" min="1">
+        </div>
+      </div>
+
+      <!-- Rate Assumptions -->
+      <div class="panel">
+        <div class="panel-title">Rate Assumptions</div>
+        <div class="form-group form-row">
+          <label class="form-label" for="input-inflationRate" data-tooltip="Assumed annual inflation rate for expenses and tax brackets">Inflation Rate (%)</label>
+          <input type="number" class="form-input" id="input-inflationRate" step="0.1" value="3.5">
+        </div>
+        <div class="form-group form-row">
+          <label class="form-label" for="input-cashInterestRate" data-tooltip="Annual interest yield on cash reserves">Cash Yield (%)</label>
+          <input type="number" class="form-input" id="input-cashInterestRate" step="0.1" value="4.0">
+        </div>
+        <div class="form-group form-row">
+          <label class="form-label" for="input-invReturnRate" data-tooltip="Expected annual return on taxable investments">Investment Return (%)</label>
+          <input type="number" class="form-input" id="input-invReturnRate" step="0.1" value="9.0">
+        </div>
+        <div class="form-group form-row">
+          <label class="form-label" for="input-safetyNet" data-tooltip="Minimum required liquidity buffer (Cash + Inv + Accessible Roth) to remain feasible">Min Liquidity Buffer (K$)</label>
+          <input type="number" class="form-input" id="input-safetyNet" step="10" value="50">
+        </div>
+      </div>
+
+      <!-- Assets (R1) -->
+      <div class="panel">
+        <div class="panel-title">Starting Asset Balances</div>
+        <div class="form-group form-row">
+          <label class="form-label" for="input-cashStart" data-tooltip="Starting balance of liquid cash reserves">Cash Reserves (K$)</label>
+          <input type="number" class="form-input" id="input-cashStart" step="10" value="">
+        </div>
+        <div class="form-group form-row">
+          <label class="form-label" for="input-invStart" data-tooltip="Starting balance of taxable brokerage investments">Taxable Brokerage (K$)</label>
+          <input type="number" class="form-input" id="input-invStart" step="10" value="">
+        </div>
+        <div class="form-group form-row">
+          <label class="form-label" for="input-pretaxStart" data-tooltip="Starting balance of traditional, pre-tax retirement accounts">Retirement Pre-Tax (K$)</label>
+          <input type="number" class="form-input" id="input-pretaxStart" step="50" value="">
+        </div>
+        <div class="form-group form-row">
+          <label class="form-label" for="input-rothStart" data-tooltip="Starting balance of Roth retirement accounts">Retirement Roth (K$)</label>
+          <input type="number" class="form-input" id="input-rothStart" step="5" value="">
+        </div>
+        <div class="form-group form-row">
+          <label class="form-label" for="input-rothPrincipalStart" data-tooltip="Accessible principal within the starting Roth balance">Roth Principal (K$)</label>
+          <input type="number" class="form-input" id="input-rothPrincipalStart" step="1" value="">
+        </div>
+      </div>
+
+      <!-- Incomes (R1) -->
+      <div class="panel">
+        <div class="panel-title">Incomes</div>
+        <div class="form-group form-row">
+          <label class="form-label" for="input-earnedIncome" data-tooltip="Annual earned taxable income before retirement">Taxable Earned Income (K$)</label>
+          <input type="number" class="form-input" id="input-earnedIncome" step="5" value="">
+        </div>
+        <div class="form-group form-row">
+          <label class="form-label" for="input-ssStartAge" data-tooltip="Age at which Social Security benefits begin">SS Start Age</label>
+          <input type="number" class="form-input" id="input-ssStartAge" value="" min="62" max="70">
+        </div>
+        <div class="form-group form-row">
+          <label class="form-label" for="input-ssAmount" data-tooltip="Annual Social Security benefit estimate at Full Retirement Age (67) in today's dollars">SS Annual Benefit (K$)</label>
+          <input type="number" class="form-input" id="input-ssAmount" step="1" value="">
+        </div>
+        
+      </div>
+
+      <!-- Living & Major Expenses (R1) -->
+      <div class="panel">
+        <div class="panel-title">Living & Major Expenses</div>
+        <div class="form-group form-row">
+          <label class="form-label" for="input-livingExpensesStart" data-tooltip="Base annual living expenses (excluding healthcare and college) in today's dollars">Living Expenses (Yr 1) (K$)</label>
+          <input type="number" class="form-input" id="input-livingExpensesStart" step="5" value="">
+        </div>
+        <div class="form-group form-row">
+          <label class="form-label" for="input-collegeTotal" data-tooltip="Total 5-year college expense (disbursed 12.5% / 25% / 25% / 25% / 12.5%)">College Annual Exp (K$)</label>
+          <input type="number" class="form-input" id="input-collegeTotal" step="5" value="100">
+        </div>
+        <div class="form-group form-row">
+          <label class="form-label" for="input-collegeStartYear" data-tooltip="Year college expenses begin">College Start Year</label>
+          <input type="number" class="form-input" id="input-collegeStartYear" value="2029">
+        </div>
+        <div class="form-group form-row">
+          <label class="form-label" for="input-healthSubsidized" data-tooltip="Annual healthcare cost with ACA subsidies (pre-Medicare)">Health Ins (w/ Subsidy) (K$)</label>
+          <input type="number" class="form-input" id="input-healthSubsidized" step="0.5" value="5">
+        </div>
+        <div class="form-group form-row">
+          <label class="form-label" for="input-healthUnsubsidized" data-tooltip="Annual healthcare cost without ACA subsidies (pre-Medicare)">Health Ins (w/o Subsidy) (K$)</label>
+          <input type="number" class="form-input" id="input-healthUnsubsidized" step="1" value="25">
+        </div>
       </div>
 
     </aside>
@@ -1066,11 +1088,12 @@
     // Default Configuration Registry (R1)
     const DEFAULT_INPUTS = {
       birthYear: 1976,
+      birthMonth: 1,
       currentYear: 2026,
       retireYear: 2027,
       eolYear: 2060,
       inflationRate: 0.035,
-      cashStart: 500000,
+      cashStart: 450000,
       cashInterestRate: 0.05,
       invStart: 300000,
       invReturnRate: 0.09,
@@ -1278,17 +1301,20 @@
     }
 
     // Helper: Determine Roth conversion phase dynamically (R1)
-    function getConversionPhase(year, retireYear, birthYear) {
-      const age = year - birthYear;
-      if (year < retireYear || age > 75) return 0; // Ineligible
-      if (age >= 59.5) return 3;                   // Phase 3: Age 59.5 to 75
+    function getConversionPhase(year, retireYear, birthYear, birthMonth = 1) {
+      const eoyAge = year - birthYear;
+      const year59_5 = birthYear + 59 + (birthMonth > 6 ? 1 : 0);
+      const is59_5_met = year >= year59_5;
+
+      if (eoyAge >= 75) return 4;
+      if (is59_5_met) return 3;
       const kYear = year - retireYear;
-      if (kYear < 5) return 1;                     // Phase 1: First 5 years of retirement
-      return 2;                                    // Phase 2: Year 6 to Age 59.5
+      if (kYear >= 5) return 2;
+      return 1;
     }
 
     // Core Multi-Decade Simulation Engine
-    function runSimulation(inputs, rothConvPhase1 = 0, rothConvPhase2, rothConvPhase3) {
+    function runSimulation(inputs, rothConvPhase1 = 0, rothConvPhase2, rothConvPhase3, rothConvPhase4) {
       const p = Object.assign({}, DEFAULT_INPUTS, inputs);
 
       const startYear = (p.currentYear || 2026) + 1;
@@ -1299,6 +1325,7 @@
       const k1 = Number(rothConvPhase1) || 0;
       const k2 = rothConvPhase2 !== undefined ? Number(rothConvPhase2) : k1;
       const k3 = rothConvPhase3 !== undefined ? Number(rothConvPhase3) : k2;
+      const k4 = rothConvPhase4 !== undefined ? Number(rothConvPhase4) : k3;
 
       let cash = Number(p.cashStart);
       let inv = Number(p.invStart);
@@ -1354,10 +1381,11 @@
 
         // R1: Dynamic 3-Phase Roth Conversion Selection
         let targetConv = 0;
-        const phase = getConversionPhase(year, p.retireYear, p.birthYear);
+        const phase = getConversionPhase(year, p.retireYear, p.birthYear, p.birthMonth);
         if (phase === 1) targetConv = k1;
         else if (phase === 2) targetConv = k2;
         else if (phase === 3) targetConv = k3;
+        else if (phase === 4) targetConv = k4;
 
         const rothConversion = Math.max(0, Math.min(targetConv, pretax));
 
@@ -1368,7 +1396,8 @@
 
         // Taxes
         const otherIncome = earned + cashInterest + rothConversion + annualRMD;
-        const taxableSS = computeTaxableSS(ssBenefit, otherIncome);
+        const taxableSS = computeTaxableSS(ssBenefit,
+          annualRMD, otherIncome);
         const agi = otherIncome + taxableSS;
         magiHistory.push(agi);
 
@@ -1409,15 +1438,18 @@
         }
         
         const rothWithGrowth = (roth + rothConversion) * (1 + Number(p.invReturnRate));
-        const currentAccessibleRoth = (age >= 59.5) ? rothWithGrowth : (accessibleOriginalPrincipal + accessibleVintages);
+        const year59_5 = p.birthYear + 59 + ((p.birthMonth || 1) > 6 ? 1 : 0);
+        const is59_5_met = year >= year59_5;
+        const currentAccessibleRoth = is59_5_met ? rothWithGrowth : (accessibleOriginalPrincipal + accessibleVintages);
 
         let isLiquidDeficit = false;
 
         // Liquidity Waterfall: Cash -> Taxable Investments -> Accessible Roth
         if (netCashDeficit <= 0) {
-          // Surplus cash accumulation
-          cash = cash + (-netCashDeficit);
-          inv = inv * (1 + Number(p.invReturnRate));
+          const surplus = -netCashDeficit;
+          // NEVER refill cash. Cash is just a starting balance that depletes.
+          // All surplus cashflow flows directly to Taxable Investments for 9% growth.
+          inv = (inv * (1 + Number(p.invReturnRate))) + surplus;
           pretax = (pretax - rothConversion) * (1 + Number(p.invReturnRate));
           roth = rothWithGrowth;
         } else {
@@ -1440,7 +1472,7 @@
             drawRoth = Math.min(currentAccessibleRoth, remDeficit);
             remDeficit -= drawRoth;
 
-            if (age < 59.5) {
+            if (!is59_5_met) {
               // Deplete accessible vintages (FIFO)
               let toDeduct = drawRoth;
               if (accessibleOriginalPrincipal > 0) {
@@ -1477,7 +1509,7 @@
         // Year-end accessible Roth principal
         let endAccRoth = 0;
         let accessibleRothNextYear = 0;
-        if (age >= 59.5) {
+        if (is59_5_met) {
            endAccRoth = roth;
            accessibleRothNextYear = roth * (1 + Number(p.invReturnRate)); // approximation for next year
         } else {
@@ -1496,7 +1528,7 @@
            endAccRoth = accessibleOriginalPrincipal + accessibleVintagesYE;
            accessibleRothNextYear = accessibleOriginalPrincipal + accessibleVintagesNextYear;
            // If they turn 59.5 next year:
-           if ((age + 1) >= 59.5) {
+           if ((year + 1) >= year59_5) {
              accessibleRothNextYear = roth * (1 + Number(p.invReturnRate));
            }
         }
@@ -1529,6 +1561,7 @@
           cashInterest,
           invReturn: inv * Number(p.invReturnRate),
           ssBenefit,
+          annualRMD,
           rothConversion,
           conversion: rothConversion,
           taxableIncome: taxableFed,
@@ -1601,22 +1634,24 @@
       const birthYear = inputs.birthYear !== undefined ? inputs.birthYear : 1976;
       const eolYear = inputs.eolYear !== undefined ? inputs.eolYear : 2060;
 
-      let hasP1 = false, hasP2 = false, hasP3 = false;
+      let hasP1 = false, hasP2 = false, hasP3 = false, hasP4 = false;
       for (let y = retireYear; y <= Math.min(eolYear, birthYear + 75); y++) {
-        const ph = getConversionPhase(y, retireYear, birthYear);
+        const ph = getConversionPhase(y, retireYear, birthYear, inputs.birthMonth || 1);
         if (ph === 1) hasP1 = true;
         if (ph === 2) hasP2 = true;
         if (ph === 3) hasP3 = true;
+        if (ph === 4) hasP4 = true;
       }
 
-      if (!hasP1 && !hasP2 && !hasP3) {
-        const res = runSimulation(inputs, 0, 0, 0);
+      if (!hasP1 && !hasP2 && !hasP3 && !hasP4) {
+        const res = runSimulation(inputs, 0, 0, 0, 0);
         const m = (objective === 'tvm') ? res.pvTotalTax : res.rawTotalTax;
         const tEnd = (typeof performance !== 'undefined' && performance.now) ? performance.now() : Date.now();
         return {
           bestK1: 0,
           bestK2: 0,
           bestK3: 0,
+          bestK4: 0,
           bestAnnualConversion: 0,
           optimalK: 0,
           bestConversion: 0,
@@ -1631,24 +1666,26 @@
           durationMs: Math.round(tEnd - tStart),
           hasPhase1: false,
           hasPhase2: false,
-          hasPhase3: false
+          hasPhase3: false,
+          hasPhase4: false
         };
       }
 
       // Multi-Start Seeds: [P1, P2, P3]
       const seeds = [
-        [50000, 100000, 150000],
-        [150000, 300000, 400000],
-        [250000, 500000, 600000]
+        [50000, 100000, 150000, 0],
+        [150000, 300000, 400000, 0],
+        [250000, 500000, 600000, 0]
       ];
 
-      let bestOverall = { k1: 0, k2: 0, k3: 0, metric: Infinity, res: null };
-      let fallbackCandidate = { k1: 0, k2: 0, k3: 0, maxMinLiq: -Infinity, res: null };
+      let bestOverall = { k1: 0, k2: 0, k3: 0, k4: 0, metric: Infinity, res: null };
+      let fallbackCandidate = { k1: 0, k2: 0, k3: 0, k4: 0, maxMinLiq: -Infinity, res: null };
 
       for (let s = 0; s < seeds.length; s++) {
         let k1 = hasP1 ? seeds[s][0] : 0;
         let k2 = hasP2 ? seeds[s][1] : 0;
         let k3 = hasP3 ? seeds[s][2] : 0;
+        let k4 = hasP4 ? seeds[s][3] : 0;
         let currentMetric = Infinity;
         let currentRes = null;
 
@@ -1657,10 +1694,10 @@
           if (hasP1) {
             for (let tk1 = 0; tk1 <= 500000; tk1 += 25000) {
               totalEvaluated++;
-              const res = runSimulation(inputs, tk1, k2, k3);
+              const res = runSimulation(inputs, tk1, k2, k3, k4);
               if (res.isFeasible) feasibleCount++;
               if (res.minLiquidityBalance > fallbackCandidate.maxMinLiq) {
-                fallbackCandidate = { k1: tk1, k2, k3, maxMinLiq: res.minLiquidityBalance, res };
+                fallbackCandidate = { k1: tk1, k2, k3, k4, maxMinLiq: res.minLiquidityBalance, res };
               }
               const m = getMetric(res);
               if (m < currentMetric) { currentMetric = m; k1 = tk1; currentRes = res; }
@@ -1671,10 +1708,10 @@
           if (hasP2) {
             for (let tk2 = 0; tk2 <= 800000; tk2 += 25000) {
               totalEvaluated++;
-              const res = runSimulation(inputs, k1, tk2, k3);
+              const res = runSimulation(inputs, k1, tk2, k3, k4);
               if (res.isFeasible) feasibleCount++;
               if (res.minLiquidityBalance > fallbackCandidate.maxMinLiq) {
-                fallbackCandidate = { k1, k2: tk2, k3, maxMinLiq: res.minLiquidityBalance, res };
+                fallbackCandidate = { k1, k2: tk2, k3, k4, maxMinLiq: res.minLiquidityBalance, res };
               }
               const m = getMetric(res);
               if (m < currentMetric) { currentMetric = m; k2 = tk2; currentRes = res; }
@@ -1685,19 +1722,32 @@
           if (hasP3) {
             for (let tk3 = 0; tk3 <= 1000000; tk3 += 25000) {
               totalEvaluated++;
-              const res = runSimulation(inputs, k1, k2, tk3);
+              const res = runSimulation(inputs, k1, k2, tk3, k4);
               if (res.isFeasible) feasibleCount++;
               if (res.minLiquidityBalance > fallbackCandidate.maxMinLiq) {
-                fallbackCandidate = { k1, k2, k3: tk3, maxMinLiq: res.minLiquidityBalance, res };
+                fallbackCandidate = { k1, k2, k3: tk3, k4, maxMinLiq: res.minLiquidityBalance, res };
               }
               const m = getMetric(res);
               if (m < currentMetric) { currentMetric = m; k3 = tk3; currentRes = res; }
             }
           }
+          // Sweep Phase 4 (0 to 500K, step 25K)
+          if (hasP4) {
+            for (let tk4 = 0; tk4 <= 500000; tk4 += 25000) {
+              totalEvaluated++;
+              const res = runSimulation(inputs, k1, k2, k3, tk4);
+              if (res.isFeasible) feasibleCount++;
+              if (res.minLiquidityBalance > fallbackCandidate.maxMinLiq) {
+                fallbackCandidate = { k1, k2, k3, k4: tk4, maxMinLiq: res.minLiquidityBalance, res };
+              }
+              const m = getMetric(res);
+              if (m < currentMetric) { currentMetric = m; k4 = tk4; currentRes = res; }
+            }
+          }
         }
 
         if (currentMetric < bestOverall.metric) {
-          bestOverall = { k1, k2, k3, metric: currentMetric, res: currentRes };
+          bestOverall = { k1, k2, k3, k4, metric: currentMetric, res: currentRes };
         }
       }
 
@@ -1705,6 +1755,7 @@
       let k1 = bestOverall.k1;
       let k2 = bestOverall.k2;
       let k3 = bestOverall.k3;
+      let k4 = bestOverall.k4;
       let minMetric = bestOverall.metric;
       let bestResult = bestOverall.res;
 
@@ -1714,7 +1765,7 @@
           if (hasP1) {
             for (let tk1 = Math.max(0, k1 - 30000); tk1 <= Math.min(500000, k1 + 30000); tk1 += 5000) {
               totalEvaluated++;
-              const res = runSimulation(inputs, tk1, k2, k3);
+              const res = runSimulation(inputs, tk1, k2, k3, k4);
               const m = getMetric(res);
               if (m < minMetric) { minMetric = m; k1 = tk1; bestResult = res; }
             }
@@ -1722,7 +1773,7 @@
           if (hasP2) {
             for (let tk2 = Math.max(0, k2 - 30000); tk2 <= Math.min(800000, k2 + 30000); tk2 += 5000) {
               totalEvaluated++;
-              const res = runSimulation(inputs, k1, tk2, k3);
+              const res = runSimulation(inputs, k1, tk2, k3, k4);
               const m = getMetric(res);
               if (m < minMetric) { minMetric = m; k2 = tk2; bestResult = res; }
             }
@@ -1730,9 +1781,17 @@
           if (hasP3) {
             for (let tk3 = Math.max(0, k3 - 30000); tk3 <= Math.min(1000000, k3 + 30000); tk3 += 5000) {
               totalEvaluated++;
-              const res = runSimulation(inputs, k1, k2, tk3);
+              const res = runSimulation(inputs, k1, k2, tk3, k4);
               const m = getMetric(res);
               if (m < minMetric) { minMetric = m; k3 = tk3; bestResult = res; }
+            }
+          }
+          if (hasP4) {
+            for (let tk4 = Math.max(0, k4 - 30000); tk4 <= Math.min(500000, k4 + 30000); tk4 += 5000) {
+              totalEvaluated++;
+              const res = runSimulation(inputs, k1, k2, k3, tk4);
+              const m = getMetric(res);
+              if (m < minMetric) { minMetric = m; k4 = tk4; bestResult = res; }
             }
           }
         }
@@ -1741,7 +1800,7 @@
         if (hasP1) {
           for (let tk1 = Math.max(0, k1 - 5000); tk1 <= Math.min(500000, k1 + 5000); tk1 += 1000) {
             totalEvaluated++;
-            const res = runSimulation(inputs, tk1, k2, k3);
+            const res = runSimulation(inputs, tk1, k2, k3, k4);
             const m = getMetric(res);
             if (m < minMetric) { minMetric = m; k1 = tk1; bestResult = res; }
           }
@@ -1749,7 +1808,7 @@
         if (hasP2) {
           for (let tk2 = Math.max(0, k2 - 5000); tk2 <= Math.min(800000, k2 + 5000); tk2 += 1000) {
             totalEvaluated++;
-            const res = runSimulation(inputs, k1, tk2, k3);
+            const res = runSimulation(inputs, k1, tk2, k3, k4);
             const m = getMetric(res);
             if (m < minMetric) { minMetric = m; k2 = tk2; bestResult = res; }
           }
@@ -1757,9 +1816,17 @@
         if (hasP3) {
           for (let tk3 = Math.max(0, k3 - 5000); tk3 <= Math.min(1000000, k3 + 5000); tk3 += 1000) {
             totalEvaluated++;
-            const res = runSimulation(inputs, k1, k2, tk3);
+            const res = runSimulation(inputs, k1, k2, tk3, k4);
             const m = getMetric(res);
             if (m < minMetric) { minMetric = m; k3 = tk3; bestResult = res; }
+          }
+        }
+        if (hasP4) {
+          for (let tk4 = Math.max(0, k4 - 5000); tk4 <= Math.min(500000, k4 + 5000); tk4 += 1000) {
+            totalEvaluated++;
+            const res = runSimulation(inputs, k1, k2, k3, tk4);
+            const m = getMetric(res);
+            if (m < minMetric) { minMetric = m; k4 = tk4; bestResult = res; }
           }
         }
       } else {
@@ -1767,7 +1834,8 @@
         k1 = fallbackCandidate.k1;
         k2 = fallbackCandidate.k2;
         k3 = fallbackCandidate.k3;
-        bestResult = fallbackCandidate.res || runSimulation(inputs, 0, 0, 0);
+        k4 = fallbackCandidate.k4;
+        bestResult = fallbackCandidate.res || runSimulation(inputs, 0, 0, 0, 0);
         minMetric = (objective === 'tvm') ? bestResult.pvTotalTax : bestResult.rawTotalTax;
       }
 
@@ -1777,6 +1845,7 @@
         bestK1: k1,
         bestK2: k2,
         bestK3: k3,
+        bestK4: k4,
         bestAnnualConversion: k1,
         optimalK: k1,
         bestConversion: k1,
@@ -1792,11 +1861,13 @@
         hasPhase1: hasP1,
         hasPhase2: hasP2,
         hasPhase3: hasP3,
+        hasPhase4: hasP4,
         candidates: [{
           conversion: k1,
           phase1: k1,
           phase2: k2,
           phase3: k3,
+          phase4: k4,
           rawTax: bestResult.rawTotalTax,
           pvTax: bestResult.pvTotalTax,
           fvTax: bestResult.fvTotalTax,
@@ -1847,6 +1918,7 @@
       'slider-phase-1': 'slider-phase-1',
       'slider-phase-2': 'slider-phase-2',
       'slider-phase-3': 'slider-phase-3',
+      'slider-phase-4': 'slider-phase-4',
       'slider-phase1': 'slider-phase-1',
       'slider-phase2': 'slider-phase-2',
       'slider-phase3': 'slider-phase-3',
@@ -1856,6 +1928,7 @@
       'num-phase-1': 'num-phase-1',
       'num-phase-2': 'num-phase-2',
       'num-phase-3': 'num-phase-3',
+      'num-phase-4': 'num-phase-4',
       'kpi-tax-raw': 'kpi-total-tax-raw',
       'kpi-tax-pv': 'kpi-total-tax-pv',
       'kpi-tax-fv': 'kpi-total-tax-fv',
@@ -1876,9 +1949,9 @@
 
     // Number Formatting Helpers
     const fmtCurrency = (n) => {
-      const rounded = Math.round(n / 1000);
-      if (rounded === 0) return '-';
-      return (rounded < 0 ? '-' : '') + Math.abs(rounded).toLocaleString();
+      const inK = n / 1000;
+      if (Math.abs(inK) < 0.05) return '-';
+      return inK.toLocaleString(undefined, { minimumFractionDigits: 1, maximumFractionDigits: 1 });
     };
 
     const fmtCompact = (n) => {
@@ -1912,26 +1985,27 @@
 
       return {
         birthYear: getVal('input-birthYear', 1976),
+        birthMonth: getVal('input-birthMonth', 1),
         currentYear: currentYear,
         retireYear: retireYear,
         eolYear: eolYear,
         inflationRate: getVal('input-inflationRate', 3.5) / 100,
-        cashStart: getVal('input-cashStart', 0) * 1000,
+        cashStart: getVal('input-cashStart', 500) * 1000,
         cashInterestRate: getVal('input-cashInterestRate', 4.0) / 100,
-        invStart: getVal('input-invStart', 0) * 1000,
+        invStart: getVal('input-invStart', 300) * 1000,
         invReturnRate: getVal('input-invReturnRate', 9.0) / 100,
-        pretaxStart: getVal('input-pretaxStart', 0) * 1000,
-        rothStart: getVal('input-rothStart', 0) * 1000,
-        rothPrincipalStart: getVal('input-rothPrincipalStart', 0) * 1000,
+        pretaxStart: getVal('input-pretaxStart', 5000) * 1000,
+        rothStart: getVal('input-rothStart', 120) * 1000,
+        rothPrincipalStart: getVal('input-rothPrincipalStart', 25) * 1000,
         collegeTotal: getVal('input-collegeTotal', 100) * 1000,
         collegeStartYear: getVal('input-collegeStartYear', 2029),
         healthSubsidized: getVal('input-healthSubsidized', 5) * 1000,
         healthUnsubsidized: getVal('input-healthUnsubsidized', 25) * 1000,
         magiCliff: 90000,
-        ssStartAge: Math.max(62, Math.min(70, getVal('input-ssStartAge', 0))),
-        ssAmount: getVal('input-ssAmount', 0) * 1000,
-        earnedIncome: getVal('input-earnedIncome', 0) * 1000,
-        livingExpensesStart: getVal('input-livingExpensesStart', 100) * 1000,
+        ssStartAge: Math.max(62, Math.min(70, getVal('input-ssStartAge', 62))),
+        ssAmount: getVal('input-ssAmount', 60) * 1000,
+        earnedIncome: getVal('input-earnedIncome', 275) * 1000,
+        livingExpensesStart: getVal('input-livingExpensesStart', 60) * 1000,
         state: document.getElementById('input-state') ? document.getElementById('input-state').value : 'VA',
         tvmDiscountRate: getVal('input-invReturnRate', 9.0) / 100,
         safetyNet: getVal('input-safetyNet', 50) * 1000
@@ -2200,66 +2274,174 @@
     }
 
     // Main App Orchestration Loop
-    function exportToJPG() {
-      if (typeof html2canvas === 'undefined') {
-        const script = document.createElement('script');
-        script.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js';
-        script.onload = () => {
-          html2canvas(document.body).then(canvas => {
-            const link = document.createElement('a');
-            link.download = 'planning.jpg';
-            link.href = canvas.toDataURL('image/jpeg', 0.9);
-            link.click();
-          });
-        };
-        document.head.appendChild(script);
-      } else {
-        html2canvas(document.body).then(canvas => {
-          const link = document.createElement('a');
-          link.download = 'planning.jpg';
-          link.href = canvas.toDataURL('image/jpeg', 0.9);
-          link.click();
-        });
-      }
+        async function prepareForExport() {
+      const formInputs = document.querySelectorAll('.form-input, .phase-num-input');
+      const replacements = [];
+
+      formInputs.forEach(input => {
+        const span = document.createElement('span');
+        span.textContent = input.value;
+        span.style.cssText = window.getComputedStyle(input).cssText;
+        span.style.display = 'inline-block';
+        span.style.backgroundColor = 'transparent';
+        span.style.border = '1px solid rgba(255, 255, 255, 0.1)';
+        span.className = 'export-replacement';
+        
+        input.style.display = 'none';
+        input.parentNode.insertBefore(span, input);
+        replacements.push({ input, span });
+      });
+
+      const sliders = document.querySelectorAll('.slider-input, #slider-conversion');
+      sliders.forEach(s => {
+        const val = parseFloat(s.value);
+        const min = parseFloat(s.min) || 0;
+        const max = parseFloat(s.max) || 100;
+        let percent = (val - min) / (max - min);
+        if (isNaN(percent)) percent = 0;
+
+        const track = document.createElement('div');
+        track.style.width = '100%'; // Rigid width constraint
+        track.style.position = 'relative';
+        track.style.display = 'flex';
+        track.style.alignItems = 'center';
+        track.style.height = '24px';
+        
+        const bar = document.createElement('div');
+        bar.style.width = '100%';
+        bar.style.height = '6px';
+        bar.style.borderRadius = '3px';
+        bar.style.backgroundColor = '#475569'; // Solid, opaque Slate-600
+        track.appendChild(bar);
+
+        const thumb = document.createElement('div');
+        thumb.style.position = 'absolute';
+        thumb.style.left = `calc(${percent * 100}% - 8px)`;
+        thumb.style.width = '16px';
+        thumb.style.height = '16px';
+        thumb.style.borderRadius = '50%';
+        thumb.style.backgroundColor = '#3b82f6'; // Solid, opaque Blue-500
+        track.appendChild(thumb);
+
+        s.style.display = 'none';
+        s.parentNode.insertBefore(track, s);
+        replacements.push({ input: s, span: track });
+      });
+
+      // Wait a frame for DOM to update
+      await new Promise(r => setTimeout(r, 150));
+      return { replacements, sliders };
     }
 
-    function updatePhaseSliderLabels(retireYear, birthYear, eolYear) {
+    function cleanupAfterExport({ replacements, sliders }) {
+      replacements.forEach(r => {
+        r.input.style.display = '';
+        if (r.span.parentNode) r.span.parentNode.removeChild(r.span);
+      });
+      sliders.forEach(s => s.style.display = '');
+    }
+
+    async function getExportCanvas() {
+      if (typeof html2canvas === 'undefined') {
+        await new Promise((resolve) => {
+          const script = document.createElement('script');
+          script.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js';
+          script.onload = resolve;
+          document.head.appendChild(script);
+        });
+      }
+      const state = await prepareForExport();
+      const canvas = await html2canvas(document.body, { 
+        scale: 1.5, 
+        backgroundColor: '#0f172a',
+        ignoreElements: (el) => el.tagName === 'BUTTON'
+      });
+      cleanupAfterExport(state);
+      return canvas;
+    }
+
+    async function exportToJPG() {
+      const canvas = await getExportCanvas();
+      const link = document.createElement('a');
+      link.download = 'Roth_Optimization_Plan.jpg';
+      link.href = canvas.toDataURL('image/jpeg', 0.9);
+      link.click();
+    }
+
+    async function exportToPDF() {
+      const canvas = await getExportCanvas();
+      
+      if (typeof window.jspdf === 'undefined') {
+        await new Promise((resolve) => {
+          const script = document.createElement('script');
+          script.src = 'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js';
+          script.onload = resolve;
+          document.head.appendChild(script);
+        });
+      }
+
+      const { jsPDF } = window.jspdf;
+      
+      // Determine orientation based on aspect ratio
+      const orientation = canvas.width > canvas.height ? 'l' : 'p';
+      const pdf = new jsPDF(orientation, 'pt', 'a4');
+      
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = pdf.internal.pageSize.getHeight();
+      
+      const ratio = Math.min(pdfWidth / canvas.width, pdfHeight / canvas.height);
+      
+      const imgWidth = canvas.width * ratio;
+      const imgHeight = canvas.height * ratio;
+      const marginX = (pdfWidth - imgWidth) / 2;
+      const marginY = (pdfHeight - imgHeight) / 2;
+
+      pdf.addImage(canvas.toDataURL('image/jpeg', 0.9), 'JPEG', marginX, marginY, imgWidth, imgHeight);
+      pdf.save('Roth_Optimization_Plan.pdf');
+    }
+
+    function updatePhaseSliderLabels(retireYear, birthYear, eolYear, birthMonth = 1) {
       if (typeof document === 'undefined') return;
 
-      const y59 = birthYear + 59;
-      const y60 = birthYear + 60;
+      const year59_5 = birthYear + 59 + (birthMonth > 6 ? 1 : 0);
       const y75 = birthYear + 75;
 
       const t1 = document.getElementById('title-phase-1');
       const t2 = document.getElementById('title-phase-2');
       const t3 = document.getElementById('title-phase-3');
+      const t4 = document.getElementById('title-phase-4');
       const s1 = document.getElementById('slider-phase-1');
       const s2 = document.getElementById('slider-phase-2');
       const s3 = document.getElementById('slider-phase-3');
+      const s4 = document.getElementById('slider-phase-4');
       const n1 = document.getElementById('num-phase-1');
       const n2 = document.getElementById('num-phase-2');
       const n3 = document.getElementById('num-phase-3');
+      const n4 = document.getElementById('num-phase-4');
       const b1 = document.getElementById('box-phase-1');
       const b2 = document.getElementById('box-phase-2');
       const b3 = document.getElementById('box-phase-3');
+      const b4 = document.getElementById('box-phase-4');
       const sub1 = document.getElementById('subtext-phase-1');
       const sub2 = document.getElementById('subtext-phase-2');
       const sub3 = document.getElementById('subtext-phase-3');
+      const sub4 = document.getElementById('subtext-phase-4');
 
       // Check active phases
-      let hasP1 = false, hasP2 = false, hasP3 = false;
+      let hasP1 = false, hasP2 = false, hasP3 = false, hasP4 = false;
       for (let y = retireYear; y <= Math.min(eolYear, y75); y++) {
-        const ph = getConversionPhase(y, retireYear, birthYear);
+        const ph = getConversionPhase(y, retireYear, birthYear, birthMonth || 1);
         if (ph === 1) hasP1 = true;
         if (ph === 2) hasP2 = true;
         if (ph === 3) hasP3 = true;
+        if (ph === 4) hasP4 = true;
       }
 
       // Phase 1
       if (t1) {
         if (hasP1) {
-          const p1End = Math.min(eolYear, retireYear + 4, y59);
-          t1.textContent = `Phase 1: Yr 1–${p1End - retireYear + 1} (${retireYear}–${p1End})`;
+          const p1End = Math.min(eolYear, retireYear + 4, year59_5 - 1);
+          t1.textContent = `Phase 1: Pre-Retire to Yr 5 (${retireYear}–${Math.max(retireYear, p1End)})`;
           if (sub1) sub1.textContent = '5-Year Lockup Period (Pre-59½)';
           if (b1) b1.style.opacity = '1';
           if (s1) s1.disabled = false;
@@ -2277,7 +2459,7 @@
       if (t2) {
         if (hasP2) {
           const p2Start = retireYear + 5;
-          const p2End = Math.min(eolYear, y59);
+          const p2End = Math.min(eolYear, year59_5 - 1);
           t2.textContent = `Phase 2: Yr 6–Age 59½ (${p2Start}–${p2End})`;
           if (sub2) sub2.textContent = 'Rolling Unlocked Principal (Pre-59½)';
           if (b2) b2.style.opacity = '1';
@@ -2295,9 +2477,9 @@
       // Phase 3
       if (t3) {
         if (hasP3) {
-          const p3Start = Math.max(retireYear, y60);
-          const p3End = Math.min(eolYear, y75);
-          t3.textContent = `Phase 3: Age 59½–75 (${p3Start}–${p3End})`;
+          const p3Start = Math.max(retireYear, year59_5);
+          const p3End = Math.min(eolYear, y75 - 1);
+          t3.textContent = `Phase 3: Age 59½–74 (${p3Start}–${p3End})`;
           if (sub3) sub3.textContent = '100% Liquid & Penalty-Free';
           if (b3) b3.style.opacity = '1';
           if (s3) s3.disabled = false;
@@ -2308,6 +2490,23 @@
           if (b3) b3.style.opacity = '0.5';
           if (s3) s3.disabled = true;
           if (n3) n3.disabled = true;
+        }
+      }
+      // Phase 4
+      if (t4) {
+        if (hasP4) {
+          const p4Start = Math.max(retireYear, y75);
+          t4.textContent = `Phase 4: Age 75+ (${p4Start}+)`;
+          if (sub4) sub4.textContent = 'RMD Active';
+          if (b4) b4.style.opacity = '1';
+          if (s4) s4.disabled = false;
+          if (n4) n4.disabled = false;
+        } else {
+          t4.textContent = 'Phase 4: N/A';
+          if (sub4) sub4.textContent = 'Bypassed (EOL before 75)';
+          if (b4) b4.style.opacity = '0.5';
+          if (s4) s4.disabled = true;
+          if (n4) n4.disabled = true;
         }
       }
     }
@@ -2368,7 +2567,8 @@
           adjusted = true;
         }
 
-        updatePhaseSliderLabels(rYear, bYear, eYear);
+        const bMonth = parseInt(document.getElementById('input-birthMonth')?.value || 1, 10);
+        updatePhaseSliderLabels(rYear, bYear, eYear, bMonth);
         return adjusted;
       }
 
@@ -2388,21 +2588,20 @@
         }
       });
 
+      
       if (elBirth) {
         elBirth.addEventListener('input', () => {
           if (elBirth.value.length >= 4) {
-            const rYear = parseInt(elRetire.value, 10) || minStartYear;
-            const eYear = parseInt(elEol.value, 10) || 2060;
-            const bYear = parseInt(elBirth.value, 10) || 1976;
-            updatePhaseSliderLabels(rYear, bYear, eYear);
+            validateTimelineInputs();
           }
         });
-        elBirth.addEventListener('change', () => {
-          const rYear = parseInt(elRetire.value, 10) || minStartYear;
-          const eYear = parseInt(elEol.value, 10) || 2060;
-          const bYear = parseInt(elBirth.value, 10) || 1976;
-          updatePhaseSliderLabels(rYear, bYear, eYear);
-        });
+        elBirth.addEventListener('change', validateTimelineInputs);
+      }
+      
+      const elBirthMonth = document.getElementById('input-birthMonth');
+      if (elBirthMonth) {
+        elBirthMonth.addEventListener('input', validateTimelineInputs);
+        elBirthMonth.addEventListener('change', validateTimelineInputs);
       }
 
       // Initial label update
@@ -2418,9 +2617,11 @@
       const s1 = document.getElementById('slider-phase-1');
       const s2 = document.getElementById('slider-phase-2');
       const s3 = document.getElementById('slider-phase-3');
+      const s4 = document.getElementById('slider-phase-4');
       const n1 = document.getElementById('num-phase-1');
       const n2 = document.getElementById('num-phase-2');
       const n3 = document.getElementById('num-phase-3');
+      const n4 = document.getElementById('num-phase-4');
 
       // Sync slider and number input based on which triggered
       if (document.activeElement === n1 && s1) s1.value = n1.value;
@@ -2432,16 +2633,22 @@
       if (document.activeElement === n3 && s3) s3.value = n3.value;
       else if (n3 && s3) n3.value = s3.value;
 
+      if (document.activeElement === n4 && s4) s4.value = n4.value;
+      else if (n4 && s4) n4.value = s4.value;
+
       const k1 = s1 ? Number(s1.value) * 1000 : 0;
       const k2 = s2 ? Number(s2.value) * 1000 : 0;
       const k3 = s3 ? Number(s3.value) * 1000 : 0;
+      const k4 = s4 ? Number(s4.value) * 1000 : 0;
 
       const v1 = document.getElementById('val-phase-1');
       const v2 = document.getElementById('val-phase-2');
       const v3 = document.getElementById('val-phase-3');
+      const v4 = document.getElementById('val-phase-4');
       if (v1 && !s1?.disabled) v1.textContent = `$${s1.value}K / yr`;
       if (v2 && !s2?.disabled) v2.textContent = `$${s2.value}K / yr`;
       if (v3 && !s3?.disabled) v3.textContent = `$${s3.value}K / yr`;
+      if (v4 && !s4?.disabled) v4.textContent = `$${s4.value}K / yr`;
 
       // Legacy single slider sync if element exists
       const sliderLegacy = document.getElementById('slider-conversion');
@@ -2449,7 +2656,7 @@
       const sliderLegacyVal = document.getElementById('slider-conversion-val');
       if (sliderLegacyVal) sliderLegacyVal.textContent = `$${s1 ? s1.value : 0}K / yr`;
 
-      const res = runSimulation(inputs, k1, k2, k3);
+      const res = runSimulation(inputs, k1, k2, k3, k4);
       renderSimulationToDOM(res, k1);
     }
 
@@ -2468,29 +2675,36 @@
       const k1K = Math.round(opt.bestK1 / 1000);
       const k2K = Math.round(opt.bestK2 / 1000);
       const k3K = Math.round(opt.bestK3 / 1000);
+      const k4K = Math.round(opt.bestK4 / 1000);
 
       // Update Sliders, Number inputs, and Value displays
       const s1 = document.getElementById('slider-phase-1');
       const s2 = document.getElementById('slider-phase-2');
       const s3 = document.getElementById('slider-phase-3');
+      const s4 = document.getElementById('slider-phase-4');
       const n1 = document.getElementById('num-phase-1');
       const n2 = document.getElementById('num-phase-2');
       const n3 = document.getElementById('num-phase-3');
+      const n4 = document.getElementById('num-phase-4');
       const v1 = document.getElementById('val-phase-1');
       const v2 = document.getElementById('val-phase-2');
       const v3 = document.getElementById('val-phase-3');
+      const v4 = document.getElementById('val-phase-4');
 
       if (s1) { s1.value = k1K; s1.disabled = !opt.hasPhase1; }
       if (s2) { s2.value = k2K; s2.disabled = !opt.hasPhase2; }
       if (s3) { s3.value = k3K; s3.disabled = !opt.hasPhase3; }
+      if (s4) { s4.value = k4K; s4.disabled = !opt.hasPhase4; }
 
       if (n1) { n1.value = k1K; n1.disabled = !opt.hasPhase1; }
       if (n2) { n2.value = k2K; n2.disabled = !opt.hasPhase2; }
       if (n3) { n3.value = k3K; n3.disabled = !opt.hasPhase3; }
+      if (n4) { n4.value = k4K; n4.disabled = !opt.hasPhase4; }
 
       if (v1) v1.textContent = opt.hasPhase1 ? `$${k1K}K / yr` : 'N/A';
       if (v2) v2.textContent = opt.hasPhase2 ? `$${k2K}K / yr` : 'N/A';
       if (v3) v3.textContent = opt.hasPhase3 ? `$${k3K}K / yr` : 'N/A';
+      if (v4) v4.textContent = opt.hasPhase4 ? `$${k4K}K / yr` : 'N/A';
 
       // Legacy single slider sync if element exists
       const sliderLegacy = document.getElementById('slider-conversion');
@@ -2503,10 +2717,11 @@
           <div style="font-weight:700; color:#38bdf8; margin-bottom:4px;">
             Multi-Phase Optimum (${opt.durationMs}ms):
           </div>
-          <div style="display:flex; justify-content:space-between; font-size:11px; margin-bottom:4px;">
+          <div style="display:flex; justify-content:space-between; font-size:11px; margin-bottom:4px; gap: 4px; flex-wrap: wrap;">
             <span>P1: <strong>${opt.hasPhase1 ? '$' + k1K + 'K' : 'N/A'}</strong></span>
             <span>P2: <strong>${opt.hasPhase2 ? '$' + k2K + 'K' : 'N/A'}</strong></span>
             <span>P3: <strong>${opt.hasPhase3 ? '$' + k3K + 'K' : 'N/A'}</strong></span>
+            <span>P4: <strong>${opt.hasPhase4 ? '$' + k4K + 'K' : 'N/A'}</strong></span>
           </div>
           <div style="font-size:10px; color:#94a3b8;">
             Min ${objective.toUpperCase()} Tax: <strong>${fmtCompact(opt.bestMetricValue)}</strong>
@@ -2531,7 +2746,7 @@
         // Form input listeners
         const debouncedOptimization = debounce(triggerOptimization, 200);
         const inputIds = [
-          'input-birthYear', 'input-retireYear', 'input-eolYear', 'input-heirs', 'input-inflationRate',
+          'input-birthYear', 'input-birthMonth', 'input-retireYear', 'input-eolYear', 'input-heirs', 'input-inflationRate',
           'input-cashStart', 'input-cashInterestRate', 'input-invStart', 'input-invReturnRate',
           'input-pretaxStart', 'input-rothStart', 'input-rothPrincipalStart',
           'input-collegeTotal', 'input-collegeStartYear', 'input-healthSubsidized',
@@ -2547,14 +2762,14 @@
         });
 
         // 3-Phase Conversion Sliders & Inputs
-        ['slider-phase-1', 'slider-phase-2', 'slider-phase-3'].forEach(id => {
+        ['slider-phase-1', 'slider-phase-2', 'slider-phase-3', 'slider-phase-4'].forEach(id => {
           const el = document.getElementById(id);
           if (el && typeof el.addEventListener === 'function') {
             el.addEventListener('input', triggerSimulation);
           }
         });
 
-        ['num-phase-1', 'num-phase-2', 'num-phase-3'].forEach(id => {
+        ['num-phase-1', 'num-phase-2', 'num-phase-3', 'num-phase-4'].forEach(id => {
           const el = document.getElementById(id);
           if (el && typeof el.addEventListener === 'function') {
             el.addEventListener('input', triggerSimulation);
@@ -2575,21 +2790,21 @@
         if (btnReset && typeof btnReset.addEventListener === 'function') {
           btnReset.addEventListener('click', () => {
             const defaults = {
-              'input-birthYear': 1977, 'input-retireYear': 2027, 'input-eolYear': 2060, 'input-heirs': 2,
-              'input-inflationRate': 3.5, 'input-cashStart': '', 'input-cashInterestRate': 4.0,
-              'input-invStart': '', 'input-invReturnRate': 9.0, 'input-pretaxStart': '',
-              'input-rothStart': '', 'input-rothPrincipalStart': '', 'input-collegeTotal': 100,
+              'input-birthYear': 1976, 'input-retireYear': 2027, 'input-eolYear': 2060, 'input-heirs': 2,
+              'input-inflationRate': 3.5, 'input-cashStart': 500, 'input-cashInterestRate': 4.0,
+              'input-invStart': 300, 'input-invReturnRate': 9.0, 'input-pretaxStart': 5000,
+              'input-rothStart': 120, 'input-rothPrincipalStart': 25, 'input-collegeTotal': 100,
               'input-collegeStartYear': 2029, 'input-healthSubsidized': 5,
-              'input-healthUnsubsidized': 25, 'input-ssStartAge': '', 'input-ssAmount': '',
-              'input-earnedIncome': '', 'input-livingExpensesStart': 100,
+              'input-healthUnsubsidized': 25, 'input-ssStartAge': 62, 'input-ssAmount': 60,
+              'input-earnedIncome': 275, 'input-livingExpensesStart': 60,
               'input-state': 'VA', 'input-safetyNet': 50
             };
             for (let id in defaults) {
               let el = document.getElementById(id);
               if (el) el.value = defaults[id];
             }
-            ['slider-phase-1', 'slider-phase-2', 'slider-phase-3',
-             'num-phase-1', 'num-phase-2', 'num-phase-3'].forEach(id => {
+            ['slider-phase-1', 'slider-phase-2', 'slider-phase-3', 'slider-phase-4',
+             'num-phase-1', 'num-phase-2', 'num-phase-3', 'num-phase-4'].forEach(id => {
               let el = document.getElementById(id);
               if (el) el.value = 0;
             });

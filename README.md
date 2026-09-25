@@ -1,18 +1,24 @@
 # Lifetime Financial & Tax Optimization Dashboard
 
-Welcome to the Lifetime Financial & Tax Optimization Dashboard. This application is a fully client-side, privacy-first simulation engine designed to project retirement asset decumulation, optimize Roth conversions, and calculate lifetime tax liabilities (including SECURE 2.0 Act inheritance penalties).
+A privacy-first, 100% client-side web application designed to help executives and retirees model asset decumulation, optimize Roth conversions, and minimize lifetime tax liability.
 
-## Features & Logic
+## Overview
+This tool simulates your financial trajectory from today through your End of Life (EOL) year. By evaluating standard living expenses, healthcare cliffs, college funding, and Social Security, the engine calculates your lifetime federal and state tax burden. 
 
-- **Dynamic Bracket Inflation:** Federal tax brackets, standard deductions, and state tax rules are dynamically inflated based on the assumed inflation rate to ensure future tax projections are accurate in nominal dollars.
-- **Strict Liquidity Enforcement:** The drawdown engine mathematically prevents you from converting too much into a Roth IRA if you don't have enough liquid cash/taxable brokerage to pay the resulting tax bill, ensuring you never run out of spendable cash.
-- **5-Year Roth Maturation (FIFO):** Roth conversions are tracked in independent 5-year buckets. You can only withdraw converted principal without penalty after 5 years have elapsed, or immediately once you cross age 59.5.
-- **Medicare IRMAA & ACA Subsidies:** The simulation models the "subsidy cliff" for ACA health insurance before age 65, and calculates Medicare IRMAA surcharge tiers for ages 65+.
-- **SECURE 2.0 Death Tax:** The simulator projects End-of-Life (EOL) wealth transfer, liquidating the remaining Pre-Tax 401(k) / IRA balance over the strict 10-year window mandated by the SECURE Act, adjusting for the number of heirs and their estimated baseline incomes.
-- **Brute Force Optimizer:** The engine simulates every possible Roth conversion strategy (from $0 to massive sums) and plots the trajectory that mathematically minimizes your Lifetime Total Tax Liability (in both Raw and Time-Value-of-Money discounted terms).
+Crucially, it features a **multi-phase optimization engine** that automatically determines the mathematically optimal Roth conversion strategy to minimize your lifetime tax liability—including the SECURE 2.0 "Death Tax" passed on to your heirs.
 
-## Usage
+## Key Features
+* **4-Phase Roth Optimization:** The engine breaks your life into four distinct tax phases (Pre-Retirement, Pre-59½, Pre-RMD, and Post-75 RMD Active) and sweeps thousands of scenarios to find the perfect conversion amount for each phase.
+* **Intelligent Liquidity Waterfall:** The simulation automatically draws down accounts in the most efficient order (Cash → Taxable Brokerage → Accessible Roth Principal) to cover cash flow deficits, rigorously enforcing the IRS 5-year Roth lockup rule.
+* **Dynamic Tax & Healthcare Modeling:** Accurately models inflating Federal and State tax brackets, ACA subsidy cliffs, Medicare IRMAA surcharges, and the Net Investment Income Tax (NIIT).
+* **Terminal Wealth & SECURE 2.0:** Calculates the 10-year inherited IRA liquidation tax burden on your heirs to ensure your optimization strategy preserves maximum net terminal wealth.
+* **100% Private & Local:** This tool is a single-file application (`index.html`). There is no backend server, no database, and no tracking. Your sensitive financial data never leaves your browser.
 
-Simply open `index.html` in any modern web browser. Because all calculations run in JavaScript entirely on your local machine, your financial data is completely secure and is never transmitted to any server.
-
-Use the left sidebar to tweak your starting balances, expected retirement timeline, and major living expenses. The interactive data table and charts will instantly re-simulate the rest of your life.
+## How to Use
+1. **Download/Clone** this repository and simply double-click `index.html` to open it in any modern web browser (Chrome, Safari, Edge).
+2. **Input your data** into the sidebar panels:
+   * **Life Timeline:** Set your birth date, retirement year, and state of residence.
+   * **Assets:** Input your current account balances.
+   * **Incomes & Expenses:** Input your earned income, expected Social Security, and major lifetime expenses (living, healthcare, college).
+3. **Optimize:** Click the **"Find Optimal Conversion"** button. The engine will instantly run through its grid search and update the interactive chart and year-by-year trajectory table with your optimal plan.
+4. **Export:** Use the "Export to PDF" or "Export to JPG" buttons to save a snapshot of your optimal strategy.
