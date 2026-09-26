@@ -1,59 +1,93 @@
-# AI System Specification: Lifetime Financial & Tax Optimization Dashboard
+# System Architecture Blueprint: Lifetime Financial & Tax Optimization Engine
 
-**Goal:** Recreate a fully functional, single-file HTML/JS/CSS financial modeling and Roth conversion optimization dashboard.
+**Document Purpose:** This specification provides an unambiguous, expert-level architectural blueprint for an autonomous agent to identically replicate the 100% client-side `index.html` application. It defines strict deterministic business logic, layout constraints, and algorithmic tolerances. Do not treat this as a changelog; treat it as the absolute source of truth for generating the application.
 
-## 1. Architecture & Environment Constraints
-* **Format:** A single `index.html` file containing all HTML, CSS, and vanilla JavaScript (ES6+).
-* **Dependencies:** Only Chart.js (via CDN) for data visualization. Use `html2canvas` (via CDN injection) for JPG exporting.
-* **Execution:** Must run 100% client-side via the `file:///` protocol. No CORS violations, no server-side backend, no build steps (no Webpack/React).
-* **Storage:** Implement a `SafeStorage` memory wrapper to prevent `SecurityError` exceptions when `localStorage` is blocked in local/incognito modes.
+## 1. System Topology & Constraints
 
-## 2. User Interface (UI) Layout
-* **Theme:** Dark mode (`#0f172a` background, `#3b82f6` accents).
-* **Layout Grid:** 
-  * **Top Header:** Title and export buttons (PDF/JPG).
-  * **Top KPIs:** 8 metric cards (End Cash, End Inv, End Pre-tax, End Roth, Lifetime Tax Raw, Lifetime Tax PV, Lifetime Tax FV, Inherited Death Tax).
-  * **Main Content (Left):** Chart.js stacked bar chart (Asset balances) + line chart (Cumulative Tax) followed by a granular, sticky-header year-by-year data table.
-  * **Sidebar (Right):** Optimization controls (Objective toggles, 4-Phase Sliders/Inputs) followed by data input panels (Life Timeline, Rate Assumptions, Asset Balances, Incomes, Living & Major Expenses).
+- **Single-File Delivery:** All HTML, CSS (Scoped/Grid/Flex), and ES6+ JavaScript must be unified in a single `index.html` payload. No build pipelines, no Node.js backend.
+- **Dependency Sandboxing:** Use `Chart.js` via CDN. Ensure offline resilience (graceful degradation via fallback warnings if CDN fails).
+- **Security & Privacy:** The application computes entirely in-browser. Zero PII transmission.
 
-## 3. Core Simulation Engine Rules
-The simulation iterates year-by-year from `(Current Year + 1)` to `EOL Year`.
+## 2. Core Architecture Diagram
 
-### A. Income & Tax
-* **Standard Deductions & Brackets:** Inflate standard IRS MFJ/Single brackets annually by the user's `Inflation Rate`.
-* **Social Security:** Scales dynamically based on the IRS actuarial curve depending on the chosen `SS Start Age`. Taxable amount is calculated via the IRC § 86 provisional income formula.
-* **State Taxes:** Calculate state-specific tax (handling standard deduction variants, e.g., VA's progressive brackets vs flat states).
-* **NIIT:** Calculate 3.8% Net Investment Income Tax on excess MAGI.
+```mermaid
+flowchart TD
+    subgraph UI["User Interface (DOM)"]
+        A[Input Panels] -->|onInput / onChange| B(Debounce 200ms)
+        B --> C[Optimization Trigger]
+    end
 
-### B. Expense Modeling
-* **Inflation:** Apply inflation cumulatively to Living Expenses and Healthcare.
-* **Healthcare:** 
-  * Pre-65: Use subsidized cost if MAGI ≤ Cliff ($90K), otherwise unsubsidized cost.
-  * Post-65: Health cost = $0 base + Medicare IRMAA surcharges based on MAGI from 2 years prior.
-* **College:** Total expense disbursed over 5 years (12.5%, 25%, 25%, 25%, 12.5%). No inflation applied.
+    subgraph Engine["Simulation Engine"]
+        C --> D{Run Coordinate Descent?}
+        D -->|Yes| E[findOptimalConversion]
+        D -->|No| F[runSimulation]
+        
+        E -->|Iterative Multi-Start| F
+        F --> G[Tax Calculation Subsystem]
+        F --> H[Liquidity Waterfall Subsystem]
+        G --> I[Compute Terminal Death Tax]
+    end
 
-### C. Liquidity & Drawdown Waterfall
-* Calculate net cash deficit: `(Taxes + Expenses) - (Earned Income + SS + Cash Interest + RMDs)`.
-* **Surplus:** Any cash surplus beyond the target `Cash Reserve` is swept into the `Taxable Brokerage` account for growth.
-* **Deficit Priority Drawdown:**
-  1. Cash Reserves
-  2. Taxable Brokerage (Investments)
-  3. Accessible Roth Principal (Strictly enforce the 5-year lockup rule for pre-59½ conversions using a FIFO vintage queue. Post-59½, all Roth funds are liquid).
+    subgraph Render["Render Pipeline"]
+        I --> J[Update KPI DOM]
+        I --> K[Rebuild Simulation Table]
+        I --> L[Update Chart.js]
+    end
 
-### D. SECURE 2.0 & Terminal Wealth
-* **RMDs:** Begin at age 75 using the IRS Uniform Lifetime Table III divisors. RMDs are forced distributions swept into Taxable Brokerage if unspent.
-* **Death Tax:** At EOL, the remaining Pre-Tax balance is liquidated over 10 years by `N` heirs (assumed $150K base income each). Compute the marginal federal + state tax burden and add to the Lifetime Tax.
+    E -->|Optimum Found| Render
+    F -->|Result Matrix| Render
+```
 
-## 4. Roth Optimization Algorithm
-* **Objective:** Find the mathematically optimal flat conversion amounts across 4 distinct life phases to minimize either Raw Lifetime Tax or TVM-Adjusted Lifetime Tax, while maintaining a strict minimum liquidity constraint.
-* **The 4 Phases:**
-  * Phase 1: Pre-Retirement to Year 5
-  * Phase 2: Year 6 to Age 59½
-  * Phase 3: Age 59½ to Age 74
-  * Phase 4: Age 75+ (RMD Active)
-* **Solver Method:** Implement a Multi-Start Coordinate Descent grid search.
-  * **Seeds:** Start with multiple 4D vectors (e.g., `[50k, 100k, 150k, 0]`, `[150k, 300k, 400k, 0]`).
-  * **Sweep 1 (Coarse):** Iterate each phase by $25K steps independently. Keep the best resulting metric. Run 2 complete cycles.
-  * **Sweep 2 (Medium):** Iterate ±$30K around the coarse winner in $5K steps.
-  * **Sweep 3 (Fine):** Iterate ±$5K around the medium winner in $1K steps.
-* **Performance:** Execution must be blocking but fast enough (<300ms) to run inside the main browser thread on `input` events (with a 200ms debounce). Update the UI sliders automatically to reflect the optimal values.
+## 3. The Decumulation & Liquidity Waterfall
+
+The simulation executes year-by-year from `(Current Year + 1)` through `EOL Year`. It enforces strict sequence-of-returns and liquidity drawdowns.
+
+```mermaid
+stateDiagram-v2
+    [*] --> CalculateNetDeficit
+    CalculateNetDeficit --> IsDeficit?
+    
+    IsDeficit? --> Surplus : No (Invest Surplus into Taxable)
+    IsDeficit? --> Drawdown : Yes
+    
+    Drawdown --> DepleteCash
+    DepleteCash --> DeficitRemains?
+    
+    DeficitRemains? --> DepleteTaxable : Yes
+    DeficitRemains? --> Complete : No
+    
+    DepleteTaxable --> StillDeficit?
+    
+    StillDeficit? --> DepleteAccessibleRoth : Yes
+    StillDeficit? --> Complete : No
+    
+    DepleteAccessibleRoth --> FeasibleCheck
+    FeasibleCheck --> Complete
+```
+
+- **IRS 5-Year Lockup Logic:** Accessible Roth principal is governed by a strict FIFO vintage queue. Conversions made before age 59½ are locked for exactly 5 years. Once the individual hits age 59½, the entire Roth balance immediately un-vests and becomes 100% liquid.
+- **RMD Enforcement:** Triggered precisely at age 75 via Uniform Lifetime Table III divisors. Forced distributions must be swept into Taxable Brokerage if unspent.
+
+## 4. Multi-Phase Optimization Algorithm (Coordinate Descent)
+
+The core intellectual property is the heuristic optimizer that minimizes lifetime tax (Raw or PV) across 4 distinct phases of retirement.
+
+1. **Phase 1 (Pre-Retirement & Lockup):** `startYear` to `retireYear + 4` (or Age 59½).
+2. **Phase 2 (Pre-59½ Unlocked):** `retireYear + 5` to Age 59½ (bypassed if retiring late).
+3. **Phase 3 (Post-59½ Liquid):** Age 59½ to Age 74.
+4. **Phase 4 (RMD Active):** Age 75+.
+
+**Solver Mechanics:**
+- **Coarse Sweep:** 4D vector grid search at $25K increments to establish a global minimum basin.
+- **Medium Refinement:** $\pm$ $30K bound around the coarse vector at $5K increments.
+- **Fine Refinement:** $\pm$ $5K bound around the medium vector at $1K increments.
+- **Feasibility Constraint:** Any vector resulting in End-of-Life Liquidity $<$ Minimum Safety Net is penalized with an `Infinity` score.
+
+## 5. View Layer & State Management
+
+- **DOM Event Binding:** Use deterministic pure JavaScript `document.getElementById` mappings.
+- **Empty State Gracefulness:** If critical variables are missing (`NaN`), the simulation engine must pass a mock 36-year empty vector. The table renders empty dashed cells (`-`) and the Chart.js dataset maps to `null` to retain axis rendering without plotting zeroes.
+- **Chart.js Specifications:** 
+  - Left Y-Axis: `$1M` rounding formatting.
+  - Right Y-Axis: `$1.0M` fractional formatting.
+  - Data mapping must strictly respect the `isMissing` empty-state flag to prevent artifacting.

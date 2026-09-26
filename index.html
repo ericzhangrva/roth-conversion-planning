@@ -1067,6 +1067,8 @@
 
   <!-- Embedded Single-File Logic -->
   <script>
+    const APP_CURRENT_YEAR = 2026;
+
     /**
      * Financial Planning & Lifetime Tax Optimization Engine
      * Architecture: Single-file vanilla HTML5 / CSS3 / ES6+
@@ -1108,7 +1110,7 @@
     const DEFAULT_INPUTS = {
       birthYear: NaN,
       birthMonth: 1,
-      currentYear: 2026,
+      currentYear: APP_CURRENT_YEAR,
       retireYear: NaN,
       eolYear: NaN,
       inflationRate: 0.035,
@@ -1187,11 +1189,11 @@
       'HI': 0.11, 'ID': 0.058, 'IL': 0.0495, 'IN': 0.0305, 'IA': 0.057,
       'KS': 0.057, 'KY': 0.04, 'LA': 0.0425, 'ME': 0.0715, 'MD': 0.0575,
       'MA': 0.05, 'MI': 0.0425, 'MN': 0.0985, 'MS': 0.047, 'MO': 0.048,
-      'MT': 0.059, 'NE': 0.0584, 'NV': 0.00, 'NH': 0.04, 'NJ': 0.1075,
+      'MT': 0.059, 'NE': 0.0584, 'NV': 0.00, 'NH': 0.00, 'NJ': 0.1075,
       'NM': 0.059, 'NY': 0.109, 'NC': 0.045, 'ND': 0.029, 'OH': 0.035,
       'OK': 0.0475, 'OR': 0.099, 'PA': 0.0307, 'RI': 0.0599, 'SC': 0.064,
       'SD': 0.00, 'TN': 0.00, 'TX': 0.00, 'UT': 0.0465, 'VT': 0.0875,
-      'VA': 0.0575, 'WA': 0.07, 'WV': 0.0512, 'WI': 0.0765, 'WY': 0.00
+      'VA': 0.0575, 'WA': 0.00, 'WV': 0.0512, 'WI': 0.0765, 'WY': 0.00
     };
 
     function computeStateTax(agi, taxableSS, inflationFactor = 1.0, filingStatus = 'MFJ', state = 'VA') {
@@ -1248,9 +1250,8 @@
     }
 
     // SECURE Act 10-Year Inherited IRA Liquidation Death Tax Calculator
-    function computeDeathTax(pretaxBalanceEOL, eolYear, birthYear, inflationRate, state) {
+    function computeDeathTax(pretaxBalanceEOL, eolYear, birthYear, inflationRate, state, numHeirs = 2) {
       if (pretaxBalanceEOL <= 0) return 0;
-      const numHeirs = parseFloat(document.getElementById('input-heirs').value) || 1;
       const yearIndex = eolYear - 2027;
       const inflationFactor = Math.pow(1 + inflationRate, yearIndex);
       const stateTaxRate = STATE_TAX_RATES[state] || 0;
@@ -1336,7 +1337,7 @@
     function runSimulation(inputs, rothConvPhase1 = 0, rothConvPhase2, rothConvPhase3, rothConvPhase4) {
       const p = Object.assign({}, DEFAULT_INPUTS, inputs);
 
-      const startYear = (p.currentYear || 2026) + 1;
+      const startYear = (p.currentYear || APP_CURRENT_YEAR) + 1;
       const eolYear = Math.max(startYear, p.eolYear);
       const numYears = Math.max(1, eolYear - startYear + 1);
 
@@ -1415,8 +1416,7 @@
 
         // Taxes
         const otherIncome = earned + cashInterest + rothConversion + annualRMD;
-        const taxableSS = computeTaxableSS(ssBenefit,
-          annualRMD, otherIncome);
+        const taxableSS = computeTaxableSS(ssBenefit, otherIncome);
         const agi = otherIncome + taxableSS;
         magiHistory.push(agi);
 
@@ -1460,6 +1460,8 @@
         const year59_5 = p.birthYear + 59 + ((p.birthMonth || 1) > 6 ? 1 : 0);
         const is59_5_met = year >= year59_5;
         const currentAccessibleRoth = is59_5_met ? rothWithGrowth : (accessibleOriginalPrincipal + accessibleVintages);
+
+        const invReturnThisYear = inv * Number(p.invReturnRate);
 
         let isLiquidDeficit = false;
 
@@ -1578,7 +1580,7 @@
           collegeExpenses: collegeExp,
           collegeExp,
           cashInterest,
-          invReturn: inv * Number(p.invReturnRate),
+          invReturn: invReturnThisYear,
           ssBenefit,
           annualRMD,
           rothConversion,
@@ -1605,7 +1607,7 @@
       }
 
       // Terminal Inherited IRA Death Tax
-      const deathTax = computeDeathTax(pretax, eolYear, p.birthYear, p.inflationRate, p.state);
+      const deathTax = computeDeathTax(pretax, eolYear, p.birthYear, p.inflationRate, p.state, p.numHeirs || 2);
       const discountRate = Number(p.tvmDiscountRate !== undefined ? p.tvmDiscountRate : p.invReturnRate);
       const deathTaxPV = deathTax / Math.pow(1 + discountRate, numYears - 1);
       const deathTaxFV = deathTax;
@@ -1648,14 +1650,14 @@
       };
 
       // Determine active phases based on timeline
-      const startYear = (inputs.currentYear || 2026) + 1;
+      const startYear = (inputs.currentYear || APP_CURRENT_YEAR) + 1;
       const retireYear = inputs.retireYear !== undefined ? inputs.retireYear : 2027;
       const birthYear = inputs.birthYear;
       const eolYear = inputs.eolYear !== undefined ? inputs.eolYear : 2060;
 
       let hasP1 = false, hasP2 = false, hasP3 = false, hasP4 = false;
       for (let y = startYear; y <= Math.min(eolYear, birthYear + 75); y++) {
-        const ph = getConversionPhase(y, retireYear, birthYear, inputs.birthMonth);
+        const ph = getConversionPhase(y, startYear, birthYear, inputs.birthMonth);
         if (ph === 1) hasP1 = true;
         if (ph === 2) hasP2 = true;
         if (ph === 3) hasP3 = true;
@@ -1993,7 +1995,7 @@
         return isNaN(val) ? def : val;
       };
 
-      const currentYear = 2026;
+      const currentYear = APP_CURRENT_YEAR;
       const minStartYear = currentYear + 1;
       const rawRetireYear = getVal('input-retireYear', NaN);
       const rawEolYear = getVal('input-eolYear', NaN);
@@ -2027,7 +2029,8 @@
         livingExpensesStart: getVal('input-livingExpensesStart', NaN) * 1000,
         state: document.getElementById('input-state') ? document.getElementById('input-state').value : 'VA',
         tvmDiscountRate: getVal('input-invReturnRate', 9.0) / 100,
-        safetyNet: getVal('input-safetyNet', 50) * 1000
+        safetyNet: getVal('input-safetyNet', 50) * 1000,
+        numHeirs: getVal('input-heirs', 2)
       };
     }
 
@@ -2061,7 +2064,7 @@
       const elTaxPvSub = document.getElementById('kpi-sub-tax-pv');
       if (elTaxPvSub) elTaxPvSub.textContent = `Discounted to ${result.startYear} (${inflationRateStr}%)`;
       
-      const numHeirs = parseFloat(document.getElementById('input-heirs').value) || 1;
+      const numHeirs = document.getElementById('input-heirs') ? parseFloat(document.getElementById('input-heirs').value) || 1 : 2;
       const elDeathTaxSub = document.getElementById('kpi-sub-death-tax');
       if (elDeathTaxSub) elDeathTaxSub.textContent = `${numHeirs} Heirs / 10-Yr SECURE`;
       
@@ -2448,13 +2451,13 @@
       const sub3 = document.getElementById('subtext-phase-3');
       const sub4 = document.getElementById('subtext-phase-4');
 
-      const currentYear = 2026;
+      const currentYear = APP_CURRENT_YEAR;
       const startYear = currentYear + 1;
 
       // Check active phases
       let hasP1 = false, hasP2 = false, hasP3 = false, hasP4 = false;
       for (let y = startYear; y <= Math.min(eolYear, y75); y++) {
-        const ph = getConversionPhase(y, retireYear, birthYear, birthMonth || 1);
+        const ph = getConversionPhase(y, startYear, birthYear, birthMonth || 1);
         if (ph === 1) hasP1 = true;
         if (ph === 2) hasP2 = true;
         if (ph === 3) hasP3 = true;
@@ -2464,8 +2467,8 @@
       // Phase 1
       if (t1) {
         if (hasP1) {
-          const p1End = Math.min(eolYear, retireYear + 4, year59_5 - 1);
-          t1.textContent = `P1: Pre-Retire (${startYear}–${Math.max(startYear, p1End)})`;
+          const p1End = Math.min(eolYear, startYear + 4, year59_5 - 1);
+          t1.textContent = `P1: Yr 1-5 (${startYear}–${Math.max(startYear, p1End)})`;
           if (sub1) sub1.textContent = '5-Year Lockup Period (Pre-59½)';
           if (b1) b1.style.opacity = '1';
           if (s1) s1.disabled = false;
@@ -2482,7 +2485,7 @@
       // Phase 2
       if (t2) {
         if (hasP2) {
-          const p2Start = retireYear + 5;
+          const p2Start = startYear + 5;
           const p2End = Math.min(eolYear, year59_5 - 1);
           t2.textContent = `P2: Yr 6–59½ (${p2Start}–${p2End})`;
           if (sub2) sub2.textContent = 'Rolling Unlocked Principal (Pre-59½)';
@@ -2538,7 +2541,7 @@
     function setupTimelineValidation() {
       if (typeof document === 'undefined') return;
 
-      const currentYear = DEFAULT_INPUTS.currentYear || 2026;
+      const currentYear = DEFAULT_INPUTS.currentYear || APP_CURRENT_YEAR;
       const minStartYear = currentYear + 1;
 
       const elBirth = document.getElementById('input-birthYear');
@@ -2647,7 +2650,7 @@
          if (chartEl) chartEl.style.display = 'flex';
          if (tableEl) tableEl.style.display = 'block';
          
-         const currentYear = DEFAULT_INPUTS.currentYear || 2026;
+         const currentYear = DEFAULT_INPUTS.currentYear || APP_CURRENT_YEAR;
          const mockRecords = [];
          for (let y = currentYear + 1; y <= currentYear + 36; y++) {
             mockRecords.push({
@@ -2732,7 +2735,7 @@
          if (chartEl) chartEl.style.display = 'flex';
          if (tableEl) tableEl.style.display = 'block';
          
-         const currentYear = DEFAULT_INPUTS.currentYear || 2026;
+         const currentYear = DEFAULT_INPUTS.currentYear || APP_CURRENT_YEAR;
          const mockRecords = [];
          for (let y = currentYear + 1; y <= currentYear + 36; y++) {
             mockRecords.push({

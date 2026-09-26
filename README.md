@@ -22,3 +22,6 @@ Crucially, it features a **multi-phase optimization engine** that automatically 
    * **Incomes & Expenses:** Input your earned income, expected Social Security, and major lifetime expenses (living, healthcare, college).
 3. **Optimize:** Click the **"Find Optimal Conversion"** button. The engine will instantly run through its grid search and update the interactive chart and year-by-year trajectory table with your optimal plan.
 4. **Export:** Use the "Export to PDF" or "Export to JPG" buttons to save a snapshot of your optimal strategy.
+
+## Analytics & Telemetry
+This application utilizes privacy-first, cookieless [Cloudflare Web Analytics](https://dash.cloudflare.com/) via an injected beacon. This telemetry tracks basic usage metrics without compromising the core promise of zero-PII client-side computation.
