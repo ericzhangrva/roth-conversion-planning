@@ -318,12 +318,16 @@
     .slider-header {
       display: flex;
       justify-content: space-between;
-      font-size: 12px;
-      margin-bottom: 6px;
+      font-size: 10px;
+      margin-bottom: 4px;
+      white-space: nowrap;
+      gap: 2px;
     }
 
     .slider-title {
       color: var(--text-sub);
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     .slider-value {
@@ -341,12 +345,12 @@
       font-size: 10px;
       color: var(--text-muted);
       margin-top: 2px;
-      margin-bottom: 6px;
+      margin-bottom: 4px;
     }
 
     .opt-phase-controls {
-      display: flex;
-      flex-direction: column;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
       gap: 10px;
       margin-top: 12px;
     }
@@ -411,6 +415,14 @@
     }
 
     /* Chart Container */
+    .chart-opt-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) max-content;
+      gap: 20px;
+      align-items: stretch;
+      margin-bottom: 20px;
+    }
+
     .chart-panel {
       background: var(--panel-bg);
       border: 1px solid var(--panel-border);
@@ -715,31 +727,123 @@
     </div>
   </section>
 
+    <div class="chart-opt-row">
+  <!-- Chart Panel (R3) -->
+  <div class="chart-panel" style="display: flex; flex-direction: column;">
+    <div class="chart-header">
+      <div class="chart-title">Asset Balances (Stacked) & Cumulative Lifetime Tax (Line)</div>
+      <div class="chart-legend-custom">
+        <div class="legend-item"><span class="legend-color" style="background: var(--color-cash);"></span> Cash</div>
+        <div class="legend-item"><span class="legend-color" style="background: var(--color-inv);"></span> Taxable Brokerage</div>
+        <div class="legend-item"><span class="legend-color" style="background: var(--color-pretax);"></span> Pre-Tax</div>
+        <div class="legend-item"><span class="legend-color" style="background: var(--color-roth);"></span> Roth</div>
+        <div class="legend-item"><span class="legend-color" style="background: var(--color-tax-line); height: 3px; border-radius: 1px;"></span> Cumulative Tax</div>
+      </div>
+    </div>
+    <div id="chart-offline-warning" class="offline-notice">
+      Chart.js CDN could not be loaded in offline mode. The numerical simulation engine and data table remain 100% active.
+    </div>
+    <div class="chart-canvas-container" style="flex: 1; min-height: 250px; height: auto;">
+      <canvas id="chart-canvas"></canvas>
+    </div>
+  </div>
+
+  <!-- Optimizer Panel (R4) -->
+  <div class="panel opt-panel" style="display: flex; flex-direction: column; justify-content: center; margin: 0;">
+    <div class="panel-title" style="flex-direction: column; align-items: flex-start; gap: 6px;">
+      <span>Roth Conversion Optimization</span>
+    </div>
+    
+    <div style="display: flex; gap: 12px; margin-bottom: 8px; align-items: stretch;">
+      <div class="opt-radio-group" style="flex: 1; margin-bottom: 0;">
+        <label class="opt-radio-label" data-tooltip="Minimize raw total lifetime tax">
+          <input type="radio" name="optObjective" id="opt-obj-raw" value="raw">
+          <span>Min Raw</span>
+        </label>
+        <label class="opt-radio-label" data-tooltip="Minimize time-value-of-money discounted lifetime tax">
+          <input type="radio" name="optObjective" id="opt-obj-tvm" value="tvm" checked>
+          <span>Min TVM</span>
+        </label>
+      </div>
+      <div style="display: flex; gap: 8px; flex: 1;">
+        <button type="button" class="btn-action" id="btn-optimize" style="flex: 3; padding: 0 10px; display: flex; align-items: center; justify-content: center;">Find Optimal</button>
+        <button type="button" class="btn-action" id="btn-reset" style="flex: 2; padding: 0 10px; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #475569 0%, #334155 100%);">Reset</button>
+      </div>
+    </div>
+
+    <div class="opt-status-box" id="opt-status" style="display: block; padding: 10px;">
+      Multi-phase optimizer ready.
+    </div>
+
+    <!-- 3 Interactive Phase Conversion Cards (R1) -->
+    <div class="opt-phase-controls" id="opt-phase-controls">
+      <!-- Phase 1 Card -->
+      <div class="phase-card" id="box-phase-1">
+        <div class="slider-header">
+          <span class="slider-title" id="title-phase-1">Phase 1: Yr 1–5</span>
+          <span class="slider-value" id="val-phase-1">$0K/yr</span>
+        </div>
+        <div class="slider-subtext" id="subtext-phase-1">5-Yr Lockup</div>
+        <div class="phase-input-row">
+          <input type="range" class="slider-input" id="slider-phase-1" min="0" max="500" step="5" value="0">
+          <input type="number" class="phase-num-input" id="num-phase-1" min="0" max="500" step="5" value="0">
+        </div>
+      </div>
+
+      <!-- Phase 2 Card -->
+      <div class="phase-card" id="box-phase-2">
+        <div class="slider-header">
+          <span class="slider-title" id="title-phase-2">Phase 2: Yr 6–59½</span>
+          <span class="slider-value" id="val-phase-2">$0K/yr</span>
+        </div>
+        <div class="slider-subtext" id="subtext-phase-2">Rolling Unlocked</div>
+        <div class="phase-input-row">
+          <input type="range" class="slider-input" id="slider-phase-2" min="0" max="800" step="5" value="0">
+          <input type="number" class="phase-num-input" id="num-phase-2" min="0" max="800" step="5" value="0">
+        </div>
+      </div>
+
+      <!-- Phase 3 Card -->
+      <div class="phase-card" id="box-phase-3">
+        <div class="slider-header">
+          <span class="slider-title" id="title-phase-3">Phase 3: 59½–74</span>
+          <span class="slider-value" id="val-phase-3">$0K/yr</span>
+        </div>
+        <div class="slider-subtext" id="subtext-phase-3">100% Liquid</div>
+        <div class="phase-input-row">
+          <input type="range" class="slider-input" id="slider-phase-3" min="0" max="1000" step="5" value="0">
+          <input type="number" class="phase-num-input" id="num-phase-3" min="0" max="1000" step="5" value="0">
+        </div>
+      </div>
+
+      <!-- Phase 4 Card -->
+      <div class="phase-card" id="box-phase-4">
+        <div class="slider-header">
+          <span class="slider-title" id="title-phase-4">Phase 4: 75+</span>
+          <span class="slider-value" id="val-phase-4">$0K/yr</span>
+        </div>
+        <div class="slider-subtext" id="subtext-phase-4">RMD Active</div>
+        <div class="phase-input-row">
+          <input type="range" class="slider-input" id="slider-phase-4" min="0" max="1000" step="5" value="0">
+          <input type="number" class="phase-num-input" id="num-phase-4" min="0" max="1000" step="5" value="0">
+        </div>
+      </div>
+    </div>
+
+    <!-- Hidden Legacy Sync Elements (Maintains backwards compatibility for tests/scripts) -->
+    <div id="slider-container" style="display: none;">
+      <span id="slider-conversion-val">$0K/yr</span>
+      <input type="range" id="slider-conversion" min="0" max="500" step="5" value="0">
+    </div>
+  </div>
+  </div>
+
   <!-- Main Layout -->
   <main class="main-layout">
     <!-- Sidebar Inputs -->
     <section class="content-area">
       
       <!-- Chart Panel (R3) -->
-      <div class="chart-panel">
-        <div class="chart-header">
-          <div class="chart-title">Asset Balances (Stacked) & Cumulative Lifetime Tax (Line)</div>
-          <div class="chart-legend-custom">
-            <div class="legend-item"><span class="legend-color" style="background: var(--color-cash);"></span> Cash</div>
-            <div class="legend-item"><span class="legend-color" style="background: var(--color-inv);"></span> Taxable Brokerage</div>
-            <div class="legend-item"><span class="legend-color" style="background: var(--color-pretax);"></span> Pre-Tax</div>
-            <div class="legend-item"><span class="legend-color" style="background: var(--color-roth);"></span> Roth</div>
-            <div class="legend-item"><span class="legend-color" style="background: var(--color-tax-line); height: 3px; border-radius: 1px;"></span> Cumulative Tax</div>
-          </div>
-        </div>
-        <div id="chart-offline-warning" class="offline-notice">
-          Chart.js CDN could not be loaded in offline mode. The numerical simulation engine and data table remain 100% active.
-        </div>
-        <div class="chart-canvas-container">
-          <canvas id="chart-canvas"></canvas>
-        </div>
-      </div>
-
       <!-- Simulation Data Table (R3) -->
       <div class="table-panel">
         <div class="table-header">
@@ -789,91 +893,6 @@
     <aside class="sidebar">
       
       <!-- Optimizer Panel (R4) -->
-      <div class="panel opt-panel">
-        <div class="panel-title" style="flex-direction: column; align-items: flex-start; gap: 6px;">
-          <span>Roth Conversion Optimization</span>
-        </div>
-        
-        <div class="opt-radio-group">
-          <label class="opt-radio-label" data-tooltip="Minimize raw total lifetime tax">
-            <input type="radio" name="optObjective" id="opt-obj-raw" value="raw">
-            <span>Min Raw Tax</span>
-          </label>
-          <label class="opt-radio-label" data-tooltip="Minimize time-value-of-money discounted lifetime tax">
-            <input type="radio" name="optObjective" id="opt-obj-tvm" value="tvm" checked>
-            <span>Min TVM-Adjusted</span>
-          </label>
-        </div>
-
-        <button type="button" class="btn-action" id="btn-optimize" style="margin-bottom: 8px;">Find Optimal Conversion</button>
-        <button type="button" class="btn-action" id="btn-reset" style="background: linear-gradient(135deg, #475569 0%, #334155 100%);">Reset to Default</button>
-
-        <div class="opt-status-box" id="opt-status" style="display: block; padding: 10px;">
-          Multi-phase optimizer ready.
-        </div>
-
-        <!-- 3 Interactive Phase Conversion Cards (R1) -->
-        <div class="opt-phase-controls" id="opt-phase-controls">
-          <!-- Phase 1 Card -->
-          <div class="phase-card" id="box-phase-1">
-            <div class="slider-header">
-              <span class="slider-title" id="title-phase-1">Phase 1: Yr 1–5 (2027–2031)</span>
-              <span class="slider-value" id="val-phase-1">$0K / yr</span>
-            </div>
-            <div class="slider-subtext" id="subtext-phase-1">5-Year Lockup Period (Pre-59½)</div>
-            <div class="phase-input-row">
-              <input type="range" class="slider-input" id="slider-phase-1" min="0" max="500" step="5" value="0">
-              <input type="number" class="phase-num-input" id="num-phase-1" min="0" max="500" step="5" value="0">
-            </div>
-          </div>
-
-          <!-- Phase 2 Card -->
-          <div class="phase-card" id="box-phase-2">
-            <div class="slider-header">
-              <span class="slider-title" id="title-phase-2">Phase 2: Yr 6–Age 59½ (2032–2035)</span>
-              <span class="slider-value" id="val-phase-2">$0K / yr</span>
-            </div>
-            <div class="slider-subtext" id="subtext-phase-2">Rolling Unlocked Principal (Pre-59½)</div>
-            <div class="phase-input-row">
-              <input type="range" class="slider-input" id="slider-phase-2" min="0" max="800" step="5" value="0">
-              <input type="number" class="phase-num-input" id="num-phase-2" min="0" max="800" step="5" value="0">
-            </div>
-          </div>
-
-          <!-- Phase 3 Card -->
-          <div class="phase-card" id="box-phase-3">
-            <div class="slider-header">
-              <span class="slider-title" id="title-phase-3">Phase 3: Age 59½–74 (2036–2050)</span>
-              <span class="slider-value" id="val-phase-3">$0K / yr</span>
-            </div>
-            <div class="slider-subtext" id="subtext-phase-3">100% Liquid & Penalty-Free</div>
-            <div class="phase-input-row">
-              <input type="range" class="slider-input" id="slider-phase-3" min="0" max="1000" step="5" value="0">
-              <input type="number" class="phase-num-input" id="num-phase-3" min="0" max="1000" step="5" value="0">
-            </div>
-          </div>
-
-          <!-- Phase 4 Card -->
-          <div class="phase-card" id="box-phase-4">
-            <div class="slider-header">
-              <span class="slider-title" id="title-phase-4">Phase 4: Age 75+ (2051+)</span>
-              <span class="slider-value" id="val-phase-4">$0K / yr</span>
-            </div>
-            <div class="slider-subtext" id="subtext-phase-4">RMD Active</div>
-            <div class="phase-input-row">
-              <input type="range" class="slider-input" id="slider-phase-4" min="0" max="1000" step="5" value="0">
-              <input type="number" class="phase-num-input" id="num-phase-4" min="0" max="1000" step="5" value="0">
-            </div>
-          </div>
-        </div>
-
-        <!-- Hidden Legacy Sync Elements (Maintains backwards compatibility for tests/scripts) -->
-        <div id="slider-container" style="display: none;">
-          <span id="slider-conversion-val">$0K / yr</span>
-          <input type="range" id="slider-conversion" min="0" max="500" step="5" value="0">
-        </div>
-      </div>
-
       <!-- Life Timeline -->
       <div class="panel">
         <div class="panel-title">Life Timeline</div>
@@ -1635,7 +1654,7 @@
       const eolYear = inputs.eolYear !== undefined ? inputs.eolYear : 2060;
 
       let hasP1 = false, hasP2 = false, hasP3 = false, hasP4 = false;
-      for (let y = retireYear; y <= Math.min(eolYear, birthYear + 75); y++) {
+      for (let y = startYear; y <= Math.min(eolYear, birthYear + 75); y++) {
         const ph = getConversionPhase(y, retireYear, birthYear, inputs.birthMonth);
         if (ph === 1) hasP1 = true;
         if (ph === 2) hasP2 = true;
@@ -2403,7 +2422,7 @@
     function updatePhaseSliderLabels(retireYear, birthYear, eolYear, birthMonth = 1) {
       if (typeof document === 'undefined') return;
 
-      const year59_5 = birthYear + 59 + (birthMonth > 6 ? 1 : 0);
+      const year59_5 = birthYear + 59 + ((birthMonth || 1) > 6 ? 1 : 0);
       const y75 = birthYear + 75;
 
       const t1 = document.getElementById('title-phase-1');
@@ -2427,10 +2446,13 @@
       const sub3 = document.getElementById('subtext-phase-3');
       const sub4 = document.getElementById('subtext-phase-4');
 
+      const currentYear = 2026;
+      const startYear = currentYear + 1;
+
       // Check active phases
       let hasP1 = false, hasP2 = false, hasP3 = false, hasP4 = false;
-      for (let y = retireYear; y <= Math.min(eolYear, y75); y++) {
-        const ph = getConversionPhase(y, retireYear, birthYear, birthMonth);
+      for (let y = startYear; y <= Math.min(eolYear, y75); y++) {
+        const ph = getConversionPhase(y, retireYear, birthYear, birthMonth || 1);
         if (ph === 1) hasP1 = true;
         if (ph === 2) hasP2 = true;
         if (ph === 3) hasP3 = true;
@@ -2441,7 +2463,7 @@
       if (t1) {
         if (hasP1) {
           const p1End = Math.min(eolYear, retireYear + 4, year59_5 - 1);
-          t1.textContent = `Phase 1: Pre-Retire to Yr 5 (${retireYear}–${Math.max(retireYear, p1End)})`;
+          t1.textContent = `P1: Pre-Retire (${startYear}–${Math.max(startYear, p1End)})`;
           if (sub1) sub1.textContent = '5-Year Lockup Period (Pre-59½)';
           if (b1) b1.style.opacity = '1';
           if (s1) s1.disabled = false;
@@ -2460,7 +2482,7 @@
         if (hasP2) {
           const p2Start = retireYear + 5;
           const p2End = Math.min(eolYear, year59_5 - 1);
-          t2.textContent = `Phase 2: Yr 6–Age 59½ (${p2Start}–${p2End})`;
+          t2.textContent = `P2: Yr 6–59½ (${p2Start}–${p2End})`;
           if (sub2) sub2.textContent = 'Rolling Unlocked Principal (Pre-59½)';
           if (b2) b2.style.opacity = '1';
           if (s2) s2.disabled = false;
@@ -2479,7 +2501,7 @@
         if (hasP3) {
           const p3Start = Math.max(retireYear, year59_5);
           const p3End = Math.min(eolYear, y75 - 1);
-          t3.textContent = `Phase 3: Age 59½–74 (${p3Start}–${p3End})`;
+          t3.textContent = `P3: 59½–74 (${p3Start}–${p3End})`;
           if (sub3) sub3.textContent = '100% Liquid & Penalty-Free';
           if (b3) b3.style.opacity = '1';
           if (s3) s3.disabled = false;
@@ -2496,7 +2518,7 @@
       if (t4) {
         if (hasP4) {
           const p4Start = Math.max(retireYear, y75);
-          t4.textContent = `Phase 4: Age 75+ (${p4Start}+)`;
+          t4.textContent = `P4: 75+ (${p4Start}+)`;
           if (sub4) sub4.textContent = 'RMD Active';
           if (b4) b4.style.opacity = '1';
           if (s4) s4.disabled = false;
@@ -2731,16 +2753,16 @@
       if (n3) { n3.value = k3K; n3.disabled = !opt.hasPhase3; }
       if (n4) { n4.value = k4K; n4.disabled = !opt.hasPhase4; }
 
-      if (v1) v1.textContent = opt.hasPhase1 ? `$${k1K}K / yr` : 'N/A';
-      if (v2) v2.textContent = opt.hasPhase2 ? `$${k2K}K / yr` : 'N/A';
-      if (v3) v3.textContent = opt.hasPhase3 ? `$${k3K}K / yr` : 'N/A';
-      if (v4) v4.textContent = opt.hasPhase4 ? `$${k4K}K / yr` : 'N/A';
+      if (v1) v1.textContent = opt.hasPhase1 ? `$${k1K}K/yr` : 'N/A';
+      if (v2) v2.textContent = opt.hasPhase2 ? `$${k2K}K/yr` : 'N/A';
+      if (v3) v3.textContent = opt.hasPhase3 ? `$${k3K}K/yr` : 'N/A';
+      if (v4) v4.textContent = opt.hasPhase4 ? `$${k4K}K/yr` : 'N/A';
 
       // Legacy single slider sync if element exists
       const sliderLegacy = document.getElementById('slider-conversion');
       if (sliderLegacy) sliderLegacy.value = k1K;
       const sliderLegacyVal = document.getElementById('slider-conversion-val');
-      if (sliderLegacyVal) sliderLegacyVal.textContent = `$${k1K}K / yr`;
+      if (sliderLegacyVal) sliderLegacyVal.textContent = `$${k1K}K/yr`;
 
       if (statusEl) {
         statusEl.innerHTML = `
