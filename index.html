@@ -2031,7 +2031,7 @@
       };
     }
 
-    function renderSimulationToDOM(result, currentConversion) {
+    function renderSimulationToDOM(result, currentConversion, isMissing = false) {
       if (typeof document === 'undefined') return;
 
       // 1. Update KPI Summary Cards
@@ -2114,10 +2114,10 @@
       }
 
       // 3. Render Chart.js Visualization
-      renderChart(result);
+      renderChart(result, isMissing);
     }
 
-    function renderChart(result) {
+    function renderChart(result, isMissing = false) {
       if (typeof document === 'undefined') return;
       const canvas = document.getElementById('chart-canvas');
       if (!canvas) return;
@@ -2171,11 +2171,11 @@
 
       if (appChart) {
         appChart.data.labels = labels;
-        appChart.data.datasets[0].data = cashData;
-        appChart.data.datasets[1].data = invData;
-        appChart.data.datasets[2].data = pretaxData;
-        appChart.data.datasets[3].data = rothData;
-        appChart.data.datasets[4].data = taxData;
+        appChart.data.datasets[0].data = isMissing ? cashData.map(()=>null) : cashData;
+        appChart.data.datasets[1].data = isMissing ? invData.map(()=>null) : invData;
+        appChart.data.datasets[2].data = isMissing ? pretaxData.map(()=>null) : pretaxData;
+        appChart.data.datasets[3].data = isMissing ? rothData.map(()=>null) : rothData;
+        appChart.data.datasets[4].data = isMissing ? taxData.map(()=>null) : taxData;
         if (!appChart.options.plugins.retirementLine) appChart.options.plugins.retirementLine = {};
         appChart.options.plugins.retirementLine.retireYear = retireYearStr;
         appChart.update('none');
@@ -2189,7 +2189,7 @@
             datasets: [
               {
                 label: 'Cash',
-                data: cashData,
+                data: isMissing ? cashData.map(()=>null) : cashData,
                 backgroundColor: '#64748b',
                 stack: 'assets',
                 order: 2,
@@ -2197,7 +2197,7 @@
               },
               {
                 label: 'Taxable Investment',
-                data: invData,
+                data: isMissing ? invData.map(()=>null) : invData,
                 backgroundColor: '#3b82f6',
                 stack: 'assets',
                 order: 2,
@@ -2205,7 +2205,7 @@
               },
               {
                 label: 'Pre-Tax Retirement',
-                data: pretaxData,
+                data: isMissing ? pretaxData.map(()=>null) : pretaxData,
                 backgroundColor: '#6366f1',
                 stack: 'assets',
                 order: 2,
@@ -2213,7 +2213,7 @@
               },
               {
                 label: 'Roth Balance',
-                data: rothData,
+                data: isMissing ? rothData.map(()=>null) : rothData,
                 backgroundColor: '#14b8a6',
                 stack: 'assets',
                 order: 2,
@@ -2222,7 +2222,7 @@
               {
                 type: 'line',
                 label: 'Cumulative Tax Paid',
-                data: taxData,
+                data: isMissing ? taxData.map(()=>null) : taxData,
                 borderColor: '#f43f5e',
                 backgroundColor: 'rgba(244, 63, 94, 0.1)',
                 borderWidth: 3,
@@ -2270,20 +2270,22 @@
               y: {
                 stacked: true,
                 position: 'left',
+                suggestedMax: isMissing ? 5000000 : undefined,
                 title: { display: true, text: 'Portfolio Assets ($)', color: '#94a3b8' },
                 grid: { color: 'rgba(255, 255, 255, 0.05)' },
                 ticks: {
                   color: '#94a3b8',
-                  callback: (v) => v >= 1e6 ? `$${(v / 1e6).toFixed(1)}M` : `$${Math.round(v / 1e3)}K`
+                  callback: (v) => `$${Math.round(v / 1e6)}M`
                 }
               },
               y1: {
                 position: 'right',
+                suggestedMax: isMissing ? 2000000 : undefined,
                 title: { display: true, text: 'Cumulative Tax Paid ($)', color: '#ef4444' },
                 grid: { drawOnChartArea: false },
                 ticks: {
                   color: '#ef4444',
-                  callback: (v) => `$${Math.round(v / 1e3)}K`
+                  callback: (v) => `$${(v / 1e6).toFixed(1)}M`
                 }
               }
             }
@@ -2642,12 +2644,33 @@
       const chartEl = document.querySelector('.chart-panel');
       const tableEl = document.querySelector('.table-panel');
       if (isMissing) {
-         if (chartEl) chartEl.style.display = 'none';
-         if (tableEl) tableEl.style.display = 'none';
+         if (chartEl) chartEl.style.display = 'flex';
+         if (tableEl) tableEl.style.display = 'block';
+         
+         const currentYear = DEFAULT_INPUTS.currentYear || 2026;
+         const mockRecords = [];
+         for (let y = currentYear + 1; y <= currentYear + 36; y++) {
+            mockRecords.push({
+               year: y, age: '-', isRetired: false,
+               earnedIncome: 0, ssBenefit: 0, cashInterest: 0, invReturn: 0, rothConversion: 0, totalTaxYear: 0, livingExpenses: 0, healthExpenses: 0, collegeExpenses: 0, cashYE: null, invYE: null, accessibleRothNextYear: null, pretaxYE: null, rothYE: null
+            });
+         }
+         const emptyResult = {
+           records: mockRecords,
+           startYear: currentYear + 1,
+           eolYear: currentYear + 36,
+           inflationRate: 0,
+           eolCash: 0, eolInv: 0, eolPretax: 0, eolRoth: 0,
+           rawTotalTax: 0, pvTotalTax: 0, fvTotalTax: 0, deathTax: 0
+         };
+         renderSimulationToDOM(emptyResult, 0, true);
+         
+         const statusEl = document.getElementById('opt-status');
+         if (statusEl) statusEl.innerHTML = '<div style="color:#f87171;">Awaiting inputs...</div>';
          return;
       } else {
-         if (chartEl) chartEl.style.display = 'block';
-         if (tableEl) tableEl.style.display = 'table';
+         if (chartEl) chartEl.style.display = 'flex';
+         if (tableEl) tableEl.style.display = 'block';
       }
 
 
@@ -2706,12 +2729,33 @@
       const chartEl = document.querySelector('.chart-panel');
       const tableEl = document.querySelector('.table-panel');
       if (isMissing) {
-         if (chartEl) chartEl.style.display = 'none';
-         if (tableEl) tableEl.style.display = 'none';
+         if (chartEl) chartEl.style.display = 'flex';
+         if (tableEl) tableEl.style.display = 'block';
+         
+         const currentYear = DEFAULT_INPUTS.currentYear || 2026;
+         const mockRecords = [];
+         for (let y = currentYear + 1; y <= currentYear + 36; y++) {
+            mockRecords.push({
+               year: y, age: '-', isRetired: false,
+               earnedIncome: 0, ssBenefit: 0, cashInterest: 0, invReturn: 0, rothConversion: 0, totalTaxYear: 0, livingExpenses: 0, healthExpenses: 0, collegeExpenses: 0, cashYE: null, invYE: null, accessibleRothNextYear: null, pretaxYE: null, rothYE: null
+            });
+         }
+         const emptyResult = {
+           records: mockRecords,
+           startYear: currentYear + 1,
+           eolYear: currentYear + 36,
+           inflationRate: 0,
+           eolCash: 0, eolInv: 0, eolPretax: 0, eolRoth: 0,
+           rawTotalTax: 0, pvTotalTax: 0, fvTotalTax: 0, deathTax: 0
+         };
+         renderSimulationToDOM(emptyResult, 0, true);
+         
+         const statusEl = document.getElementById('opt-status');
+         if (statusEl) statusEl.innerHTML = '<div style="color:#f87171;">Awaiting inputs...</div>';
          return;
       } else {
-         if (chartEl) chartEl.style.display = 'block';
-         if (tableEl) tableEl.style.display = 'table';
+         if (chartEl) chartEl.style.display = 'flex';
+         if (tableEl) tableEl.style.display = 'block';
       }
 
       const rawRadio = document.getElementById('opt-obj-raw');
