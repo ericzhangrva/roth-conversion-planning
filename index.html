@@ -950,7 +950,7 @@
         </div>
         <div class="form-group form-row">
           <label class="form-label" for="input-heirs" data-tooltip="Number of heirs inheriting the remaining pre-tax balance"># of Heirs</label>
-          <input type="number" class="form-input" id="input-heirs" value="" min="1">
+          <input type="number" class="form-input" id="input-heirs" value="2" min="1">
         </div>
       </div>
 
@@ -1027,11 +1027,11 @@
         </div>
         <div class="form-group form-row">
           <label class="form-label" for="input-collegeTotal" data-tooltip="Total 5-year college expense (disbursed 12.5% / 25% / 25% / 25% / 12.5%)">College Annual Exp (K$)</label>
-          <input type="number" class="form-input" id="input-collegeTotal" step="5" value="100">
+          <input type="number" class="form-input" id="input-collegeTotal" step="5" value="">
         </div>
         <div class="form-group form-row">
           <label class="form-label" for="input-collegeStartYear" data-tooltip="Year college expenses begin">College Start Year</label>
-          <input type="number" class="form-input" id="input-collegeStartYear" value="2029">
+          <input type="number" class="form-input" id="input-collegeStartYear" value="">
         </div>
         <div class="form-group form-row">
           <label class="form-label" for="input-healthSubsidized" data-tooltip="Annual healthcare cost with ACA subsidies (pre-Medicare)">Health Ins (w/ Subsidy) (K$)</label>
@@ -1087,29 +1087,29 @@
 
     // Default Configuration Registry (R1)
     const DEFAULT_INPUTS = {
-      birthYear: 1976,
+      birthYear: NaN,
       birthMonth: 1,
       currentYear: 2026,
-      retireYear: 2027,
-      eolYear: 2060,
+      retireYear: NaN,
+      eolYear: NaN,
       inflationRate: 0.035,
-      cashStart: 450000,
+      cashStart: NaN,
       cashInterestRate: 0.05,
-      invStart: 300000,
+      invStart: NaN,
       invReturnRate: 0.09,
-      pretaxStart: 5000000,
-      rothStart: 120000,
-      rothPrincipalStart: 25000,
-      collegeTotal: 100000,
-      collegeStartYear: 2029,
+      pretaxStart: NaN,
+      rothStart: NaN,
+      rothPrincipalStart: NaN,
+      collegeTotal: NaN,
+      collegeStartYear: NaN,
       healthSubsidized: 5000,
       healthUnsubsidized: 25000,
       magiCliff: 90000,
       safetyNet: 50000,
       ssStartAge: 62,
-      ssAmount: 60000,
-      earnedIncome: 275000,
-      livingExpensesStart: 60000,
+      ssAmount: NaN,
+      earnedIncome: NaN,
+      livingExpensesStart: NaN,
       state: 'VA',
       tvmDiscountRate: 0.09
     };
@@ -1318,7 +1318,7 @@
       const p = Object.assign({}, DEFAULT_INPUTS, inputs);
 
       const startYear = (p.currentYear || 2026) + 1;
-      const eolYear = Math.max(startYear, p.eolYear || 2060);
+      const eolYear = Math.max(startYear, p.eolYear);
       const numYears = Math.max(1, eolYear - startYear + 1);
 
       // Support 3 distinct conversion phases, with single-value fallback for legacy callers
@@ -1334,7 +1334,7 @@
 
       // Vintage queue for Roth conversions: [{ year, principal, remaining }]
       const rothVintages = [];
-      let accessibleOriginalPrincipal = Math.min(Number(p.rothPrincipalStart), roth);
+      let accessibleOriginalPrincipal = Math.min((Number(p.rothPrincipalStart) || 0), roth);
 
       const records = [];
       const magiHistory = [];
@@ -1368,7 +1368,7 @@
           if (a > 70) return 1.24;
           return ssMultipliers[a];
         };
-        const adjSSAmount = Number(p.ssAmount) * (getMult(p.ssStartAge) / getMult(baseSSAge));
+        const adjSSAmount = (Number(p.ssAmount) || 0) * (getMult(p.ssStartAge || 62) / getMult(baseSSAge));
         const ssBenefit = isSS ? adjSSAmount * inflationFactor : 0;
 
         // SECURE 2.0 Mandatory RMD (Post-Age 75)
@@ -1421,7 +1421,7 @@
           healthExp = computeIRMAA(magiLookback, inflationFactor);
         }
 
-        const collegeExp = computeCollegeExpense(year, Number(p.collegeStartYear), Number(p.collegeTotal));
+        const collegeExp = computeCollegeExpense(year, Number(p.collegeStartYear) || 0, Number(p.collegeTotal) || 0);
         const totalExpenses = livingExp + healthExp + collegeExp;
         const totalOutflows = totalExpenses + totalTaxYear;
 
@@ -1631,12 +1631,12 @@
       // Determine active phases based on timeline
       const startYear = (inputs.currentYear || 2026) + 1;
       const retireYear = inputs.retireYear !== undefined ? inputs.retireYear : 2027;
-      const birthYear = inputs.birthYear !== undefined ? inputs.birthYear : 1976;
+      const birthYear = inputs.birthYear;
       const eolYear = inputs.eolYear !== undefined ? inputs.eolYear : 2060;
 
       let hasP1 = false, hasP2 = false, hasP3 = false, hasP4 = false;
       for (let y = retireYear; y <= Math.min(eolYear, birthYear + 75); y++) {
-        const ph = getConversionPhase(y, retireYear, birthYear, inputs.birthMonth || 1);
+        const ph = getConversionPhase(y, retireYear, birthYear, inputs.birthMonth);
         if (ph === 1) hasP1 = true;
         if (ph === 2) hasP2 = true;
         if (ph === 3) hasP3 = true;
@@ -1976,36 +1976,36 @@
 
       const currentYear = 2026;
       const minStartYear = currentYear + 1;
-      const rawRetireYear = getVal('input-retireYear', 2027);
-      const rawEolYear = getVal('input-eolYear', 2060);
+      const rawRetireYear = getVal('input-retireYear', NaN);
+      const rawEolYear = getVal('input-eolYear', NaN);
 
       // Defensive timeline bounds enforcement (R2)
       const retireYear = Math.max(minStartYear, rawRetireYear);
       const eolYear = Math.max(retireYear, minStartYear, rawEolYear);
 
       return {
-        birthYear: getVal('input-birthYear', 1976),
+        birthYear: getVal('input-birthYear', NaN),
         birthMonth: getVal('input-birthMonth', 1),
         currentYear: currentYear,
         retireYear: retireYear,
         eolYear: eolYear,
         inflationRate: getVal('input-inflationRate', 3.5) / 100,
-        cashStart: getVal('input-cashStart', 500) * 1000,
+        cashStart: getVal('input-cashStart', NaN) * 1000,
         cashInterestRate: getVal('input-cashInterestRate', 4.0) / 100,
-        invStart: getVal('input-invStart', 300) * 1000,
+        invStart: getVal('input-invStart', NaN) * 1000,
         invReturnRate: getVal('input-invReturnRate', 9.0) / 100,
-        pretaxStart: getVal('input-pretaxStart', 5000) * 1000,
-        rothStart: getVal('input-rothStart', 120) * 1000,
-        rothPrincipalStart: getVal('input-rothPrincipalStart', 25) * 1000,
-        collegeTotal: getVal('input-collegeTotal', 100) * 1000,
-        collegeStartYear: getVal('input-collegeStartYear', 2029),
+        pretaxStart: getVal('input-pretaxStart', NaN) * 1000,
+        rothStart: getVal('input-rothStart', NaN) * 1000,
+        rothPrincipalStart: getVal('input-rothPrincipalStart', NaN) * 1000,
+        collegeTotal: getVal('input-collegeTotal', NaN) * 1000,
+        collegeStartYear: getVal('input-collegeStartYear', NaN),
         healthSubsidized: getVal('input-healthSubsidized', 5) * 1000,
         healthUnsubsidized: getVal('input-healthUnsubsidized', 25) * 1000,
         magiCliff: 90000,
-        ssStartAge: Math.max(62, Math.min(70, getVal('input-ssStartAge', 62))),
-        ssAmount: getVal('input-ssAmount', 60) * 1000,
-        earnedIncome: getVal('input-earnedIncome', 275) * 1000,
-        livingExpensesStart: getVal('input-livingExpensesStart', 60) * 1000,
+        ssStartAge: Math.max(62, Math.min(70, getVal('input-ssStartAge', NaN))),
+        ssAmount: getVal('input-ssAmount', NaN) * 1000,
+        earnedIncome: getVal('input-earnedIncome', NaN) * 1000,
+        livingExpensesStart: getVal('input-livingExpensesStart', NaN) * 1000,
         state: document.getElementById('input-state') ? document.getElementById('input-state').value : 'VA',
         tvmDiscountRate: getVal('input-invReturnRate', 9.0) / 100,
         safetyNet: getVal('input-safetyNet', 50) * 1000
@@ -2430,7 +2430,7 @@
       // Check active phases
       let hasP1 = false, hasP2 = false, hasP3 = false, hasP4 = false;
       for (let y = retireYear; y <= Math.min(eolYear, y75); y++) {
-        const ph = getConversionPhase(y, retireYear, birthYear, birthMonth || 1);
+        const ph = getConversionPhase(y, retireYear, birthYear, birthMonth);
         if (ph === 1) hasP1 = true;
         if (ph === 2) hasP2 = true;
         if (ph === 3) hasP3 = true;
@@ -2542,7 +2542,7 @@
       function validateTimelineInputs(e) {
         let rYear = parseInt(elRetire.value, 10);
         let eYear = parseInt(elEol.value, 10);
-        const bYear = parseInt(elBirth?.value || 1976, 10);
+        const bYear = parseInt(elBirth?.value, 10);
 
         if (isNaN(rYear) || isNaN(eYear)) return;
 
@@ -2606,13 +2606,28 @@
 
       // Initial label update
       const initR = parseInt(elRetire.value, 10) || minStartYear;
-      const initE = parseInt(elEol.value, 10) || 2060;
-      const initB = parseInt(elBirth?.value || 1976, 10);
+      const initE = parseInt(elEol.value, 10);
+      const initB = parseInt(elBirth?.value, 10);
       updatePhaseSliderLabels(initR, initB, initE);
     }
 
     function triggerSimulation() {
       const inputs = readInputsFromDOM();
+
+      const required = ['birthYear', 'retireYear', 'eolYear', 'cashStart', 'invStart', 'pretaxStart', 'rothStart', 'earnedIncome', 'livingExpensesStart'];
+      const isMissing = required.some(k => isNaN(inputs[k]));
+      
+      const chartEl = document.querySelector('.chart-panel');
+      const tableEl = document.querySelector('.table-panel');
+      if (isMissing) {
+         if (chartEl) chartEl.style.display = 'none';
+         if (tableEl) tableEl.style.display = 'none';
+         return;
+      } else {
+         if (chartEl) chartEl.style.display = 'block';
+         if (tableEl) tableEl.style.display = 'table';
+      }
+
 
       const s1 = document.getElementById('slider-phase-1');
       const s2 = document.getElementById('slider-phase-2');
@@ -2662,6 +2677,21 @@
 
     function triggerOptimization() {
       const inputs = readInputsFromDOM();
+
+      const required = ['birthYear', 'retireYear', 'eolYear', 'cashStart', 'invStart', 'pretaxStart', 'rothStart', 'earnedIncome', 'livingExpensesStart'];
+      const isMissing = required.some(k => isNaN(inputs[k]));
+      
+      const chartEl = document.querySelector('.chart-panel');
+      const tableEl = document.querySelector('.table-panel');
+      if (isMissing) {
+         if (chartEl) chartEl.style.display = 'none';
+         if (tableEl) tableEl.style.display = 'none';
+         return;
+      } else {
+         if (chartEl) chartEl.style.display = 'block';
+         if (tableEl) tableEl.style.display = 'table';
+      }
+
       const rawRadio = document.getElementById('opt-obj-raw');
       const objective = (rawRadio && rawRadio.checked) ? 'raw' : 'tvm';
 
@@ -2790,13 +2820,13 @@
         if (btnReset && typeof btnReset.addEventListener === 'function') {
           btnReset.addEventListener('click', () => {
             const defaults = {
-              'input-birthYear': 1976, 'input-retireYear': 2027, 'input-eolYear': 2060, 'input-heirs': 2,
-              'input-inflationRate': 3.5, 'input-cashStart': 500, 'input-cashInterestRate': 4.0,
-              'input-invStart': 300, 'input-invReturnRate': 9.0, 'input-pretaxStart': 5000,
-              'input-rothStart': 120, 'input-rothPrincipalStart': 25, 'input-collegeTotal': 100,
-              'input-collegeStartYear': 2029, 'input-healthSubsidized': 5,
-              'input-healthUnsubsidized': 25, 'input-ssStartAge': 62, 'input-ssAmount': 60,
-              'input-earnedIncome': 275, 'input-livingExpensesStart': 60,
+              'input-birthYear': '', 'input-retireYear': '', 'input-eolYear': '', 'input-heirs': 2,
+              'input-inflationRate': 3.5, 'input-cashStart': '', 'input-cashInterestRate': 4.0,
+              'input-invStart': '', 'input-invReturnRate': 9.0, 'input-pretaxStart': '',
+              'input-rothStart': '', 'input-rothPrincipalStart': '', 'input-collegeTotal': '',
+              'input-collegeStartYear': '', 'input-healthSubsidized': 5,
+              'input-healthUnsubsidized': 25, 'input-ssStartAge': '', 'input-ssAmount': '',
+              'input-earnedIncome': '', 'input-livingExpensesStart': '',
               'input-state': 'VA', 'input-safetyNet': 50
             };
             for (let id in defaults) {
@@ -2869,5 +2899,6 @@
       window.FinancialEngine = FinancialEngine;
     }
   </script>
+<!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "d575fd5787d04b03b7be66e2f0150c76"}'></script><!-- End Cloudflare Web Analytics -->
 </body>
 </html>
